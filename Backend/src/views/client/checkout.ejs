@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thanh toán</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f4f6f9;
+        padding: 20px;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        gap: 30px;
+      }
+
+      .box {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .info-col {
+        flex: 1.5;
+      }
+      .order-col {
+        flex: 1;
+        height: fit-content;
+      }
+
+      h3 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-top: 15px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .order-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: #555;
+      }
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #d70018;
+        border-top: 2px solid #eee;
+        padding-top: 15px;
+      }
+
+      .btn-confirm {
+        background: #d70018;
+        color: white;
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+      .btn-confirm:hover {
+        background: #b00014;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/place-order" method="POST" class="container">
+      <div class="box info-col">
+        <h3>Thông tin giao hàng</h3>
+
+        <label>Họ và tên (*):</label>
+        <input
+          type="text"
+          name="name"
+          required
+          placeholder="Nguyễn Văn A"
+          value="<%= user ? user.name : '' %>"
+        />
+
+        <label>Số điện thoại (*):</label>
+        <input
+          type="text"
+          name="phone"
+          required
+          placeholder="0987..."
+          value="<%= user ? user.phone : '' %>"
+        />
+
+        <label>Địa chỉ nhận hàng (*):</label>
+        <input
+          type="text"
+          name="address"
+          required
+          placeholder="Số nhà, tên đường..."
+        />
+
+        <label>Tỉnh / Thành phố:</label>
+        <input
+          type="text"
+          name="city"
+          required
+          placeholder="Hà Nội, TP.HCM..."
+        />
+
+        <label>Ghi chú (nếu có):</label>
+        <textarea
+          name="note"
+          rows="3"
+          placeholder="Ví dụ: Giao giờ hành chính..."
+        ></textarea>
+
+        <label>Phương thức thanh toán:</label>
+        <select name="payment_method">
+          <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+          <option value="BANKING">Chuyển khoản ngân hàng</option>
+        </select>
+      </div>
+
+      <div class="box order-col">
+        <h3>Đơn hàng của bạn</h3>
+
+        <% cart.forEach(function(item) { %>
+        <div class="order-row">
+          <span><%= item.name %> (x<%= item.quantity %>)</span>
+          <span
+            ><%= new Intl.NumberFormat('vi-VN').format(item.price *
+            item.quantity) %> đ</span
+          >
+        </div>
+        <% }); %>
+
+        <div class="total-row">
+          <span>Tổng cộng:</span>
+          <span
+            ><%= new Intl.NumberFormat('vi-VN').format(totalMoney) %> đ</span
+          >
+        </div>
+
+        <button type="submit" class="btn-confirm">XÁC NHẬN ĐẶT HÀNG</button>
+        <a
+          href="/cart"
+          style="
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #555;
+          "
+          >← Quay lại giỏ hàng</a
+        >
+      </div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý Danh mục</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* 1. Cấu hình Reset & Layout */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #f4f6f9;
+      }
+
+      .wrapper {
+        display: flex; /* Flexbox để chia cột */
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      .main-column {
+        flex: 1; /* Chiếm hết phần còn lại */
+        display: flex;
+        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        overflow-x: hidden;
+      }
+
+      /* 2. Phần nội dung chính */
+      .content-container {
+        flex: 1; /* Chiếm hết khoảng trống còn lại */
+        padding: 30px;
+        overflow-y: auto;
+      }
+
+      /* 3. Style cho bảng và hộp chứa */
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #17a2b8; /* Màu xanh đặc trưng của Category */
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+      }
+
+      /* Nút Thêm mới */
+      .btn-add {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        transition: 0.2s;
+      }
+      .btn-add:hover {
+        background-color: #0056b3;
+      }
+
+      /* Bảng dữ liệu */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        text-align: left;
+        padding: 12px;
+        vertical-align: middle; /* Căn giữa theo chiều dọc */
+      }
+
+      th {
+        background-color: #f8f9fa;
+        color: #333;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+
+      /* Ảnh đại diện danh mục */
+      .cat-img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
+
+      /* Nút hành động */
+      .btn-action {
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+      .btn-edit {
+        background-color: #ffc107;
+        color: #333;
+        font-weight: bold;
+      }
+      .btn-edit:hover {
+        background-color: #e0a800;
+      }
+
+      .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        font-weight: bold;
+      }
+      .btn-delete:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>Quản lý Danh mục sản phẩm</h2>
+
+            <a href="/create-category" class="btn-add">
+              <i class="fas fa-plus-circle"></i> Thêm danh mục mới
+            </a>
+
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px">ID</th>
+                  <th style="width: 100px">Hình ảnh</th>
+                  <th>Tên danh mục</th>
+                  <th>Slug (Đường dẫn)</th>
+                  <th style="width: 150px; text-align: center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(dataTable && dataTable.length > 0) { %> <% for(let i=0; i
+                < dataTable.length; i++) { %>
+                <tr>
+                  <td><%= dataTable[i].category_id %></td>
+
+                  <td>
+                    <% if(dataTable[i].image) { %>
+                    <img
+                      src="<%= dataTable[i].image %>"
+                      class="cat-img"
+                      alt="Icon"
+                    />
+                    <% } else { %>
+                    <span style="color: #999; font-size: 12px">No Image</span>
+                    <% } %>
+                  </td>
+
+                  <td><b><%= dataTable[i].name %></b></td>
+
+                  <td style="color: #007bff"><%= dataTable[i].slug %></td>
+
+                  <td style="text-align: center">
+                    <a
+                      href="/edit-category?id=<%= dataTable[i].category_id %>"
+                      class="btn-action btn-edit"
+                    >
+                      <i class="fas fa-edit"></i> Sửa
+                    </a>
+                    <a
+                      href="/delete-category?id=<%= dataTable[i].category_id %>"
+                      class="btn-action btn-delete"
+                      onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')"
+                    >
+                      <i class="fas fa-trash"></i> Xóa
+                    </a>
+                  </td>
+                </tr>
+                <% } %> <% } else { %>
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 20px">
+                    Chưa có danh mục nào! Hãy thêm mới.
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

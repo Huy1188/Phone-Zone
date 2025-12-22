@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sửa Voucher</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; font-family: sans-serif; background: #f4f6f9; }
+        .wrapper { display: flex; min-height: 100vh; }
+        .main-column { flex: 1; display: flex; flex-direction: column; }
+        .content-container { padding: 30px; }
+        .card-box { background: white; padding: 30px; border-radius: 5px; border-top: 3px solid #ffc107; max-width: 700px; margin: 0 auto; }
+        h2 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-submit { background: #ffc107; color: #333; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; }
+        .row { display: flex; gap: 20px; }
+        .col { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <%- include('./admin/sidebar.ejs') %>
+        <div class="main-column">
+            <%- include('./admin/header.ejs') %>
+            <div class="content-container">
+                <a href="/system/voucher-manage" style="text-decoration: none; color: #666; display: block; margin-bottom: 15px;"><i class="fas fa-arrow-left"></i> Quay lại</a>
+                <div class="card-box">
+                    <h2>Cập Nhật Voucher</h2>
+                    <form action="/update-voucher" method="POST">
+                        <input type="hidden" name="voucher_id" value="<%= voucher.voucher_id %>">
+
+                        <div class="form-group">
+                            <label>Mã Code:</label>
+                            <input type="text" name="code" value="<%= voucher.code %>" required style="text-transform: uppercase;">
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Loại giảm:</label>
+                                    <select name="discount_type">
+                                        <option value="percent" <%= voucher.discount_type == 'percent' ? 'selected' : '' %>>Phần trăm (%)</option>
+                                        <option value="fixed" <%= voucher.discount_type == 'fixed' ? 'selected' : '' %>>Tiền mặt (VNĐ)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Giá trị giảm:</label>
+                                    <input type="number" name="discount_value" value="<%= parseInt(voucher.discount_value) %>" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Đơn tối thiểu (VNĐ):</label>
+                                    <input type="number" name="min_order_value" value="<%= parseInt(voucher.min_order_value) %>" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Số lượng:</label>
+                                    <input type="number" name="quantity" value="<%= voucher.quantity %>" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <% 
+                            // Xử lý format ngày để hiện đúng trong input date
+                            // Lấy 10 ký tự đầu YYYY-MM-DD
+                            let start = new Date(voucher.start_date).toISOString().split('T')[0];
+                            let end = new Date(voucher.end_date).toISOString().split('T')[0];
+                        %>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Ngày bắt đầu:</label>
+                                    <input type="date" name="start_date" value="<%= start %>" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Ngày kết thúc:</label>
+                                    <input type="date" name="end_date" value="<%= end %>" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Lưu Thay Đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

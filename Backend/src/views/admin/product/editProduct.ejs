@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chỉnh sửa sản phẩm: <%= product.name %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 1. Reset & Layout */
+        body { margin: 0; font-family: "Source Sans Pro", sans-serif; background-color: #f4f6f9; }
+        .wrapper { display: flex; width: 100%; min-height: 100vh; }
+        .main-column {
+        flex: 1; /* Chiếm hết phần còn lại */
+        display: flex;
+        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        overflow-x: hidden;
+        }
+        .content-container { flex: 1; padding: 30px; overflow-y: auto; }
+
+        /* 2. Card Box Style */
+        .card-box {
+            background: white; padding: 25px; border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-bottom: 30px;
+        }
+        .card-header-yellow { border-top: 3px solid #ffc107; }
+        .card-header-green { border-top: 3px solid #28a745; }
+
+        h3 { margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 15px; font-size: 20px; }
+        
+        /* 3. Form Styles */
+        .form-group { margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; color: #555; }
+        
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; padding: 10px; border: 1px solid #ccc;
+            border-radius: 4px; box-sizing: border-box; font-size: 14px; font-family: inherit;
+        }
+        textarea { resize: vertical; } /* Cho phép kéo giãn chiều cao */
+        
+        /* Grid System */
+        .row { display: flex; gap: 20px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 200px; }
+
+        /* Ảnh Preview */
+        .current-img { width: 100px; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px; margin-top: 10px; }
+
+        /* 4. Table Styles */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: middle; }
+        th { background-color: #f8f9fa; color: #333; }
+
+        /* 5. Buttons */
+        .btn-save { 
+            background: #007bff; color: white; border: none; padding: 12px 20px; 
+            border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px;
+        }
+        .btn-save:hover { background: #0056b3; }
+
+        .btn-add-variant {
+            background: #28a745; color: white; border: none; padding: 10px 20px;
+            border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%;
+        }
+        .btn-add-variant:hover { background: #218838; }
+
+        .btn-delete { 
+            background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; 
+            border-radius: 4px; font-size: 13px; font-weight: bold; 
+        }
+
+        .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #6c757d; font-weight: bold; }
+        .back-link:hover { color: #333; }
+
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <%- include('./admin/sidebar.ejs') %>
+        <div class="main-column">
+            <%- include('./admin/header.ejs') %>
+            <div class="content-container">
+            <a href="/system/product-manage" class="back-link"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
+
+            <div class="card-box card-header-yellow">
+                <h3><i class="fas fa-edit"></i> Chỉnh sửa thông tin chung</h3>
+                
+                <form action="/update-product" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="product_id" value="<%= product.product_id %>">
+                    
+                    <div class="form-group">
+                        <label>Tên sản phẩm:</label>
+                        <input type="text" name="name" value="<%= product.name %>" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Danh mục:</label>
+                                <select name="category_id">
+                                    <% categories.forEach(function(cat) { %>
+                                        <option value="<%= cat.category_id %>" <%= product.category_id == cat.category_id ? 'selected' : '' %>>
+                                            <%= cat.name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Thương hiệu:</label>
+                                <select name="brand_id">
+                                    <option value="">-- Chọn --</option>
+                                    <% brands.forEach(function(brand) { %>
+                                        <option value="<%= brand.brand_id %>" <%= product.brand_id == brand.brand_id ? 'selected' : '' %>>
+                                            <%= brand.name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hình ảnh đại diện:</label>
+                        <div style="display: flex; align-items: flex-start; gap: 20px;">
+                            <div>
+                                <span style="font-size: 12px; color: #666;">Ảnh hiện tại:</span><br>
+                                <% if(product.image) { %>
+                                    <img src="<%= product.image %>" class="current-img">
+                                <% } else { %>
+                                    <span>Chưa có ảnh</span>
+                                <% } %>
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-size: 12px; color: #666;">Chọn ảnh mới (nếu muốn thay đổi):</span><br>
+                                <input type="file" name="image" accept="image/*" style="margin-top: 10px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mô tả chi tiết:</label>
+                        <textarea name="description" rows="5" placeholder="Nhập thông tin sản phẩm..."><%= product.description %></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-save"><i class="fas fa-save"></i> Lưu thay đổi</button>
+                </form>
+            </div>
+
+            <div class="card-box card-header-green">
+                <h3><i class="fas fa-layer-group"></i> Các phiên bản (Biến thể)</h3>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Màu sắc</th>
+                            <th>Cấu hình (RAM/ROM)</th>
+                            <th>Giá bán</th>
+                            <th>Kho</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(product.variants && product.variants.length > 0) { %>
+                            <% product.variants.forEach(function(item) { %>
+                            <tr>
+                                <td><b><%= item.sku %></b></td>
+                                <td><%= item.color %></td>
+                                <td><%= item.ram %> / <%= item.rom %></td>
+                                <td style="color: #28a745; font-weight: bold;">
+                                    <%= new Intl.NumberFormat('vi-VN').format(item.price) %> đ
+                                </td>
+                                <td><%= item.stock %></td>
+                                <td>
+                                    <a href="/delete-variant?id=<%= item.variant_id %>&product_id=<%= product.product_id %>" 
+                                       class="btn-delete"
+                                       onclick="return confirm('Bạn chắc chắn muốn xóa biến thể này?')">
+                                       <i class="fas fa-trash"></i> Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr><td colspan="6" style="text-align: center; color: #777;">Chưa có biến thể nào.</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+
+                <div style="background: #f1f3f5; padding: 20px; margin-top: 25px; border-radius: 5px; border: 1px dashed #ced4da;">
+                    <h4 style="margin-top: 0; color: #28a745;">+ Thêm biến thể mới:</h4>
+                    <form action="/add-variant" method="POST">
+                        <input type="hidden" name="product_id" value="<%= product.product_id %>">
+
+                        <div class="row">
+                            <div class="col">
+                                <label>Mã SKU (*):</label>
+                                <input type="text" name="sku" placeholder="VD: IP15-DEN-256" required>
+                            </div>
+                            <div class="col">
+                                <label>Màu sắc (*):</label>
+                                <input type="text" name="color" placeholder="VD: Đen" required>
+                            </div>
+                            <div class="col">
+                                <label>Giá bán (VNĐ) (*):</label>
+                                <input type="number" name="price" placeholder="VD: 25000000" required>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                <label>RAM:</label>
+                                <input type="text" name="ram" placeholder="VD: 8GB">
+                            </div>
+                            <div class="col">
+                                <label>ROM (Bộ nhớ) (*):</label>
+                                <input type="text" name="rom" placeholder="VD: 256GB" required>
+                            </div>
+                            <div class="col">
+                                <label>Tồn kho (*):</label>
+                                <input type="number" name="stock" value="10" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-add-variant"><i class="fas fa-plus-circle"></i> Lưu Biến Thể</button>
+                    </form>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

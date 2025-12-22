@@ -1,0 +1,8 @@
+# quy định những file nào được đẩy lên sv tránh sv nặng
+/node_modules
+/vendor 
+# php
+/.idea
+.idea/
+# westorm
+.env

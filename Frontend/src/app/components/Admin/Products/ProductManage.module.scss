@@ -1,0 +1,304 @@
+/* src/components/Admin/Products/ProductManage.module.scss */
+@use 'sass:color'; // 1. Import module color
+
+// --- Variables ---
+$primary-color: #007bff;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$text-color: #333;
+$bg-light: #f8f9fa;
+$border-color: #dee2e6;
+$shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+.container {
+    padding: 20px;
+    background-color: #f4f6f9;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.cardBox {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: $shadow;
+    border-top: 4px solid $primary-color;
+
+    h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: $text-color;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        i {
+            color: $primary-color;
+            font-size: 22px;
+        }
+    }
+}
+
+// --- TOOLBAR ---
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    .filterForm {
+        display: flex;
+        gap: 10px;
+
+        select {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid $border-color;
+            border-radius: 4px;
+            outline: none;
+            height: 38px;
+            background-color: #fff;
+            &:focus {
+                border-color: $primary-color;
+            }
+        }
+
+        .btnReset {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0 15px;
+            font-size: 14px;
+            height: 38px;
+            border-radius: 4px;
+            cursor: pointer;
+            &:hover {
+                background: #5a6268;
+            }
+        }
+    }
+}
+
+// --- BUTTONS ---
+.btnAdd {
+    text-decoration: none;
+    background: $primary-color;
+    color: white;
+    padding: 0 20px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+        // 2. Fix lỗi darken
+        background: color.scale($primary-color, $lightness: -10%);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    i {
+        font-size: 14px;
+    }
+}
+
+.btnCancel {
+    text-decoration: none;
+    background: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+    padding: 0 20px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+        background: #f8f9fa;
+        color: #333;
+    }
+}
+
+// --- TABLE STYLES ---
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 15px;
+
+    th,
+    td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid $border-color;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #f1f4f8;
+        font-weight: 700;
+        color: #495057;
+        text-transform: uppercase;
+        font-size: 13px;
+        border-top: 1px solid $border-color;
+    }
+
+    tr:hover {
+        background-color: #fafafa;
+    }
+
+    .imgPreview {
+        width: 55px;
+        height: 55px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+
+    .actionGroup {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+
+        .actionBtn {
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.2s;
+
+            &.edit {
+                background-color: #ffc107;
+                color: #333;
+                &:hover {
+                    background: #e0a800;
+                }
+            }
+            &.delete {
+                background-color: $danger-color;
+                &:hover {
+                    background: #c82333;
+                }
+            }
+
+            i {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+// --- PAGINATION ---
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    gap: 6px;
+
+    button {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: 0.2s;
+        color: #555;
+        font-weight: 500;
+
+        &:hover:not(:disabled) {
+            background-color: #e9ecef;
+            color: #333;
+            border-color: #ccc;
+        }
+
+        &.active {
+            background-color: $primary-color;
+            color: white;
+            border-color: $primary-color;
+            font-weight: 600;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8f9fa;
+        }
+    }
+}
+
+// --- FORM STYLES ---
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #444;
+        font-size: 14px;
+    }
+
+    .miniInput {
+        padding: 8px 10px;
+        font-size: 14px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        width: 100%;
+        height: 36px;
+    }
+
+    input[type='text'],
+    input[type='number'],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+        min-height: 40px;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+    }
+
+    input[type='file'] {
+        padding: 8px 0;
+        min-height: auto;
+    }
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Giỏ hàng của bạn</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f4f6f9;
+        padding: 20px;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+      }
+      th {
+        background: #f8f9fa;
+      }
+
+      .img-cart {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border: 1px solid #eee;
+        border-radius: 4px;
+      }
+      .price {
+        color: #d70018;
+        font-weight: bold;
+      }
+
+      .btn-delete {
+        color: red;
+        text-decoration: none;
+        font-size: 20px;
+      }
+      .btn-back {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #555;
+      }
+
+      .total-section {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 20px;
+      }
+      .btn-checkout {
+        background-color: #d70018;
+        color: white;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Giỏ hàng (<%= cart.length %> sản phẩm)</h2>
+
+      <% if(cart && cart.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th>Xóa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cart.forEach(function(item) { %>
+          <tr>
+            <td style="display: flex; align-items: center; gap: 15px">
+              <img src="<%= item.image %>" class="img-cart" />
+              <div>
+                <b><%= item.name %></b>
+              </div>
+            </td>
+            <td class="price">
+              <%= new Intl.NumberFormat('vi-VN').format(item.price) %> đ
+            </td>
+            <td>x <%= item.quantity %></td>
+            <td class="price">
+              <%= new Intl.NumberFormat('vi-VN').format(item.price *
+              item.quantity) %> đ
+            </td>
+            <td>
+              <a
+                href="/delete-cart/<%= item.variantId %>"
+                class="btn-delete"
+                onclick="return confirm('Xóa sản phẩm này?')"
+                >&times;</a
+              >
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <div class="total-section">
+        Tổng cộng:
+        <b style="color: #d70018; font-size: 24px">
+          <%= new Intl.NumberFormat('vi-VN').format(totalMoney) %> đ
+        </b>
+        <br />
+        <a href="/checkout" class="btn-checkout">Tiến hành đặt hàng →</a>
+      </div>
+
+      <% } else { %>
+      <div style="text-align: center; padding: 50px">
+        <p>Giỏ hàng của bạn đang trống!</p>
+        <a href="/" class="btn-checkout" style="background: #007bff"
+          >Quay lại mua sắm</a
+        >
+      </div>
+      <% } %>
+
+      <a href="/" class="btn-back">← Tiếp tục xem sản phẩm</a>
+    </div>
+  </body>
+</html>

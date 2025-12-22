@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include('../_partials/head.ejs') %>
+  <body>
+    <%- include('../_partials/header.ejs') %>
+
+    <div class="container mt-4">
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">iPhone 16 Pro Max</h1>
+          <p class="col-md-8 fs-4">Titanium tự nhiên. Chip A18 Pro cực mạnh.</p>
+          <button class="btn btn-primary btn-lg" type="button">Xem ngay</button>
+        </div>
+      </div>
+
+      <h3 class="mb-3 border-bottom pb-2">✨ Sản phẩm mới nhất</h3>
+
+      <div class="row">
+        <% products.forEach(function(item) { %>
+        <div class="col-md-3 mb-4">
+          <div class="card h-100 shadow-sm">
+            <% let image = (item.images && item.images.length > 0) ?
+            item.images[0].image_url : 'https://via.placeholder.com/300' %>
+
+            <img
+              src="<%= image %>"
+              class="card-img-top p-3"
+              alt="<%= item.name %>"
+              style="height: 250px; object-fit: contain"
+            />
+
+            <div class="card-body d-flex flex-column">
+              <h6 class="text-muted">
+                <%= item.brand ? item.brand.name : '' %>
+              </h6>
+              <h5 class="card-title text-truncate" title="<%= item.name %>">
+                <%= item.name %>
+              </h5>
+
+              <div class="mt-auto">
+                <p class="card-text text-danger fw-bold fs-5">
+                  <%= new Intl.NumberFormat('vi-VN', { style: 'currency',
+                  currency: 'VND' }).format(item.min_price) %>
+                </p>
+                <a
+                  href="/product/<%= item.slug %>"
+                  class="btn btn-outline-primary w-100"
+                  >Xem chi tiết</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <%- include('../_partials/footer.ejs') %>
+  </body>
+</html>

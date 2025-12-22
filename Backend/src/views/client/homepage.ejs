@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cửa hàng điện thoại - Trang chủ</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header đơn giản */
+      header {
+        background: #333;
+        color: white;
+        padding: 15px 0;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .container {
+        width: 85%;
+        margin: 20px auto;
+      }
+
+      /* Grid sản phẩm */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(250px, 1fr)
+        ); /* Tự động chia cột */
+        gap: 25px;
+      }
+
+      /* Thẻ sản phẩm */
+      .product-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        text-decoration: none; /* Bỏ gạch chân link */
+        color: inherit;
+        display: block;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Ảnh sản phẩm */
+      .card-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover; /* Cắt ảnh vừa khung, không bị méo */
+        border-bottom: 1px solid #eee;
+      }
+
+      /* Thông tin */
+      .card-body {
+        padding: 15px;
+      }
+      .category-name {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+      .product-name {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px 0;
+        color: #333;
+        height: 40px;
+        overflow: hidden;
+      }
+      .price {
+        color: #d70018;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .btn-buy {
+        display: block;
+        background: #d70018;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>SHOP ĐIỆN THOẠI UY TÍN</h1>
+      </div>
+    </header>
+
+    <div class="container">
+      <h2 style="border-left: 5px solid #d70018; padding-left: 10px">
+        Sản phẩm mới nhất
+      </h2>
+
+      <div class="product-grid">
+        <% if(products && products.length > 0) { %> <%
+        products.forEach(function(item) { %>
+        <a href="/product/<%= item.product_id %>" class="product-card">
+          <img
+            src="<%= item.image ? item.image : 'https://via.placeholder.com/300' %>"
+            class="card-img"
+            alt="<%= item.name %>"
+          />
+
+          <div class="card-body">
+            <div class="category-name">
+              <%= item.brand ? item.brand.name : '' %> <%= item.category ? '- '
+              + item.category.name : '' %>
+            </div>
+
+            <div class="product-name"><%= item.name %></div>
+
+            <div class="price">
+              <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency:
+              'VND' }).format(item.min_price) %>
+            </div>
+
+            <span class="btn-buy">Xem chi tiết</span>
+          </div>
+        </a>
+        <% }); %> <% } else { %>
+        <p>Chưa có sản phẩm nào được bày bán.</p>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

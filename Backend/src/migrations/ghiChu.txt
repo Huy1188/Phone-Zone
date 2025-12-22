@@ -1,0 +1,1 @@
+ghi chú các thuộc tính của các trường cho bảng db

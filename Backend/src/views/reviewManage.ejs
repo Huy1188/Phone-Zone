@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý Đánh giá</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .content-container {
+        padding: 30px;
+      }
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        border-top: 3px solid #fd7e14;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f8f9fa;
+      }
+
+      .star-gold {
+        color: #ffc107;
+      }
+      .star-gray {
+        color: #e4e5e9;
+      }
+
+      .user-info {
+        font-weight: bold;
+        color: #007bff;
+        display: block;
+        margin-bottom: 3px;
+      }
+      .user-email {
+        font-size: 12px;
+        color: #666;
+      }
+      .product-name {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .comment-box {
+        background: #f8f9fa;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-style: italic;
+        color: #555;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>
+              <i class="fas fa-star" style="color: #ffc107"></i> Quản Lý Đánh
+              Giá
+            </h2>
+
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 5%">ID</th>
+                  <th style="width: 20%">Sản phẩm</th>
+                  <th style="width: 20%">Người dùng</th>
+                  <th style="width: 15%">Đánh giá</th>
+                  <th style="width: 30%">Nội dung</th>
+                  <th style="width: 10%">Xóa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(dataTable && dataTable.length > 0) { %> <% for(let i = 0;
+                i < dataTable.length; i++) { %> <% let review = dataTable[i]; %>
+                <tr>
+                  <td><%= review.review_id %></td>
+
+                  <td>
+                    <div class="product-name">
+                      <%= review.product ? review.product.name : 'Sản phẩm đã
+                      xóa' %>
+                    </div>
+                  </td>
+
+                  <td>
+                    <% if(review.user) { %>
+                    <span class="user-info"
+                      ><%= review.user.first_name %> <%= review.user.last_name
+                      %></span
+                    >
+                    <span class="user-email"><%= review.user.email %></span>
+                    <% } else { %>
+                    <span style="color: red">User đã xóa</span>
+                    <% } %>
+                  </td>
+
+                  <td>
+                    <div>
+                      <% for(let j=1; j<=5; j++) { %> <% if(j <= review.rating)
+                      { %>
+                      <i class="fas fa-star star-gold"></i>
+                      <% } else { %>
+                      <i class="fas fa-star star-gray"></i>
+                      <% } %> <% } %>
+                      <span style="font-weight: bold; margin-left: 5px"
+                        >(<%= review.rating %>/5)</span
+                      >
+                    </div>
+                    <div style="font-size: 11px; color: #888; margin-top: 5px">
+                      <%= review.createdAt ? new
+                      Date(review.createdAt).toLocaleDateString('vi-VN') : '' %>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="comment-box">"<%= review.comment %>"</div>
+                  </td>
+
+                  <td style="text-align: center">
+                    <a
+                      href="/delete-review?id=<%= review.review_id %>"
+                      style="color: #dc3545; font-size: 18px"
+                      onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này?')"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% } %> <% } else { %>
+                <tr>
+                  <td colspan="6" style="text-align: center">
+                    Chưa có đánh giá nào!
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

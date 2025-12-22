@@ -1,0 +1,121 @@
+.mainSidebar {
+    width: 250px;
+    background-color: #343a40; // Màu tối chuẩn AdminLTE
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: width 0.3s;
+    overflow-y: auto; // Cho phép cuộn nếu menu dài
+
+    // 1. Logo Brand
+    .brandLink {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        height: 57px;
+        background-color: #dc3545; // Màu đỏ logo
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+        border-bottom: 1px solid #4b545c;
+
+        .logoIcon {
+            margin-right: 10px;
+        }
+        .btnToggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    }
+
+    // 2. User Panel
+    .userPanel {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #4f5962;
+        margin-bottom: 10px;
+
+        img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid #fff;
+        }
+
+        .info {
+            a {
+                color: #c2c7d0;
+                display: block;
+                font-weight: bold;
+                font-size: 14px;
+                text-decoration: none;
+            }
+            span {
+                font-size: 11px;
+                color: #28a745;
+                display: block;
+                margin-top: 2px;
+            }
+        }
+    }
+
+    // 3. Menu Nav
+    .navSidebar {
+        list-style: none;
+        padding: 0 10px 20px 10px;
+        margin: 0;
+
+        .navHeader {
+            padding: 10px 10px 5px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #6c757d;
+            font-weight: bold;
+        }
+
+        .navItem {
+            margin-bottom: 2px;
+
+            .navLink {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                color: #c2c7d0;
+                text-decoration: none;
+                border-radius: 4px;
+                transition: 0.2s;
+
+                i {
+                    width: 25px;
+                    text-align: center;
+                    margin-right: 10px;
+                    font-size: 14px;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 14px;
+                }
+
+                &:hover,
+                &.active {
+                    background-color: #494e53;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

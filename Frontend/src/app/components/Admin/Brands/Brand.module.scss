@@ -1,0 +1,159 @@
+/* src/components/Admin/Brands/Brand.module.scss */
+
+.container {
+    padding: 20px;
+    background: #f4f6f9;
+    min-height: 100vh;
+}
+
+.cardBox {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-top: 3px solid #6f42c1; // Màu tím
+
+    h2 {
+        text-align: center;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+        font-size: 24px; // Chữ tiêu đề to
+        font-weight: 700;
+    }
+
+    .btnAdd {
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 15px; // Tăng chữ nút thêm
+        transition: 0.2s;
+        &:hover {
+            background: #218838;
+        }
+    }
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    th,
+    td {
+        border: 1px solid #dee2e6;
+        padding: 15px; // 🔥 Tăng khoảng cách cho thoáng
+        text-align: left;
+        vertical-align: middle;
+        color: #333;
+        font-size: 15px; // 🔥 TĂNG CỠ CHỮ NỘI DUNG BẢNG
+    }
+
+    th {
+        background: #f8f9fa;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 14px; // Tiêu đề cột
+    }
+
+    .brandLogo {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        padding: 4px;
+        background: #fff;
+    }
+
+    /* Action Buttons */
+    .actionGroup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .actionBtn {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px; // 🔥 Tăng chữ trong nút Sửa/Xóa
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        min-width: 80px;
+        transition: 0.2s;
+        margin: 0 !important;
+
+        &.edit {
+            background-color: #ffc107;
+            color: #333;
+            &:hover {
+                background-color: #e0a800;
+                transform: translateY(-1px);
+            }
+        }
+
+        &.delete {
+            background-color: #dc3545;
+            color: white;
+            &:hover {
+                background-color: #c82333;
+                transform: translateY(-1px);
+            }
+        }
+    }
+}
+
+// Form Style giữ nguyên hoặc tăng font-size nếu cần
+.formGroup {
+    margin-bottom: 20px;
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 15px; // Tăng chữ label
+    }
+    input {
+        width: 100%;
+        padding: 12px; // Ô nhập liệu cao hơn chút
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        font-size: 15px; // Tăng chữ khi gõ
+    }
+    input:focus {
+        border-color: #6f42c1;
+    }
+
+    .btnSubmit {
+        background: #6f42c1;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px; // Nút Submit to rõ
+        margin-top: 10px;
+        &:hover {
+            background: #5a32a3;
+        }
+    }
+}

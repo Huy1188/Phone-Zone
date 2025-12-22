@@ -1,0 +1,168 @@
+.wrap {
+  background: #f6f6f6;
+  min-height: calc(100vh - 120px);
+  padding: 24px 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 22px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+
+  background: #eaf7ee;
+  border: 1px solid #cfead6;
+
+  i {
+    font-size: 28px;
+    color: #16a34a;
+  }
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
+}
+
+.subtitle {
+  margin: 8px auto 0;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 640px;
+}
+
+.info {
+  margin-top: 16px;
+  border: 1px dashed #eee;
+  border-radius: 14px;
+  padding: 14px;
+  background: #fafafa;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 12px;
+}
+
+.label {
+  color: #777;
+  font-size: 13px;
+}
+
+.value {
+  font-weight: 900;
+  color: #d70018;
+  font-size: 16px;
+}
+
+.hint {
+  margin-top: 10px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.link {
+  color: #d70018;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  min-width: 180px;
+
+  transition: transform 0.05s ease, opacity 0.2s ease;
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.primary {
+  background: #d70018;
+  color: #fff;
+
+  &:hover {
+    opacity: 0.95;
+  }
+}
+
+.outline {
+  background: #fff;
+  color: #d70018;
+  border: 1px solid #ffd0d6;
+
+  &:hover {
+    background: #fff1f1;
+  }
+}
+
+.support {
+  margin-top: 16px;
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .wrap {
+    padding: 14px 0;
+  }
+
+  .card {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .btn {
+    min-width: 100%;
+  }
+}

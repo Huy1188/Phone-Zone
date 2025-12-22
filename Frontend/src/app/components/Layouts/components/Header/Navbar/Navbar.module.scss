@@ -1,0 +1,507 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: var(--primary-color);
+}
+
+.container-fluid {
+    max-width: 1220px;
+    margin: 0 auto;
+    background: #e30019;
+}
+
+/* header nav */
+.header-navbar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: white;
+    height: 70px;
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+    background: #e30019;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 1rem;
+}
+
+.navbar-left-list {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-left-item {
+    display: flex;
+    min-height: 36px;
+}
+
+.nav__logo {
+    width: 70px;
+}
+
+.nav__menu {
+    background-color: #be1529;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+/* Danh mục dropdown */
+.dropMenu-btn {
+    position: relative;
+    height: 100%;
+    align-items: center;
+}
+
+/* search box */
+.nav-search-box {
+    display: flex;
+    background-color: var(--white-color);
+    border-radius: 5px;
+    min-width: 400px;
+    color: grey;
+    height: 40px;
+    position: relative;
+}
+
+.nav-search-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    padding-left: 5px;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-search-input input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    padding-left: 5px;
+}
+
+.nav-search-box button {
+    background-color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-btn-close {
+    padding: 0 6px;
+}
+
+.nav__menu,
+.nav-search-box,
+.nav__login-btn {
+    height: 40px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* navbar right */
+.navbar-right {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.nav-right-list {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-right-item {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 13px;
+    max-width: 110px;
+}
+
+.nav-right-item__icon,
+.nav-right-item__link {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-right-item__link {
+    font-size: 14px;
+    text-align: left;
+}
+
+.nav__style-hover:hover {
+    opacity: 0.7;
+}
+
+/* login btn */
+.nav__login-btn {
+    background-color: #be1529;
+    border: none;
+    position: relative;
+    border-radius: 5px;
+}
+
+/* login hover */
+.nav-login-suggest {
+    width: 320px;
+    background-color: var(--white-color);
+    border-radius: 5px;
+    position: absolute;
+    top: 124%;
+    right: 0;
+    z-index: 2;
+    padding: 12px;
+    display: none;
+    animation: fadeIn ease-in 0.3s;
+    box-shadow: 0 0 3px #ccc;
+}
+
+.nav-login-suggest::before {
+    position: absolute;
+    border-width: 20px 30px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+    right: 0;
+    top: -26px;
+    content: '';
+    display: block;
+}
+
+.nav__login-btn:hover .nav-login-suggest {
+    display: block;
+}
+
+.nav-suggest-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    align-items: stretch;
+}
+
+.nav-suggest-item,
+.nav-suggest-item a,
+.nav-suggest-item h3 {
+    font-weight: 500;
+    text-decoration: none;
+    list-style: none;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-suggest-item h3,
+.nav-suggest-item__help,
+.nav-suggest-item__icon {
+    color: var(--text-color);
+}
+
+.nav-suggest-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.nav-suggest-item__icon {
+    font-size: 18px;
+}
+
+.nav-suggest__btn {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-suggest__btn-login,
+.nav-suggest__btn-register {
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    border-radius: 6px;
+    border: 2px solid #000;
+    font-weight: 700;
+}
+
+.nav-suggest__btn-login {
+    background-color: #000;
+    color: white;
+}
+
+.nav-suggest__btn-register {
+    color: var(--text-color);
+}
+
+.nav__login-btn {
+  position: relative;
+
+  &:hover .user-dropdown {
+    display: block;
+  }
+}
+
+.user-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  z-index: 999;
+
+  a,
+  button {
+    display: block;
+    text-decoration: none;
+    padding: 10px 14px;
+    color: #333;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+      background: #f5f5f5;
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    color: #d70018;
+    font-weight: 500;
+  }
+}
+
+
+/* Lớp phủ tối nền (giống CellphoneS) */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(1.2px);
+    z-index: 9;
+}
+
+.nav-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.nav-panel__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    // z-index: 1000;
+}
+
+/* Sidebar popup */
+.nav-panel__sidebar {
+    background: transparent; /* để sidebar tự có nền trắng */
+    border-radius: 0;
+    box-shadow: none; /* shadow đã để ở .section1 rồi */
+    overflow: visible;
+    width: 183px;
+    height: 100%;
+    pointer-events: auto;
+}
+
+@media (max-width: 1023px) {
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .nav-panel {
+    position: fixed;
+    left: 0;
+    right: auto;
+    height: 100dvh;
+    width: min(360px, 86vw);
+    background: #fff;
+    z-index: 1001;
+    pointer-events: auto; 
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  .nav-panel.open {
+    transform: translateX(0);
+  }
+
+  .nav-panel__inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;                /* ✅ bỏ max-width center desktop */
+    max-width: none;    
+  }
+
+  .nav-panel__sidebar {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+}
+
+.cartIconWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fdd835;
+  border: 2px solid #fff;
+  color: #111;
+  font-size: 9px;
+  font-weight: 600;
+
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  line-height: 1;
+  padding: 0;
+}
+
+@media (max-width: 767px) {
+  .badge {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+}
+
+
+/* simple fadeIn keyframes (nếu chưa có trong global) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============== Responsive (GearVN-style) =============== */
+@media (max-width: 1024px) {
+    .header-navbar {
+        width: 100%;
+        left: 0;
+    }
+
+    .navbar-left {
+        margin: 0 0.5rem;
+        flex: 0 0 auto;
+    }
+
+    .navbar-right {
+        margin: 0 0.5rem;
+        flex: 0 0 auto;
+    }
+
+    /* Search should be fluid instead of fixed 400px */
+    .nav-search-box {
+        flex: 1 1 auto; /* ✅ GIÃN HẾT PHẦN TRỐNG */
+        min-width: 0; /* ✅ để được co khi thiếu chỗ */
+        width: auto; /* ✅ bỏ clamp */
+        margin: 0 10px; /* khoảng cách 2 bên cho đẹp */
+    }
+
+    /* Reduce noise on smaller screens */
+    .nav-right-item__link {
+        display: none;
+    }
+
+    .nav-right-item {
+        padding: 8px 10px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Hide “information” items like hotline/showroom/order lookup on mobile (bottom nav handles primary actions) */
+    .nav-right-list > li:nth-child(1),
+    .nav-right-list > li:nth-child(2),
+    .nav-right-list > li:nth-child(3) {
+        display: none;
+    }
+
+    .nav-right-item {
+        background-color: #be1529;
+        border-radius: 4px;
+    }
+
+    .nav-right-list .nav__login-btn {
+        display: none;
+    }
+
+    .navbar-left-list {
+        gap: 8px;
+    }
+
+    .nav__menu span {
+        display: none;
+    }
+
+    .nav__menu {
+        padding: 0 10px;
+    }
+}

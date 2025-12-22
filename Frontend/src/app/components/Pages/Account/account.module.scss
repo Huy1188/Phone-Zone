@@ -1,0 +1,324 @@
+.wrap {
+  background: #f6f6f6;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 12px;
+
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+}
+
+.sidebar {
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  height: fit-content;
+  border: 1px solid #eee;
+}
+
+.userBox {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  font-size: 44px;
+  color: #d70018;
+  line-height: 1;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hello {
+  color: #666;
+  font-size: 13px;
+}
+.name {
+  font-weight: 700;
+  font-size: 16px;
+}
+.email {
+  color: #777;
+  font-size: 13px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item {
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #222;
+
+  &:hover {
+    background: #f3f3f3;
+  }
+}
+
+.active {
+  background: #fff1f1;
+  color: #d70018;
+  font-weight: 600;
+}
+
+.logout {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #d70018;
+  color: #fff;
+  font-weight: 600;
+
+  &:hover {
+    opacity: 0.95;
+  }
+}
+
+.content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #eee;
+}
+
+.title {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fff;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.label {
+  color: #777;
+  font-size: 13px;
+}
+
+.value {
+  font-weight: 600;
+}
+
+.hint {
+  margin-top: 10px;
+  color: #777;
+  font-size: 13px;
+
+  code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+}
+
+.link {
+  color: #d70018;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ====== Base: cải thiện nhẹ để mobile dễ co ====== */
+.container {
+  align-items: start; /* tránh stretch cao lố */
+}
+
+.card {
+  overflow: hidden; /* tránh text/row tràn border radius */
+}
+
+.value {
+  word-break: break-word; /* email dài không tràn */
+}
+
+/* ====== <= 1023px: chuyển 1 cột + menu ngang ====== */
+@media (max-width: 1023px) {
+  .wrap {
+    padding: 10px 0;
+  }
+
+  .container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0 10px;
+
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .sidebar {
+    padding: 12px;
+  }
+
+  .userBox {
+    padding-bottom: 12px;
+    margin-bottom: 10px;
+  }
+
+  .avatar {
+    font-size: 38px;
+  }
+
+  /* Tabs ngang */
+  .menu {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 6px 0 2px;
+    margin-top: 8px;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    scroll-snap-type: x mandatory; /* kéo tab “dính” */
+  }
+
+  .item {
+    flex: 0 0 auto;
+    white-space: nowrap;
+
+    padding: 9px 12px;
+    border: 1px solid #eee;
+    border-radius: 999px;
+    background: #fff;
+
+    scroll-snap-align: start;
+  }
+
+  .active {
+    border-color: #ffd0d6;
+    background: #fff1f1;
+  }
+
+  /* logout ẩn ở sidebar mobile */
+  .logout {
+    display: none;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  /* Row info: tăng khoảng trống label/value */
+  .row {
+    grid-template-columns: 140px 1fr;
+    gap: 10px;
+  }
+}
+
+/* ====== <= 480px: tối ưu thật sự cho điện thoại ====== */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 8px;
+    gap: 10px;
+  }
+
+  .sidebar {
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .content {
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .userBox {
+    gap: 10px;
+  }
+
+  .avatar {
+    font-size: 34px;
+  }
+
+  .name {
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .email {
+    font-size: 12px;
+  }
+
+  /* Tabs gọn hơn */
+  .menu {
+    gap: 6px;
+  }
+
+  .item {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  /* Info rows: chuyển sang dạng stack cho dễ đọc */
+  .row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 10px 0;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .value {
+    font-size: 14px;
+  }
+
+  .hint {
+    font-size: 12px;
+
+    code {
+      display: inline-block;
+      margin-top: 4px;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div class="d-flex align-items-center">
+  <% if (user) { %>
+  <div class="dropdown me-3">
+    <a
+      class="nav-link dropdown-toggle text-light"
+      href="#"
+      role="button"
+      data-bs-toggle="dropdown"
+    >
+      Xin chào, <strong><%= user.username %></strong>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>
+      <li><a class="dropdown-item" href="#">Đơn mua</a></li>
+      <li><hr class="dropdown-divider" /></li>
+      <li><a class="dropdown-item text-danger" href="/logout">Đăng xuất</a></li>
+    </ul>
+  </div>
+  <% } else { %>
+  <a href="/login" class="btn btn-outline-light me-2">Đăng nhập</a>
+  <a href="/register" class="btn btn-warning">Đăng ký</a>
+  <% } %>
+
+  <a href="/cart" class="btn btn-primary position-relative ms-2">
+    🛒
+    <span
+      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+      >0</span
+    >
+  </a>
+</div>

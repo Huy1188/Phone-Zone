@@ -1,0 +1,252 @@
+.section1 {
+  // width: 212px; 
+  border-radius: 5px;
+  background-color: var(--white-color);
+  height: 470px;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  position: relative;
+}
+
+/* ITEM */
+.sidebar-item {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding: 8px 8px;
+  flex: 1;
+  gap: 5px;
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  font-weight: 500;
+  position: relative;
+}
+
+.sidebar-item:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 5px;
+}
+
+.sidebar-item__name {
+  flex: 5;
+}
+
+.sidebar-item_firsticon {
+  font-size: 16px;
+}
+
+/* Panel bên phải */
+.section1-hover {
+  background-color: var(--white-color);
+  position: absolute;
+  top: 0;
+  left: calc(100% + 12px);
+  height: 102%;
+  width: 1003px; /* tùy layout của bạn */
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  padding: 24px 30px;
+
+  display: none;
+  animation: fadeIn ease-in 0.12s;
+}
+
+.section1-hover.open {
+  display: block;
+}
+
+.panel-group + .panel-group {
+  margin-top: 30px;
+}
+
+.panel-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.panel-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  font-size: 1.3rem;
+}
+
+.panel-link {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f5f5f5;
+}
+
+.panel-link:hover {
+  background: #ededed;
+}
+
+/* tam giác màu đỏ */
+.sidebar-hover {
+  display: none;
+  position: absolute;
+  border-width: 27px 20px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--primary-color);
+  left: 179px;
+  top: -1;
+  content: "";
+  z-index: 3;
+}
+
+.sidebar-item:hover .sidebar-hover {
+  display: block;
+  color: var(--text-color);
+}
+
+.section1.mobile {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-btn {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  text-align: left;
+}
+
+/* Panel cấp 2: absolute và trượt sang */
+.section1-hover.mobile {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 16px;
+}
+
+.section1-hover.mobile.open {
+  transform: translateX(0);
+}
+
+.mobile-panel-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  font-weight: 600;
+}
+
+.view-all {
+  font-size: 13px;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+
+/* ===== MOBILE ACCORDION (GearVN style) ===== */
+.mb-item {
+  border-bottom: 1px solid #eee;
+}
+
+.mb-row {
+  display: flex;
+  align-items: center;
+}
+
+.mb-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: #111;
+}
+
+.mb-toggle {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+
+.rotate {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+/* submenu */
+.mb-sub {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+
+.mb-sub.show {
+  max-height: 1200px;
+}
+
+.mb-subGroup {
+  padding: 6px 14px 10px 42px;
+}
+
+.mb-subTitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 6px 0;
+}
+
+.mb-subLink {
+  display: block;
+  padding: 6px 0;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+}
+
+/* ===== ACTIVE ITEM (GearVN style) ===== */
+
+/* Text + icon khi item được mở */
+.mb-item.open .mb-link {
+  color: #e30019;
+  font-weight: 600;
+}
+
+/* Icon bên trái */
+.mb-item.open .sidebar-item_firsticon {
+  color: #e30019;
+}
+
+/* Mũi tên */
+.mb-item.open .mb-toggle i {
+  color: #e30019;
+}
+
+

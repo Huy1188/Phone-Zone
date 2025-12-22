@@ -1,0 +1,88 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+
+  /* chặn tràn ngang nếu có item nào lỡ vượt */
+  overflow-x: hidden;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1200px;
+
+  /* rất quan trọng để 100% + padding không bị tràn ngang */
+  box-sizing: border-box;
+  padding: 0 16px;
+}
+
+.header {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+/* LIST */
+.content {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; /* desktop/tablet có thể wrap */
+}
+
+/* ITEM */
+.item {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+
+  text-decoration: none;
+  color: inherit;
+
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+
+  /* tránh item tự kéo rộng làm tràn */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.item img {
+  width: 80px;
+  height: auto;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.label {
+  font-size: 14px; /* 1.5rem dễ quá to trên mobile */
+  font-weight: 500;
+
+  /* tránh label dài làm tràn */
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* MOBILE: chuyển sang scroll ngang giống CellphoneS */
+@media (max-width: 768px) {
+  .content {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    /* để nhìn như “chip row” */
+    padding-bottom: 4px;
+  }
+
+  .item {
+    flex: 0 0 auto;        /* item không co giãn */
+    min-width: 120px;      /* tuỳ bạn chỉnh */
+  }
+
+  .item img {
+    width: 56px;           /* nhỏ lại cho hợp mobile */
+  }
+}

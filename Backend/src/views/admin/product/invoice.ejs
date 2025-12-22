@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <title>Hóa đơn #<%= order.order_id %></title>
+    <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        padding: 40px;
+        color: #000;
+      }
+      .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .shop-info h2 {
+        margin: 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #333;
+        padding: 10px;
+        text-align: left;
+      }
+
+      .total {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      /* Ẩn nút in khi in ra giấy */
+      @media print {
+        .no-print {
+          display: none;
+        }
+        .invoice-box {
+          border: none;
+          box-shadow: none;
+        }
+      }
+
+      .btn-print {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="window.print()" class="no-print btn-print">
+      🖨️ IN HÓA ĐƠN NÀY
+    </button>
+
+    <div class="invoice-box">
+      <div class="header">
+        <div class="shop-info">
+          <h2>CỬA HÀNG ĐIỆN THOẠI XYZ</h2>
+          <p>Địa chỉ: 123 Đường ABC, Hà Nội</p>
+          <p>Hotline: 0987.654.321</p>
+        </div>
+        <div class="order-info" style="text-align: right">
+          <h3>HÓA ĐƠN BÁN LẺ</h3>
+          <p>Mã đơn: #<%= order.order_id %></p>
+          <p>
+            Ngày: <%= new Date(order.createdAt).toLocaleDateString('vi-VN') %>
+          </p>
+        </div>
+      </div>
+
+      <hr />
+
+      <p><b>Khách hàng:</b> <%= order.note %></p>
+      <p><b>Địa chỉ giao:</b> <%= order.shipping_address %></p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên sản phẩm</th>
+            <th>SL</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orderDetails.forEach(function(item, index) { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= item.product_name %></td>
+            <td><%= item.quantity %></td>
+            <td><%= new Intl.NumberFormat('vi-VN').format(item.price) %></td>
+            <td>
+              <%= new Intl.NumberFormat('vi-VN').format(item.price *
+              item.quantity) %>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <div class="total">
+        TỔNG CỘNG: <%= new Intl.NumberFormat('vi-VN').format(order.total_money)
+        %> VNĐ
+      </div>
+
+      <br /><br />
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          text-align: center;
+          margin-top: 30px;
+        "
+      >
+        <div>
+          <b>Người mua hàng</b><br />
+          (Ký, ghi rõ họ tên)
+        </div>
+        <div>
+          <b>Người bán hàng</b><br />
+          (Ký, ghi rõ họ tên)
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

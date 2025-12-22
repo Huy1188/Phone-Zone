@@ -1,0 +1,211 @@
+/* src/app/components/Common/Section/Section.module.scss */
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 0 12px; // thêm padding cho mobile
+}
+
+.layout {
+    width: 100%;
+    max-width: 1200px; // responsive đúng
+    margin-top: 15px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px 6px;
+  border-bottom: 1px solid #e5e7eb;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;        // ✅ QUAN TRỌNG: cho flex item được co
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    padding: 5px 10px 5px 0;
+    position: relative;
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    width: 1px;
+    height: 60%;
+    background-color: #e5e7eb;
+}
+
+.badge {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.badge i {
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+
+.tab-item {
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0 10px;
+    color: #6b7280;
+    transition: color 0.15s ease;
+}
+
+.tab-item.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.tab-item.active::after {
+    content: '';
+    display: block;
+    height: 2px;
+    border-radius: 999px;
+    background-color: var(--primary-color);
+    margin-top: 4px;
+}
+
+.viewAllButton {
+    font-size: 14px;
+    padding: 0 10px;
+    text-decoration: none;
+    color: #2563eb;
+    white-space: nowrap;
+}
+
+.content {
+    padding: 10px 12px 14px;
+}
+
+/* ===== CAROUSEL ===== */
+
+.sliderWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.slider::-webkit-scrollbar {
+    height: 0;
+}
+
+.slider {
+    scrollbar-width: none;
+}
+
+.sliderItem {
+    flex: 0 0 20%; /* 5 card / hàng */
+    padding: 0 6px; /* khoảng cách giữa card */
+}
+
+/* nút mũi tên */
+.navBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 80px;
+    border-radius: 999px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.navBtn i {
+    font-size: 14px;
+}
+
+.navBtnPrev {
+    left: 0;
+}
+
+.navBtnNext {
+    right: 0;
+}
+
+/* responsive */
+@media (max-width: 992px) {
+    .sliderItem {
+        flex: 0 0 33.333%; /* 3 card */
+    }
+}
+
+@media (max-width: 768px) {
+    .sliderItem {
+        flex: 0 0 33%; /* 2 card */
+    }
+
+    .navBtn {
+        display: none; /* mobile vuốt tay là đủ, nếu muốn có thể giữ lại */
+    }
+}
+
+@media (max-width: 480px) {
+    .sliderItem {
+        flex: 0 0 45%;
+    }
+}
+
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;     // ✅ giống GearVN: title/badge trên, tabs dưới
+    align-items: flex-start;
+  }
+
+  .item:nth-child(2) {
+    width: 100%;
+    overflow-x: auto;           // ✅ tabs cuộn ngang
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .item:nth-child(2)::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-item {
+    flex: 0 0 auto;             // ✅ không co méo, cuộn ngang
+    padding: 0 8px;             // giảm padding cho mobile
+    font-size: 12px;
+  }
+
+  .viewAllButton {
+    flex: 0 0 auto;
+    font-size: 12px;
+  }
+}

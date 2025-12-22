@@ -1,0 +1,239 @@
+/* src/app/components/Layouts/Footer/Footer.module.scss */
+
+.wrapper {
+    margin-top: 24px;
+    background-color: white;
+    border-top: 1px solid #e5e7eb;
+    color: #111827;
+    font-size: 14px;
+}
+
+.inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 12px 16px;
+}
+
+/* ===== DESKTOP/TABLET TOP (GRID) ===== */
+.desktopTop {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) 1.4fr;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+/* ===== MOBILE TOP (ACCORDION) ===== */
+.mobileTop {
+    display: none;
+    margin-bottom: 12px;
+}
+
+.accordionItem {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.accordionHeader {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Ẩn marker mặc định của summary */
+.accordionHeader::-webkit-details-marker {
+    display: none;
+}
+
+.accordionHeader::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    color: #111827;
+}
+
+.accordionItem[open] > .accordionHeader::after {
+    content: '–';
+}
+
+/* Nội dung trong accordion */
+.linkList,
+.hotlineList {
+    padding: 0 0 12px 0;
+}
+
+/* ===== COMMON ===== */
+.col,
+.colWide {
+    font-size: 14px;
+}
+
+.colTitle {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.small {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.linkList {
+    list-style: none;
+    margin: 0;
+}
+
+.linkList li {
+    margin-bottom: 6px;
+}
+
+.linkList a {
+    color: #374151;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.linkList a:hover {
+    color: #ef4444;
+}
+
+.hotlineList {
+    list-style: none;
+    margin: 0;
+}
+
+.hotlineList li {
+    margin-bottom: 6px;
+}
+
+.hotlineList a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.shipping,
+.payment {
+    margin-bottom: 14px;
+}
+
+.logoRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.logoBox {
+    min-width: 64px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* ===== SOCIAL ===== */
+.socialRow {
+    padding-top: 12px;
+    padding-bottom: 10px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.socialLabel {
+    font-weight: 600;
+}
+
+.socialIcons {
+    display: flex;
+    gap: 10px;
+}
+
+.socialIcons a {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background-color: #111827;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+/* ===== BOTTOM ===== */
+.bottom {
+    padding-top: 8px;
+    margin-top: 4px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.certBox {
+    display: flex;
+    align-items: center;
+}
+
+.certFake {
+    border-radius: 4px;
+    border: 1px solid #0ea5e9;
+    color: #0369a1;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .desktopTop {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .colWide {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .desktopTop {
+        display: none;
+    }
+
+    .mobileTop {
+        display: block;
+    }
+
+    .socialRow,
+    .bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .socialIcons {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .inner {
+        padding: 0 12px 16px;
+    }
+}

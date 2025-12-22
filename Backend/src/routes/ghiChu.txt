@@ -1,0 +1,1 @@
+đường dẫn URL dùng để xác định người dùng đang yêu cầu trang nào, và server phải trả về cái gì.

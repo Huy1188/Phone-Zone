@@ -1,0 +1,136 @@
+@use 'sass:color';
+
+// --- MÀU SẮC CHO EDIT (MÀU VÀNG) ---
+$edit-color: #ffc107;
+$bg-body: #f8f9fa;
+$white: #ffffff;
+$text-dark: #212529;
+$border-color: #e9ecef;
+
+.container {
+    padding: 40px 20px;
+    background-color: $bg-body;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.cardBox {
+    background: $white;
+    width: 100%;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid $border-color;
+    // Điểm nhấn viền trên màu vàng
+    border-top: 4px solid $edit-color;
+    animation: slideUp 0.4s ease-out;
+
+    h2 {
+        font-size: 22px;
+        font-weight: 700;
+        color: $edit-color;
+        margin-bottom: 30px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid $bg-body;
+        padding-bottom: 15px;
+
+        i {
+            margin-right: 10px;
+        }
+    }
+}
+
+.formGroup {
+    margin-bottom: 20px;
+
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: $text-dark;
+        margin-bottom: 8px;
+    }
+
+    input[type='text'] {
+        width: 100%;
+        height: 48px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        padding: 0 15px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s;
+
+        &:focus {
+            border-color: $edit-color;
+            box-shadow: 0 0 0 4px rgba($edit-color, 0.15);
+        }
+    }
+
+    input[type='file'] {
+        width: 100%;
+        padding: 10px;
+        background: #fcfcfc;
+        border: 2px dashed #ced4da;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &:hover {
+            border-color: $edit-color;
+            background: #fffbef;
+        }
+    }
+}
+
+.previewImage {
+    height: 100px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px;
+    background: #fff;
+    margin-top: 5px;
+}
+
+.btnGroup {
+    display: flex;
+    justify-content: space-between; // Đẩy nút Back và Submit ra 2 đầu
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f1f1;
+}
+
+.btnSubmit {
+    padding: 12px 30px;
+    background-color: $edit-color;
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 6px rgba($edit-color, 0.2);
+
+    &:hover {
+        background-color: color.scale($edit-color, $lightness: -10%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba($edit-color, 0.3);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

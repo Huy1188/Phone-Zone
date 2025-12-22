@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= product.name %></title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+      }
+      .container {
+        width: 80%;
+        margin: 30px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .back-link {
+        text-decoration: none;
+        color: #555;
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+
+      .product-wrapper {
+        display: flex;
+        gap: 40px;
+      }
+      .product-img {
+        flex: 1;
+      }
+      .product-img img {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #eee;
+      }
+
+      .product-info {
+        flex: 1.5;
+      }
+      .product-name {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 0;
+        color: #333;
+      }
+      .product-price {
+        color: #d70018;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 15px 0;
+      }
+
+      /* Phần chọn biến thể */
+      .variant-box {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        background: #fafafa;
+      }
+      .variant-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px dashed #ccc;
+        padding: 10px 0;
+      }
+      .variant-item:last-child {
+        border-bottom: none;
+      }
+
+      .radio-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        width: 100%;
+      }
+      .variant-detail {
+        margin-left: 10px;
+      }
+      .variant-price {
+        font-weight: bold;
+        color: #d70018;
+      }
+
+      .btn-add-cart {
+        background: #d70018;
+        color: white;
+        border: none;
+        padding: 15px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 20px;
+        text-transform: uppercase;
+      }
+      .btn-add-cart:hover {
+        background: #b30014;
+      }
+
+      .description {
+        margin-top: 40px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link">← Quay lại trang chủ</a>
+
+      <div class="product-wrapper">
+        <div class="product-img">
+          <img
+            src="<%= product.image ? product.image : 'https://via.placeholder.com/500' %>"
+            alt="Ảnh SP"
+          />
+        </div>
+
+        <div class="product-info">
+          <h1 class="product-name"><%= product.name %></h1>
+
+          <p>
+            Thương hiệu:
+            <b><%= product.brand ? product.brand.name : 'Unknown' %></b>
+          </p>
+          <p>
+            Danh mục:
+            <b><%= product.category ? product.category.name : 'Unknown' %></b>
+          </p>
+
+          <hr style="border: 0; border-top: 1px solid #eee" />
+
+          <form action="/add-to-cart" method="POST">
+            <h3>Chọn phiên bản bạn muốn mua:</h3>
+
+            <div class="variant-box">
+              <% if(product.variants && product.variants.length > 0) { %> <%
+              product.variants.forEach(function(variant, index) { %>
+              <div class="variant-item">
+                <label class="radio-label">
+                  <input type="radio" name="variant_id" value="<%=
+                  variant.variant_id %>" <%= index === 0 ? 'checked' : '' %>>
+
+                  <div class="variant-detail">
+                    <b><%= variant.color %></b> - RAM <%= variant.ram %> / ROM
+                    <%= variant.rom %>
+                  </div>
+                </label>
+                <div class="variant-price">
+                  <%= new Intl.NumberFormat('vi-VN').format(variant.price) %> đ
+                </div>
+              </div>
+              <% }); %> <% } else { %>
+              <p style="color: red">
+                Sản phẩm này tạm thời hết hàng (Chưa có phiên bản).
+              </p>
+              <% } %>
+            </div>
+
+            <div style="margin-top: 20px">
+              <label><b>Số lượng:</b></label>
+              <input
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                style="width: 60px; padding: 5px; text-align: center"
+              />
+            </div>
+
+            <% if(product.variants && product.variants.length > 0) { %>
+            <button type="submit" class="btn-add-cart">
+              Thêm vào giỏ hàng
+            </button>
+            <% } else { %>
+            <button
+              type="button"
+              class="btn-add-cart"
+              style="background: gray; cursor: not-allowed"
+            >
+              Hết hàng
+            </button>
+            <% } %>
+          </form>
+        </div>
+      </div>
+
+      <div class="description">
+        <h3>Mô tả sản phẩm:</h3>
+        <p style="white-space: pre-line"><%= product.description %></p>
+      </div>
+    </div>
+  </body>
+</html>

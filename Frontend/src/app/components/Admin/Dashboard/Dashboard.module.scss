@@ -1,0 +1,151 @@
+// src/components/Admin/Dashboard/DashboardMain.module.scss
+
+// Định nghĩa màu sắc chủ đạo
+$color-blue: #3b82f6;
+$color-green: #10b981;
+$color-yellow: #f59e0b;
+$color-purple: #8b5cf6;
+$text-dark: #1f2937;
+$text-gray: #6b7280;
+$bg-white: #ffffff;
+
+.dashboardContainer {
+    padding-bottom: 2rem;
+
+    .pageTitle {
+        font-size: 1.5rem; // 24px
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    // Grid System cho 4 ô thống kê
+    .statsGrid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); // Mặc định 4 cột
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+
+        // Responsive: Mobile 1 cột, Tablet 2 cột
+        @media (max-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @media (max-width: 640px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.statLink {
+    text-decoration: none; // Bỏ gạch chân
+    color: inherit; // Giữ màu gốc
+    display: block; // Để link bọc hết div con
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: translateY(-5px); // Nhảy lên nhẹ khi hover
+        cursor: pointer;
+    }
+}
+
+// Style cho từng Card thống kê
+.statCard {
+    background-color: $bg-white;
+    border-radius: 0.5rem; // 8px
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 4px solid transparent; // Viền trái mặc định
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    // Phần text bên trái
+    .cardInfo {
+        display: flex;
+        flex-direction: column;
+
+        .cardLabel {
+            font-size: 0.875rem; // 14px
+            font-weight: 600;
+            color: $text-gray;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .cardCount {
+            font-size: 1.875rem; // 30px
+            font-weight: 800;
+            color: $text-dark;
+        }
+    }
+
+    // Phần icon bên phải
+    .cardIcon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        color: white;
+    }
+
+    // --- Các biến thể màu sắc ---
+    &.blue {
+        border-left-color: $color-blue;
+        .cardIcon {
+            background-color: $color-blue;
+            box-shadow: 0 4px 10px rgba($color-blue, 0.3);
+        }
+    }
+
+    &.green {
+        border-left-color: $color-green;
+        .cardIcon {
+            background-color: $color-green;
+            box-shadow: 0 4px 10px rgba($color-green, 0.3);
+        }
+    }
+
+    &.yellow {
+        border-left-color: $color-yellow;
+        .cardIcon {
+            background-color: $color-yellow;
+            box-shadow: 0 4px 10px rgba($color-yellow, 0.3);
+        }
+    }
+
+    &.purple {
+        border-left-color: $color-purple;
+        .cardIcon {
+            background-color: $color-purple;
+            box-shadow: 0 4px 10px rgba($color-purple, 0.3);
+        }
+    }
+}
+
+// Khu vực biểu đồ (Chart Area)
+.chartSection {
+    background-color: $bg-white;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+
+    // Style tạm thời cho placeholder
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #e5e7eb;
+    color: #9ca3af;
+    font-weight: 500;
+}

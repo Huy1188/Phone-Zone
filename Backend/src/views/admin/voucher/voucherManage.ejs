@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý Mã Giảm Giá</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .content-container {
+        padding: 30px;
+      }
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        border-top: 3px solid #e83e8c;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background: #f8f9fa;
+      }
+      .btn-add {
+        background: #28a745;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .status-expired {
+        color: red;
+        font-weight: bold;
+        font-size: 11px;
+        border: 1px solid red;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+      .status-active {
+        color: green;
+        font-weight: bold;
+        font-size: 11px;
+        border: 1px solid green;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>Quản Lý Voucher</h2>
+            <a href="/create-voucher" class="btn-add"
+              ><i class="fas fa-plus"></i> Tạo Mã Mới</a
+            >
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã Code</th>
+                  <th>Giảm giá</th>
+                  <th>Đơn tối thiểu</th>
+                  <th>Số lượng</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(dataTable && dataTable.length > 0) { %> <% let today = new
+                Date(); dataTable.forEach(item => { let endDate = new
+                Date(item.end_date); let isExpired = endDate < today; %>
+                <tr>
+                  <td>
+                    <b style="color: #007bff; font-size: 16px"
+                      ><%= item.code %></b
+                    >
+                  </td>
+                  <td>
+                    <%= parseInt(item.discount_value).toLocaleString('vi-VN') %>
+                    <%= item.discount_type == 'percent' ? '%' : 'đ' %>
+                  </td>
+                  <td>
+                    <%= parseInt(item.min_order_value).toLocaleString('vi-VN')
+                    %> đ
+                  </td>
+                  <td><%= item.quantity %></td>
+                  <td style="font-size: 13px">
+                    <%= new Date(item.start_date).toLocaleDateString('vi-VN') %>
+                    - <%= new Date(item.end_date).toLocaleDateString('vi-VN') %>
+                  </td>
+                  <td>
+                    <% if(isExpired) { %>
+                    <span class="status-expired">Hết hạn</span>
+                    <% } else if(item.quantity <= 0) { %>
+                    <span class="status-expired">Hết lượt</span>
+                    <% } else { %>
+                    <span class="status-active">Hoạt động</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <a
+                      href="/edit-voucher?id=<%= item.voucher_id %>"
+                      style="color: #ffc107; margin-right: 10px"
+                      ><i class="fas fa-edit"></i
+                    ></a>
+                    <a
+                      href="/delete-voucher?id=<%= item.voucher_id %>"
+                      style="color: #dc3545"
+                      onclick="return confirm('Xóa voucher này?')"
+                      ><i class="fas fa-trash"></i
+                    ></a>
+                  </td>
+                </tr>
+                <% }) %> <% } else { %>
+                <tr>
+                  <td colspan="7" style="text-align: center">
+                    Chưa có mã giảm giá nào!
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

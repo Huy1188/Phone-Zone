@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý Thương Hiệu</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .content-container {
+        padding: 30px;
+      }
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        border-top: 3px solid #6f42c1;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background: #f8f9fa;
+      }
+      .btn-add {
+        background: #28a745;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+      /* Nút hành động */
+      .btn-action {
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+      .btn-edit {
+        background-color: #ffc107;
+        color: #333;
+        font-weight: bold;
+      }
+      .btn-edit:hover {
+        background-color: #e0a800;
+      }
+
+      .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        font-weight: bold;
+      }
+      .btn-delete:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>Quản Lý Thương Hiệu</h2>
+            <a href="/create-brand" class="btn-add"
+              ><i class="fas fa-plus"></i> Thêm Thương Hiệu</a
+            >
+
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Logo</th>
+                  <th>Tên Thương Hiệu</th>
+                  <th>Xuất xứ</th>
+                  <th>Slug</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(dataTable && dataTable.length > 0) { %> <% for(let i=0; i
+                < dataTable.length; i++) { %>
+                <tr>
+                  <td><%= dataTable[i].brand_id %></td>
+                  <td>
+                    <% if(dataTable[i].logo_url) { %>
+                    <img
+                      src="<%= dataTable[i].logo_url %>"
+                      style="width: 50px; height: 50px; object-fit: contain"
+                    />
+                    <% } else { %>
+                    <span>No Logo</span>
+                    <% } %>
+                  </td>
+                  <td><b><%= dataTable[i].name %></b></td>
+                  <td><%= dataTable[i].origin %></td>
+                  <td><b><%= dataTable[i].slug %></b></td>
+                  <td style="text-align: center">
+                    <a
+                      href="/edit-brand?id=<%= dataTable[i].brand_id %>"
+                      class="btn-action btn-edit"
+                    >
+                      <i class="fas fa-edit"></i> Sửa
+                    </a>
+                    <a
+                      href="/delete-brand?id=<%= dataTable[i].brand_id %>"
+                      class="btn-action btn-delete"
+                      onclick="return confirm('Bạn có chắc chắn muốn xóa thương hiệu này?')"
+                    >
+                      <i class="fas fa-trash"></i> Xóa
+                    </a>
+                  </td>
+                </tr>
+                <% } %> <% } else { %>
+                <tr>
+                  <td colspan="5" style="text-align: center">
+                    Chưa có thương hiệu nào!
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

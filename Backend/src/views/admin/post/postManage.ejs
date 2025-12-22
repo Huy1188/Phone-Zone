@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý Bài viết</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* 1. Cấu hình Reset & Layout */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #f4f6f9;
+      }
+
+      .wrapper {
+        display: flex; /* Flexbox chia cột */
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      .main-column {
+        flex: 1; /* Chiếm hết phần còn lại */
+        display: flex;
+        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        overflow-x: hidden;
+      }
+
+      /* 2. Phần nội dung chính */
+      .content-container {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+      }
+
+      /* 3. Card Box */
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #007bff; /* Màu xanh dương cho Tin tức */
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+      }
+
+      /* 4. Nút Thêm mới */
+      .btn-add {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #28a745; /* Màu xanh lá */
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        transition: 0.2s;
+      }
+      .btn-add:hover {
+        background-color: #218838;
+      }
+
+      /* 5. Bảng dữ liệu */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        text-align: left;
+        padding: 12px;
+        vertical-align: middle;
+      }
+
+      th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+
+      /* Ảnh thumbnail bài viết */
+      .img-post {
+        width: 80px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
+
+      /* Nút hành động */
+      .btn-action {
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 13px;
+        margin-right: 5px;
+        display: inline-block;
+        color: white;
+        font-weight: bold;
+      }
+
+      .btn-edit {
+        background-color: #ffc107;
+        color: #333;
+      } /* Màu vàng */
+      .btn-edit:hover {
+        background-color: #e0a800;
+      }
+
+      .btn-delete {
+        background-color: #dc3545;
+      } /* Màu đỏ */
+      .btn-delete:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>
+              <i
+                class="fas fa-newspaper"
+                style="color: #007bff; margin-right: 10px"
+              ></i>
+              Quản lý Tin tức / Blog
+            </h2>
+
+            <a href="/create-post" class="btn-add">
+              <i class="fas fa-pen-nib"></i> Viết bài mới
+            </a>
+
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px">ID</th>
+                  <th style="width: 100px">Hình ảnh</th>
+                  <th>Tiêu đề</th>
+                  <th>Danh mục</th>
+                  <th>Tác giả</th>
+                  <th style="width: 150px; text-align: center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(posts && posts.length > 0) { %> <%
+                posts.forEach(function(post) { %>
+                <tr>
+                  <td><%= post.post_id %></td>
+
+                  <td>
+                    <% if(post.thumbnail) { %>
+                    <img
+                      src="<%= post.thumbnail %>"
+                      class="img-post"
+                      alt="Img"
+                    />
+                    <% } else { %>
+                    <span style="font-size: 12px; color: #999">No Image</span>
+                    <% } %>
+                  </td>
+
+                  <td style="font-weight: bold; color: #444">
+                    <%= post.title %>
+                  </td>
+
+                  <td style="color: #007bff">
+                    <%= post.category ? post.category.name : 'Chưa phân loại' %>
+                  </td>
+
+                  <td style="font-size: 14px; color: #666">
+                    <i class="fas fa-user-edit"></i> <%= post.author ?
+                    post.author.last_name : 'Admin' %>
+                  </td>
+
+                  <td style="text-align: center">
+                    <a href="#" class="btn-action btn-edit">
+                      <i class="fas fa-edit"></i> Sửa
+                    </a>
+
+                    <a
+                      href="/delete-post?id=<%= post.post_id %>"
+                      class="btn-action btn-delete"
+                      onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')"
+                    >
+                      <i class="fas fa-trash"></i> Xóa
+                    </a>
+                  </td>
+                </tr>
+                <% }); %> <% } else { %>
+                <tr>
+                  <td
+                    colspan="6"
+                    style="text-align: center; padding: 20px; color: #777"
+                  >
+                    Chưa có bài viết nào! Hãy thêm bài mới.
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

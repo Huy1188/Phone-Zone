@@ -1,0 +1,74 @@
+.wrapper {
+  margin-top: 12px;
+}
+
+.inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid black;
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid transparent;
+
+  .label {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #444;
+    white-space: nowrap;
+  }
+}
+
+.icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #444;
+}
+
+/* trạng thái active giống CPS: nút nổi lên, đỏ */
+.item.active {
+  background-color: #ffe6ea;
+  border-color: #e30019;
+
+  .label {
+    color: #e30019;
+  }
+
+  .icon-wrap {
+    border-color: #e30019;
+    color: #e30019;
+    background-color: #fff;
+  }
+}
+
+/* responsive nhỏ lại trên mobile */
+@media (max-width: 1024px) {
+  .inner {
+    overflow-x: auto;
+    padding: 6px;
+  }
+
+  .item {
+    flex: 0 0 auto;
+    min-width: 90px;
+  }
+}

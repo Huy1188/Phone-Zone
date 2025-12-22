@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <body>
+    <div class="container mt-5 mb-5">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+          <li class="breadcrumb-item">
+            <a href="#"
+              ><%= product.category ? product.category.name : 'Sản phẩm' %></a
+            >
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <%= product.name %>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card border-0">
+            <% let mainImage = (product.images && product.images.length > 0) ?
+            product.images[0].image_url : 'https://via.placeholder.com/500' %>
+            <div class="text-center p-3 border rounded mb-3">
+              <img
+                src="<%= mainImage %>"
+                class="img-fluid"
+                id="mainImage"
+                style="max-height: 450px; object-fit: contain"
+              />
+            </div>
+
+            <div class="d-flex overflow-auto gap-2">
+              <% if(product.images) { %> <% product.images.forEach(img => { %>
+              <img
+                src="<%= img.image_url %>"
+                class="img-thumbnail border-primary"
+                style="
+                  width: 80px;
+                  height: 80px;
+                  object-fit: contain;
+                  cursor: pointer;
+                "
+                onclick="document.getElementById('mainImage').src='<%= img.image_url %>'"
+              />
+              <% }) %> <% } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h1 class="fw-bold"><%= product.name %></h1>
+          <p class="text-muted">
+            Thương hiệu:
+            <span class="fw-bold text-dark"
+              ><%= product.brand ? product.brand.name : 'N/A' %></span
+            >
+          </p>
+
+          <h2 class="text-danger fw-bold mb-4" id="mainPrice">
+            <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency:
+            'VND' }).format(product.variants && product.variants.length > 0 ?
+            product.variants[0].price : product.min_price) %>
+          </h2>
+
+          <form action="/add-to-cart" method="POST">
+            <input
+              type="hidden"
+              name="product_id"
+              value="<%= product.product_id %>"
+            />
+
+            <input
+              type="hidden"
+              id="selected_variant_id"
+              name="variant_id"
+              value="<%= (product.variants && product.variants.length > 0) ? product.variants[0].variant_id : '' %>"
+            />
+
+            <% if(product.variants && product.variants.length > 0) { %>
+            <div class="mb-4">
+              <label class="fw-bold mb-2">Chọn phiên bản:</label>
+              <div class="d-flex flex-wrap gap-2">
+                <% product.variants.forEach((variant, index) => { %>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary variant-btn <%= index === 0 ? 'active' : '' %>"
+                  onclick="selectVariant(this, '<%= variant.variant_id %>', '<%= variant.price %>')"
+                >
+                  <span class="fw-bold"
+                    ><%= variant.ram %> / <%= variant.rom %></span
+                  >
+                  <br />
+                  <small
+                    ><%= new Intl.NumberFormat('vi-VN').format(variant.price) %>
+                    đ</small
+                  >
+                </button>
+                <% }) %>
+              </div>
+            </div>
+            <% } %>
+
+            <div class="mb-4 d-flex align-items-center">
+              <label class="fw-bold me-3">Số lượng:</label>
+              <input
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                max="10"
+                class="form-control text-center"
+                style="width: 80px"
+              />
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+              <button
+                type="submit"
+                class="btn btn-outline-primary btn-lg fw-bold"
+              >
+                <i class="bi bi-cart-plus"></i> THÊM VÀO GIỎ HÀNG
+              </button>
+              <button type="button" class="btn btn-danger btn-lg fw-bold">
+                MUA NGAY
+              </button>
+            </div>
+          </form>
+          <div class="alert alert-light border mt-4">
+            <h6 class="fw-bold">Thông số kỹ thuật:</h6>
+            <ul class="mb-0 small ps-3">
+              <% let specs = []; try { specs =
+              JSON.parse(product.specifications) } catch(e) {} %> <% if(specs &&
+              specs.length > 0) { %> <% specs.forEach(s => { %>
+              <li><strong><%= s.label %>:</strong> <%= s.value %></li>
+              <% }) %> <% } else { %>
+              <li>Đang cập nhật...</li>
+              <% } %>
+            </ul>
+          </div>
+
+          <div class="mt-4">
+            <h5 class="fw-bold border-bottom pb-2">Mô tả sản phẩm</h5>
+            <div class="text-secondary content-description">
+              <%- product.description %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function selectVariant(btn, variantId, price) {
+        // 1. Cập nhật ID biến thể vào input ẩn để gửi lên server
+        document.getElementById("selected_variant_id").value = variantId;
+
+        // 2. Đổi màu nút active (xanh lên)
+        // Xóa class active ở tất cả các nút
+        document
+          .querySelectorAll(".variant-btn")
+          .forEach((b) => b.classList.remove("active"));
+        // Thêm class active vào nút vừa bấm
+        btn.classList.add("active");
+
+        // 3. Cập nhật giá tiền to đùng ở trên
+        // Định dạng tiền Việt Nam
+        let formattedPrice = new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(price);
+        document.getElementById("mainPrice").innerText = formattedPrice;
+      }
+    </script>
+  </body>
+</html>

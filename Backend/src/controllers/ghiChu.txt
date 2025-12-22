@@ -1,0 +1,1 @@
+dùng để trả về các hiển thị khi ấn vào link của route

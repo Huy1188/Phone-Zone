@@ -1,0 +1,149 @@
+.container {
+    padding: 20px;
+    background-color: #f4f6f9; // Màu nền xám nhạt bao quanh
+    min-height: 100%;
+}
+
+.cardBox {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-top: 3px solid #28a745; // Viền xanh lá giống mẫu
+
+    .cardHeader {
+        display: flex;
+        justify-content: space-between; // Đẩy tiêu đề sang trái, nút sang phải
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+
+        h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            i {
+                color: #28a745;
+            }
+        }
+
+        .btnCreate {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+            &:hover {
+                background-color: #218838;
+                transform: translateY(-1px);
+            }
+        }
+    }
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.userTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+
+    th,
+    td {
+        border: 1px solid #dee2e6;
+        text-align: left;
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+    }
+
+    tbody tr:hover {
+        background-color: #f2f2f2;
+    }
+
+    // Cột Email màu xanh
+    .emailWrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px; // Khoảng cách giữa icon và chữ
+        color: #007bff; // Màu xanh
+        font-weight: bold;
+
+        i {
+            color: #6c757d;
+        } // Màu icon xám
+    }
+
+    // Badge Default Address
+    .badgeDefault {
+        background: #28a745;
+        color: white;
+        font-size: 10px;
+        padding: 2px 4px;
+        border-radius: 3px;
+        margin-right: 5px;
+        font-weight: 600;
+    }
+
+    .addressText {
+        font-size: 13px;
+        color: #555;
+    }
+
+    // Buttons
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+
+        a,
+        button {
+            padding: 6px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnEdit {
+            background-color: #ffc107;
+            color: #333;
+            &:hover {
+                background-color: #e0a800;
+            }
+        }
+
+        .btnDelete {
+            background-color: #dc3545;
+            &:hover {
+                background-color: #c82333;
+            }
+        }
+    }
+}

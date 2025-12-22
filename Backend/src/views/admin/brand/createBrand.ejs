@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Thêm Thương Hiệu</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .content-container {
+        padding: 30px;
+      }
+      .card-box {
+        background: white;
+        padding: 30px;
+        border-radius: 5px;
+        border-top: 3px solid #28a745;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      h2 {
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+      }
+      input[type="text"],
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .btn-submit {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .btn-back {
+        display: inline-block;
+        margin-bottom: 15px;
+        text-decoration: none;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <a href="/system/brand-manage" class="btn-back"
+            ><i class="fas fa-arrow-left"></i> Quay lại</a
+          >
+          <div class="card-box">
+            <h2>Thêm Thương Hiệu Mới</h2>
+            <form
+              action="/store-brand"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <div class="form-group">
+                <label>Tên Thương Hiệu:</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="VD: Apple, Samsung..."
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Xuất xứ (Origin):</label>
+                <input
+                  type="text"
+                  name="origin"
+                  placeholder="VD: Mỹ, Hàn Quốc, Việt Nam..."
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Logo / Hình ảnh:</label>
+                <input type="file" name="image" accept="image/*" />
+              </div>
+              <button type="submit" class="btn-submit">Lưu Thương Hiệu</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

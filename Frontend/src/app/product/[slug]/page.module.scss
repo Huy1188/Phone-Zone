@@ -1,0 +1,85 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 5px;
+}
+
+.breadcrumb {
+  margin-bottom: 1rem;
+  color: #666;
+  font-size: 1.4rem;
+  a {
+    text-decoration: none;
+    color: #1250dc;
+  }
+  .separator {
+    margin: 0 4px;
+  }
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 48% 52%;
+  margin-bottom: 40px;
+  background-color: white;
+  border-radius: 5px;
+
+  .left-col,
+  .right-col {
+    padding: 20px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 100%;
+
+    .left-col,
+    .right-col {
+    padding: 10px 5px;
+  }
+  }
+}
+
+.bottom-layout {
+  display: grid;
+  grid-template-columns: 55% 45%; // Nội dung 65%, Thông số 35%
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 24px;
+
+  .description,
+  .specs {
+    font-size: 1.5rem;
+    padding: 20px;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 100%;
+  }
+}
+
+
+.related-section {
+  margin-top: 24px;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 0 20px;
+}
+
+// .related-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 12px;
+
+//   h2 {
+//     font-size: 1.8rem;
+//     font-weight: 600;
+//   }
+
+//   a {
+//     font-size: 1.4rem;
+//     color: #1250dc;
+//     text-decoration: none;
+//   }
+// }
+
+/* Grid sản phẩm có thể tái dùng từ ProductGrid */

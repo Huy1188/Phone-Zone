@@ -1,0 +1,289 @@
+.authPage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px;
+  background: #f5f5f5;
+}
+
+/* Card auth */
+.container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: hidden;
+  width: 900px;
+  max-width: 100%;
+  min-height: 500px;
+}
+
+/* ------------------ */
+/* FORM + TRANSFORM   */
+/* ------------------ */
+
+.error {
+  color: red;
+  margin-top: 8px;
+}
+
+
+.formContainer {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signInContainer {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.signUpContainer {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Khi active REGISTER */
+.rightPanelActive .signInContainer {
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 1;
+}
+
+.rightPanelActive .signUpContainer {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+
+/* ------------------ */
+/* OVERLAY + TRANSFORM*/
+/* ------------------ */
+
+.overlayContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.overlay {
+  background: var(--primary-color);
+  color: #fff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Khi active REGISTER dịch overlay sang phải */
+.rightPanelActive .overlayContainer {
+  transform: translateX(-100%);
+}
+
+.rightPanelActive .overlay {
+  transform: translateX(50%);
+}
+
+.overlayPanel {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.overlayLeft {
+  // transform: translateX(-20%);
+  left: 0;
+}
+
+.overlayRight {
+  right: 0;
+  // transform: translateX(20%);
+}
+
+.overlayPanel h1 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.overlayPanel p {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+/* Nút ghost trên overlay */
+.ghost {
+  margin-top: 20px;
+  padding: 10px 30px;
+  border-radius: 20px;
+  border: 2px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ghost:hover {
+  background: #fff;
+  color: var(--primary-color);
+}
+
+/* ------------------ */
+/* FORM STYLE         */
+/* ------------------ */
+
+.authForm {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 40px;
+}
+
+.authForm h1 {
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+.authForm input {
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+.authForm input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.authForm a {
+  font-size: 0.9rem;
+  margin: 6px 0;
+  color: var(--primary-color);
+}
+
+.authForm button {
+  margin-top: 16px;
+  padding: 10px 0;
+  border-radius: 20px;
+  border: none;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.authForm button:hover {
+  opacity: 0.9;
+}
+
+.switchAuth {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 14px;
+  line-height: 1.4;
+  color: #6b7280; // xám nhẹ
+
+  span {
+    white-space: nowrap;
+  }
+}
+
+.switchLink {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin:0 !important;
+  height: auto !important;
+  min-height: unset !important;
+
+  font: inherit;
+  font-size: 1.2rem !important;
+  color: #2563eb !important;
+  cursor: pointer;
+}
+
+
+
+/* ------------------ */
+/* Responsive         */
+/* ------------------ */
+
+@media (max-width: 1023px) {
+  .container {
+    width: 100%;
+    min-height: auto;
+  }
+
+  /* Ẩn overlay trên mobile */
+  .overlayContainer {
+    display: none;
+  }
+
+  /* Cho form về dạng bình thường (không absolute 2 cột) */
+  .formContainer {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+    transition: none;
+  }
+
+
+
+  /* Mặc định chỉ hiện login */
+  .signInContainer {
+    width: 100%;
+    opacity: 1;
+    z-index: 1;
+    
+  }
+
+  .signUpContainer {
+    width: 100%;
+    opacity: 1;
+    z-index: 1;
+    display: none;
+  }
+
+  /* Khi chuyển sang register thì ẩn login, hiện register */
+  .rightPanelActive .signInContainer {
+    display: none;
+  }
+
+  .rightPanelActive .signUpContainer {
+    display: flex;
+  }
+}

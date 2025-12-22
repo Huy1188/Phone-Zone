@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      body {
+        font-family: "Source Sans Pro", -apple-system, sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+      }
+      .wrapper {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+      .content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .main-column {
+        flex: 1; /* Chiếm hết phần còn lại */
+        display: flex;
+        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        overflow-x: hidden;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #444;
+        font-weight: 400;
+        font-size: 24px;
+      }
+
+      /* Grid System */
+      .row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .col-3 {
+        flex: 1;
+        min-width: 220px;
+      }
+
+      /* Small Box (Card thống kê) */
+      .small-box {
+        border-radius: 4px;
+        position: relative;
+        display: block;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        color: #fff;
+        overflow: hidden;
+      }
+
+      .inner {
+        padding: 20px;
+      }
+      .inner h3 {
+        font-size: 38px;
+        font-weight: bold;
+        margin: 0 0 10px 0;
+        white-space: nowrap;
+      }
+      .inner p {
+        font-size: 15px;
+        margin: 0;
+      }
+
+      .icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 70px;
+        color: rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s;
+      }
+      .small-box:hover .icon {
+        transform: scale(1.1);
+      }
+
+      .small-box-footer {
+        position: relative;
+        text-align: center;
+        padding: 5px 0;
+        color: rgba(255, 255, 255, 0.8);
+        display: block;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .small-box-footer:hover {
+        color: #fff;
+        background: rgba(0, 0, 0, 0.15);
+      }
+
+      /* Màu nền */
+      .bg-success {
+        background-color: #28a745 !important;
+      }
+      .bg-info {
+        background-color: #17a2b8 !important;
+      }
+      .bg-warning {
+        background-color: #ffc107 !important;
+        color: white !important;
+      }
+      .bg-danger {
+        background-color: #dc3545 !important;
+      }
+
+      /* Chart Box */
+      .chart-box {
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./header.ejs') %>
+        <div class="content">
+          <h2>
+            Dashboard
+            <small style="font-size: 16px; color: #777">Control panel</small>
+          </h2>
+
+          <div class="row">
+            <div class="col-3">
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3><%= userCount %></h3>
+                  <p>Người Dùng</p>
+                </div>
+                <div class="icon"><i class="fas fa-users"></i></div>
+                <a href="/system/user-manage" class="small-box-footer"
+                  >More info <i class="fas fa-arrow-circle-right"></i
+                ></a>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3><%= postCount %></h3>
+                  <p>Bài Viết</p>
+                </div>
+                <div class="icon"><i class="fas fa-newspaper"></i></div>
+                <a href="/system/post-manage" class="small-box-footer"
+                  >More info <i class="fas fa-arrow-circle-right"></i
+                ></a>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3><%= productCount %></h3>
+                  <p>Sản Phẩm</p>
+                </div>
+                <div class="icon"><i class="fas fa-shopping-bag"></i></div>
+                <a href="/system/product-manage" class="small-box-footer"
+                  >More info <i class="fas fa-arrow-circle-right"></i
+                ></a>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <div class="small-box bg-danger">
+                <div class="inner">
+                  <h3><%= orderCount %></h3>
+                  <p>Đơn Hàng</p>
+                </div>
+                <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+                <a href="/system/order-manage" class="small-box-footer"
+                  >More info <i class="fas fa-arrow-circle-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-box">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px; color: #555">
+                <i class="fas fa-chart-bar"></i> Thống Kê Doanh Thu & Đơn Hàng
+                (6 tháng gần đây)
+              </h3>
+            </div>
+
+            <div style="height: 350px">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const ctx = document.getElementById("myChart").getContext("2d");
+
+      // Dữ liệu giả lập (Sau này bạn có thể truyền từ Controller sang bằng EJS)
+      // Ví dụ: Doanh thu 6 tháng cuối năm
+      const labels = [
+        "Tháng 7",
+        "Tháng 8",
+        "Tháng 9",
+        "Tháng 10",
+        "Tháng 11",
+        "Tháng 12",
+      ];
+      const revenueData = [
+        15000000, 22000000, 18000000, 32000000, 28000000, 45000000,
+      ];
+      const orderData = [12, 19, 15, 25, 22, 40];
+
+      new Chart(ctx, {
+        type: "bar", // Kiểu biểu đồ: 'bar' (cột), 'line' (đường), 'pie' (tròn)
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Doanh thu (VNĐ)",
+              data: revenueData,
+              backgroundColor: "rgba(54, 162, 235, 0.6)", // Màu xanh dương
+              borderColor: "rgba(54, 162, 235, 1)",
+              borderWidth: 1,
+              yAxisID: "y",
+            },
+            {
+              label: "Số đơn hàng",
+              data: orderData,
+              type: "line", // Kết hợp đường line trong biểu đồ cột
+              borderColor: "rgba(255, 99, 132, 1)", // Màu đỏ
+              borderWidth: 2,
+              fill: false,
+              yAxisID: "y1", // Trục Y thứ 2 bên phải
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              position: "left",
+              title: { display: true, text: "Doanh thu" },
+            },
+            y1: {
+              beginAtZero: true,
+              position: "right",
+              grid: { drawOnChartArea: false }, // Ẩn lưới trục phải cho đỡ rối
+              title: { display: true, text: "Số đơn" },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

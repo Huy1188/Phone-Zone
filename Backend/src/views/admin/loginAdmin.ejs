@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin System Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* 1. Reset & Cấu hình nền */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #2c3e50; /* Màu nền tối */
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 2. Hộp Đăng nhập */
+      .login-box {
+        background: #fff;
+        width: 100%;
+        max-width: 400px;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      .login-header {
+        margin-bottom: 30px;
+      }
+      .login-header h2 {
+        color: #333;
+        margin: 10px 0 5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .login-header p {
+        color: #777;
+        font-size: 14px;
+        margin: 0;
+      }
+      .logo-icon {
+        font-size: 50px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      /* 3. Style cho Form input */
+      .input-group {
+        position: relative;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+      .input-wrapper i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px 12px 40px; /* Padding trái cho icon */
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+      .form-control:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+      }
+
+      /* 4. Nút bấm */
+      .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #2c3e50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        text-transform: uppercase;
+      }
+      .btn-submit:hover {
+        background: #34495e;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 5. Footer */
+      .login-footer {
+        margin-top: 20px;
+        font-size: 13px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <div class="login-header">
+        <i class="fas fa-user-shield logo-icon"></i>
+        <h2>Quản Trị Viên</h2>
+        <p>Vui lòng đăng nhập để tiếp tục</p>
+      </div>
+
+      <% if(typeof error !== 'undefined' && error.length > 0) { %>
+      <div
+        style="
+          background-color: #f8d7da;
+          color: #721c24;
+          padding: 10px;
+          margin-bottom: 20px;
+          border: 1px solid #f5c6cb;
+          border-radius: 4px;
+          font-size: 14px;
+          text-align: center;
+        "
+      >
+        <i class="fas fa-exclamation-triangle"></i> <%= error %>
+      </div>
+      <% } %>
+
+      <form action="/admin-login" method="POST">
+        <div class="input-group">
+          <label>Email truy cập</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input
+              type="text"
+              name="email"
+              class="form-control"
+              placeholder="email@admin.com"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Mật khẩu</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              placeholder="Nhập mật khẩu..."
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          Đăng Nhập <i class="fas fa-arrow-right" style="margin-left: 5px"></i>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <p>&copy; 2025 Phone Zone Admin System</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Thêm sản phẩm mới</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* 1. Reset & Layout */
+      body {
+        margin: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+      .content-container {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+      }
+
+      /* 2. Form Box Style */
+      .form-box {
+        background: white;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #007bff; /* Màu xanh dương cho Tạo mới */
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+      }
+
+      /* 3. Form Elements */
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        font-family: inherit;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+      textarea {
+        resize: vertical;
+      }
+
+      /* Grid System */
+      .row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .col {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      /* Buttons */
+      .btn-submit {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      .btn-submit:hover {
+        background: #218838;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #6c757d;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+      }
+      .back-link:hover {
+        color: #333;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+
+        <div class="content-container">
+          <div class="form-box">
+            <h2>
+              <i class="fas fa-plus-circle" style="color: #007bff"></i> Tạo Sản
+              Phẩm Mới
+            </h2>
+
+            <form
+              action="/store-product"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <div class="form-group">
+                <label>Tên sản phẩm (*):</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Ví dụ: iPhone 15 Pro Max"
+                />
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label>Giá khởi điểm (VNĐ) (*):</label>
+                    <input
+                      type="number"
+                      name="min_price"
+                      required
+                      placeholder="Ví dụ: 25000000"
+                    />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label>Hình ảnh đại diện (*):</label>
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/*"
+                      required
+                      style="padding: 7px"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label>Danh mục (*):</label>
+                    <select name="category_id" required>
+                      <option value="">-- Chọn danh mục --</option>
+                      <% if(categories && categories.length > 0) { %> <%
+                      categories.forEach(function(cat) { %>
+                      <option value="<%= cat.category_id %>">
+                        <%= cat.name %>
+                      </option>
+                      <% }); %> <% } %>
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label>Thương hiệu (*):</label>
+                    <select name="brand_id" required>
+                      <option value="">-- Chọn thương hiệu --</option>
+                      <% if(brands && brands.length > 0) { %> <%
+                      brands.forEach(function(brand) { %>
+                      <option value="<%= brand.brand_id %>">
+                        <%= brand.name %>
+                      </option>
+                      <% }); %> <% } %>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Mô tả chi tiết:</label>
+                <textarea
+                  name="description"
+                  rows="5"
+                  placeholder="Nhập thông tin mô tả sản phẩm..."
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Lưu & Tiếp tục nhập biến thể
+              </button>
+            </form>
+
+            <a href="/system/product-manage" class="back-link">
+              <i class="fas fa-arrow-left"></i> Hủy và Quay lại danh sách
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

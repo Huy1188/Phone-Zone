@@ -1,0 +1,26 @@
+.specs-wrapper {
+  background: #fff;
+  border-radius: 8px;
+  
+  h3 { font-size: 18px; margin-bottom: 15px; }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  tr:nth-child(odd) {
+    background-color: #f5f5f5;
+  }
+
+  td {
+    padding: 10px;
+    border: 1px solid #eee;
+  }
+
+  .label {
+    font-weight: bold;
+    width: 35%;
+  }
+}

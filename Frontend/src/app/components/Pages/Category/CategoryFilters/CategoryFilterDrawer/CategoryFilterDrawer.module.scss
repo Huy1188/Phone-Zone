@@ -1,0 +1,187 @@
+/* Overlay phủ toàn màn hình */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  will-change: opacity;
+  animation: fadeIn 160ms ease-out;
+}
+
+/* Panel Drawer */
+.drawer {
+  width: 100%;
+  max-width: 720px;
+
+  background: #fff;
+
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+
+  height: min(86vh, 780px);
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+
+  transform: translateY(22px);
+  will-change: transform;
+  animation: slideUp 180ms ease-out forwards;
+
+  pointer-events: auto;
+}
+
+/* Header sticky (Đóng + tiêu đề) */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  background: #fff;
+  border-bottom: 1px solid #eee;
+
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111;
+}
+
+.closeBtn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  padding: 8px 10px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+
+  transition: background 120ms ease;
+}
+
+.closeBtn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Body scroll */
+.body {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  padding: 12px;
+
+  /* tránh footer đè nội dung */
+  padding-bottom: 96px;
+}
+
+/* Footer sticky (Xem kết quả) */
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+
+  background: #fff;
+  border-top: 1px solid #eee;
+
+  padding: 12px;
+}
+
+.footerInner {
+  display: flex;
+  gap: 10px;
+}
+
+.resetBtn {
+  flex: 0 0 auto;
+
+  appearance: none;
+  cursor: pointer;
+
+  border: 1px solid #ddd;
+  background: #fff;
+
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.applyBtn {
+  flex: 1;
+
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  background: #e11b1e;
+  color: #fff;
+}
+
+.applyBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Trạng thái đóng (animate ngược) */
+.overlayClosing {
+  animation: fadeOut 140ms ease-in forwards;
+}
+
+.drawerClosing {
+  animation: slideDown 160ms ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(22px); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); }
+  to { transform: translateY(22px); }
+}
+
+/* Nếu bạn chỉ muốn drawer hoạt động ở mobile/tablet */
+@media (min-width: 992px) {
+  .overlay {
+    display: none;
+  }
+}

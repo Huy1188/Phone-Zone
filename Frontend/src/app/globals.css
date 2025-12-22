@@ -1,0 +1,63 @@
+
+:root {
+    --primary-color: rgb(227, 0, 25);
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+}
+
+* {
+    box-sizing: inherit;
+}
+body {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    margin: 0;
+    padding: 0;
+    /* overflow-x: hidden; */
+}
+
+.wrapper { width: 100%; min-height: 100vh; }
+
+/* app container (avoid relying on external css) */
+.container {
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
+/* Leave room for the mobile bottom navigation */
+@media (max-width: 1023px) {
+    body {
+        padding-bottom: 56px;
+    }
+}
+
+html {
+    /* Mac dinh font size 10px */
+    font-size: 62.5%;
+    /* line-height: 1.6rem; */
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    background-color: #f7f7f8;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.grid {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid__row{
+    display: flex;
+    flex-wrap: wrap;
+}

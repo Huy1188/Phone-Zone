@@ -1,0 +1,72 @@
+.header-subnav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white-color);
+  height: 40px;
+}
+
+/* Giới hạn độ rộng như container 1200px */
+.inner {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.header-subnav-list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header-subnav-list li {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  position: relative;
+}
+
+.header-subnav-list li::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 20%;
+  width: 1px;
+  height: 60%;
+  background: #ccc;
+}
+
+.header-subnav-list li:last-child::after {
+  display: none;
+}
+
+.subnav__icon {
+  font-size: 18px;
+  color: #333;
+}
+
+.subnav__link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #000;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.subnav__link i {
+  color: currentColor;
+}
+
+.subnav__link:hover {
+  color: red;
+}
+
+@media (max-width: 1023px) {
+  .header-subnav {
+    display: none;
+  }
+}

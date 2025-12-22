@@ -1,0 +1,215 @@
+@use 'sass:color';
+
+// --- MÀU SẮC ---
+$primary: #4361ee;
+$secondary: #6c757d;
+$bg-body: #f8f9fa;
+$white: #ffffff;
+$text-dark: #212529;
+$border-color: #e9ecef;
+
+// --- LAYOUT ---
+.container {
+    padding: 40px 20px;
+    background-color: $bg-body;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.cardBox {
+    background: $white;
+    width: 100%;
+    // max-width set inline ở component (600px)
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid $border-color;
+    animation: slideUp 0.4s ease-out;
+
+    h2 {
+        font-size: 22px;
+        font-weight: 700;
+        color: $primary;
+        margin-bottom: 30px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid $bg-body;
+        padding-bottom: 15px;
+    }
+}
+
+// --- FORM ---
+.formGroup {
+    margin-bottom: 25px;
+
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: $text-dark;
+        margin-bottom: 10px;
+    }
+
+    // Input Text
+    input[type='text'] {
+        width: 100%;
+        height: 48px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        padding: 0 15px;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+        background-color: #fff;
+
+        &:focus {
+            border-color: $primary;
+            box-shadow: 0 0 0 4px rgba($primary, 0.1);
+        }
+    }
+
+    // Input File
+    input[type='file'] {
+        width: 100%;
+        padding: 10px;
+        background: #fcfcfc;
+        border: 2px dashed #ced4da;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 13px;
+        color: $secondary;
+
+        &:hover {
+            border-color: $primary;
+            background: #eef2ff;
+        }
+
+        &::file-selector-button {
+            margin-right: 15px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background-color: $secondary;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        &:hover::file-selector-button {
+            background-color: $primary;
+        }
+    }
+}
+
+.btnGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+    border-top: 1px solid $bg-body;
+    padding-top: 20px;
+    gap: 15px;
+}
+
+.btnBack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 45px;
+    padding: 0 20px;
+    background-color: $white;
+    color: $text-dark;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    text-decoration: none; // Bỏ gạch chân của Link
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f1f3f5;
+        border-color: #adb5bd;
+        color: $text-dark;
+    }
+
+    i {
+        font-size: 12px;
+    }
+}
+
+// Nút Submit (Màu xanh)
+.btnSubmit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px; // Chiều cao bằng nút Back
+    padding: 0 30px;
+    background-color: $primary;
+    color: $white;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba($primary, 0.25);
+
+    // QUAN TRỌNG: Bỏ width 100% cũ đi để nó co lại vừa nội dung
+    width: auto;
+
+    &:hover {
+        background-color: color.scale($primary, $lightness: -10%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba($primary, 0.35);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        background-color: #a0a0a0;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+// --- MOBILE ---
+@media (max-width: 576px) {
+    .container {
+        padding: 20px 10px;
+    }
+    .cardBox {
+        padding: 20px;
+    }
+
+    // Trên điện thoại thì xếp dọc lại
+    .btnGroup {
+        flex-direction: column-reverse;
+
+        .btnBack,
+        .btnSubmit {
+            width: 100%; // Full chiều rộng
+        }
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,265 @@
+<style>
+  /* Thanh Header Admin */
+  .admin-header {
+    background-color: #fff;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+
+  /* Bên trái */
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #6c757d;
+  }
+  .header-left i {
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  /* Bên phải */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+  }
+
+  /* Icon thông báo */
+  .nav-icon-btn {
+    position: relative;
+    color: #6c757d;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .nav-icon-btn:hover {
+    color: #007bff;
+  }
+
+  .badge-notif {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 10px;
+    border: 1px solid white;
+  }
+
+  /* User Profile Dropdown */
+  .admin-profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding: 5px; /* Tăng diện tích bấm */
+    border-radius: 4px;
+    transition: 0.2s;
+    user-select: none; /* Không cho bôi đen text khi click nhanh */
+  }
+  .admin-profile:hover {
+    background-color: #f8f9fa;
+  } /* Hiệu ứng nhẹ khi rê chuột vào */
+
+  .admin-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid #dee2e6;
+  }
+  .admin-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #343a40;
+  }
+
+  /* MENU THẢ XUỐNG (SỬA LẠI LOGIC) */
+  .profile-dropdown {
+    position: absolute;
+    top: 130%;
+    right: 0;
+    background: white;
+    width: 200px; /* Rộng hơn xíu cho đẹp */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+
+    display: none; /* Mặc định ẩn */
+
+    border: 1px solid #f0f0f0;
+    z-index: 1000;
+  }
+
+  /* Class này sẽ được JS thêm vào để hiện menu */
+  .profile-dropdown.show {
+    display: block;
+    animation: fadeIn 0.2s;
+  }
+
+  /* Mũi tên nhọn chỉ lên */
+  .profile-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 15px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+    border-top: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+  }
+
+  .dropdown-item {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dropdown-item:hover {
+    background: #f8f9fa;
+    color: #007bff;
+  }
+  .dropdown-divider {
+    border-top: 1px solid #eee;
+    margin: 0;
+  }
+
+  /* Animation nhẹ */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<header class="admin-header">
+  <div class="header-left">
+    <a
+      href="/"
+      target="_blank"
+      style="text-decoration: none; color: #6c757d"
+      title="Xem trang web"
+    >
+      <i class="fas fa-globe"></i> Xem Website
+    </a>
+    <span style="color: #ddd">|</span>
+    <span style="font-size: 14px">Quản trị hệ thống</span>
+  </div>
+
+  <div class="header-right">
+    <div class="nav-icon-btn">
+      <i class="far fa-bell"></i>
+      <span class="badge-notif">3</span>
+    </div>
+
+    <div class="nav-icon-btn">
+      <i class="far fa-envelope"></i>
+      <span class="badge-notif" style="background: #28a745">5</span>
+    </div>
+
+    <div
+      class="admin-profile"
+      id="adminProfileTrigger"
+      onclick="toggleDropdown(event)"
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2206/2206368.png"
+        class="admin-avatar"
+        alt="Admin"
+      />
+
+      <div>
+        <span class="admin-name">Super Admin</span>
+        <i
+          class="fas fa-angle-down"
+          id="arrowIcon"
+          style="
+            font-size: 12px;
+            margin-left: 5px;
+            color: #777;
+            transition: 0.3s;
+          "
+        ></i>
+      </div>
+
+      <div class="profile-dropdown" id="myDropdown">
+        <div
+          style="
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+          "
+        >
+          <small>Đăng nhập bởi:</small><br />
+          <strong>Super Admin</strong>
+        </div>
+
+        <a href="/system/change-password" class="dropdown-item">
+          <i class="fas fa-key" style="color: #ffc107"></i> Đổi mật khẩu
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <a href="/admin-logout" class="dropdown-item" style="color: #dc3545">
+          <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function toggleDropdown(event) {
+    // Ngăn chặn sự kiện click lan ra ngoài (để không bị đóng ngay lập tức)
+    event.stopPropagation();
+
+    var dropdown = document.getElementById("myDropdown");
+    var arrow = document.getElementById("arrowIcon");
+
+    // Thêm hoặc xóa class 'show' để hiện/ẩn menu
+    dropdown.classList.toggle("show");
+
+    // Xoay mũi tên cho đẹp
+    if (dropdown.classList.contains("show")) {
+      arrow.style.transform = "rotate(180deg)";
+    } else {
+      arrow.style.transform = "rotate(0deg)";
+    }
+  }
+
+  // Sự kiện: Bấm ra ngoài thì đóng menu
+  window.onclick = function (event) {
+    if (!event.target.closest(".admin-profile")) {
+      var dropdown = document.getElementById("myDropdown");
+      var arrow = document.getElementById("arrowIcon");
+
+      if (dropdown.classList.contains("show")) {
+        dropdown.classList.remove("show");
+        arrow.style.transform = "rotate(0deg)";
+      }
+    }
+  };
+</script>

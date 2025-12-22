@@ -1,0 +1,137 @@
+.wrapper {
+  background-color: transparent;
+  width: 100%;
+}
+
+/* ✅ Desktop mới center */
+@media (min-width: 768px) {
+  .wrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.inner {
+  width: 100%;
+  margin: 10px 20px 0;
+}
+
+/* ✅ Mobile: bỏ margin lớn, thêm padding nhỏ */
+@media (max-width: 767px) {
+  .inner {
+    margin: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .content {
+    padding: 10px 5px;
+  }
+}
+
+
+.banner {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  gap: 10px;
+}
+
+/* ✅ Mobile: cuộn ngang + nhỏ hơn */
+@media (max-width: 767px) {
+  .banner {
+  display: block;
+  padding: 12px 0;
+}
+
+/* Nếu bạn đặt 2 banner (Galery1 + Galery2) */
+.banner > * + * {
+  margin-top: 10px;
+}
+
+}
+
+.content {
+  margin: 15px 0;
+  padding: 10px 16px;
+  background-color: #fff;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 8px;
+  background-color: #fff;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 1023px) {
+  .top-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start; /* ✅ bỏ space-between */
+    overflow-x: auto;            /* ✅ cho cuộn ngang */
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .top-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filterBtn {
+    flex: 0 0 auto;
+  }
+}
+
+
+/* Filter chiếm bên trái, sort bên phải -> đã handle bên trong component */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.desktopFilters {
+  display: block;
+}
+
+.filterBtn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-weight: 600;
+}
+
+/* ✅ Mobile/Tablet */
+@media (max-width: 1023px) {
+  .desktopFilters {
+    display: none; /* ẩn filters block */
+  }
+
+  .filterBtn {
+    display: inline-flex; /* hiện nút để mở drawer */
+  }
+
+  /* Optional: sticky top row giống CellphoneS */
+  .top-row {
+    position: sticky;
+    top: 0;          /* nếu bạn có header fixed, tăng top lên đúng chiều cao header */
+    z-index: 20;
+    background: #fff;
+    padding: 10px 0;
+  }
+}

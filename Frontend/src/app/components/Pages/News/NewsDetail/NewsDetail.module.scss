@@ -1,0 +1,173 @@
+.wrapper {
+  width: 100%;
+  max-width: 1200px;     /* ✅ desktop giữ khung */
+  background-color: #fff;
+  margin: 15px auto;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+
+.inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 18px 0 40px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.92);
+
+  @media (max-width: 640px) {
+    font-size: 22px;
+  }
+}
+
+.meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+
+  margin-bottom: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+.thumb {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f6f6f6;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin: 16px 0 18px;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 767px) {
+  .thumb {
+    border-radius: 10px;
+    margin: 12px 0 14px;
+  }
+}
+
+.content {
+  color: rgba(0, 0, 0, 0.82);
+  font-size: 16px;
+  line-height: 1.75;
+
+  p {
+    margin: 0 0 14px;
+  }
+
+  h2,
+  h3 {
+    margin: 22px 0 10px;
+    line-height: 1.25;
+    color: rgba(0, 0, 0, 0.92);
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  ul,
+  ol {
+    padding-left: 20px;
+    margin: 0 0 14px;
+  }
+
+  li {
+    margin: 6px 0;
+  }
+
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 14px;
+    border-left: 4px solid rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  code {
+    padding: 2px 6px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    font-size: 0.95em;
+  }
+
+  pre {
+    margin: 14px 0;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.06);
+    overflow: auto;
+
+    code {
+      padding: 0;
+      background: transparent;
+    }
+  }
+  
+}
+
+@media (max-width: 767px) {
+  .content {
+    font-size: 15px;
+    line-height: 1.7;
+
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+
+    ul, ol { padding-left: 18px; }
+  }
+}
+
+/* ✅ Mobile: bỏ margin lớn + thêm padding */
+@media (max-width: 767px) {
+  .wrapper {
+    margin: 0;
+    border-radius: 0;
+    padding: 0 12px;     /* lề 2 bên */
+  }
+}
+
+@media (max-width: 767px) {
+  .inner {
+    max-width: 100%;
+    padding: 14px 0 24px;
+  }
+}

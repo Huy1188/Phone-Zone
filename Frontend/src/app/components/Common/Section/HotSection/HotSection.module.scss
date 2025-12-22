@@ -1,0 +1,122 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.layout {
+  width: 100%;
+  margin-top: 15px;
+  background: linear-gradient(rgb(248, 62, 96), rgb(254, 80, 72)) 0% 0% / cover;
+  border-radius: 9px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  padding: 5px 0;
+}
+
+/* header: cho flex để media query có tác dụng */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* ✅ chặn lòi */
+
+  img {
+    max-width: 100%;   /* ✅ không vượt layout */
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+}
+
+
+.content {
+  padding: 10px 12px 14px;
+}
+
+/* ===== CAROUSEL ===== */
+
+.sliderWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  scrollbar-width: none;
+}
+.slider::-webkit-scrollbar {
+  height: 0;
+}
+
+.sliderItem {
+  flex: 0 0 20%; /* desktop: 5 card */
+  padding: 0 6px;
+}
+
+/* nút mũi tên */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.navBtn i {
+  font-size: 14px;
+}
+
+.navBtnPrev {
+  left: 0;
+}
+
+.navBtnNext {
+  right: 0;
+}
+
+/* responsive */
+@media (max-width: 992px) {
+  .sliderItem {
+    flex: 0 0 33.333%; /* 3 card */
+  }
+}
+
+@media (max-width: 768px) {
+  .sliderItem {
+    flex: 0 0 27%; /* ✅ 2 card */
+  }
+
+  .navBtn {
+    display: none; /* mobile vuốt */
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .header img {
+    max-width: 100%;
+    max-height: 80px;   /* hoặc 60–100px tùy thiết kế */
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 480px) {
+  .sliderItem {
+    flex: 0 0 50%; /* ✅ giữ 2 card, không dùng 45% nữa */
+  }
+}

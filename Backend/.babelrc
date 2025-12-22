@@ -1,0 +1,5 @@
+// cấu hình trình compiler đầu tiên
+{
+  "presets": ["@babel/preset-env"]
+}
+// mục đích chỉ để làm thư viện hoạt động

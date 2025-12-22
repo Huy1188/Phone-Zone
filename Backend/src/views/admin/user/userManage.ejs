@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý thành viên</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+      .content-container {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+      }
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #28a745;
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        text-align: left;
+        padding: 12px;
+        vertical-align: middle;
+      }
+      th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+      .btn-action {
+        padding: 6px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 13px;
+        color: white;
+        font-weight: bold;
+        display: inline-block;
+        margin: 0 2px;
+      }
+      .btn-edit {
+        background-color: #ffc107;
+        color: #333;
+      }
+      .btn-delete {
+        background-color: #dc3545;
+      }
+      .user-email {
+        color: #007bff;
+        font-weight: bold;
+      }
+      .badge-default {
+        background: #28a745;
+        color: white;
+        font-size: 10px;
+        padding: 2px 4px;
+        border-radius: 3px;
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>
+              <i
+                class="fas fa-users"
+                style="color: #28a745; margin-right: 10px"
+              ></i>
+              Danh sách người dùng
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Họ</th>
+                  <th>Tên</th>
+                  <th>Địa chỉ (Mặc định)</th>
+                  <th style="width: 120px; text-align: center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(dataTable && dataTable.length > 0) { %> <% for(let i=0; i
+                < dataTable.length; i++) { %>
+                <tr>
+                  <td class="user-email">
+                    <i
+                      class="fas fa-envelope"
+                      style="color: #aaa; margin-right: 5px"
+                    ></i>
+                    <%= dataTable[i].email %>
+                  </td>
+                  <td><%= dataTable[i].first_name %></td>
+                  <td><b><%= dataTable[i].last_name %></b></td>
+
+                  <td>
+                    <span style="font-size: 13px; color: #555">
+                      <% if(dataTable[i].isDefaultAddress) { %>
+                      <span class="badge-default">Default</span>
+                      <% } %> <%= dataTable[i].displayAddress %>
+                    </span>
+                  </td>
+
+                  <td style="text-align: center">
+                    <a
+                      href="/edit-user?user_id=<%= dataTable[i].user_id %>"
+                      class="btn-action btn-edit"
+                      ><i class="fas fa-edit"></i
+                    ></a>
+                    <a
+                      href="/delete-user?user_id=<%= dataTable[i].user_id %>"
+                      class="btn-action btn-delete"
+                      onclick="return confirm('Xóa user này?')"
+                      ><i class="fas fa-trash"></i
+                    ></a>
+                  </td>
+                </tr>
+                <% } %> <% } else { %>
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 20px">
+                    Hiện chưa có người dùng nào!
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

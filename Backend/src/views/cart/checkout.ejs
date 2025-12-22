@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include('../_partials/head.ejs') %>
+  <body>
+    <%- include('../_partials/header.ejs') %>
+
+    <div class="container py-5">
+      <h2 class="mb-4 fw-bold text-center">Xác nhận đơn hàng</h2>
+
+      <form action="/place-order" method="POST">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="card shadow border-0 mb-4">
+              <div class="card-header bg-white fw-bold">
+                1. Thông tin giao hàng
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label>Họ và tên người nhận</label>
+                  <input
+                    type="text"
+                    name="fullname"
+                    class="form-control"
+                    required
+                    value="<%= user ? user.username : '' %>"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label>Số điện thoại</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    class="form-control"
+                    required
+                    value="<%= user ? user.phone : '' %>"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label>Địa chỉ nhận hàng</label>
+                  <input
+                    type="text"
+                    name="address"
+                    class="form-control"
+                    placeholder="Số nhà, đường, phường, quận..."
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label>Ghi chú (Tùy chọn)</label>
+                  <textarea
+                    name="note"
+                    class="form-control"
+                    rows="2"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="card shadow border-0">
+              <div class="card-header bg-white fw-bold">
+                2. Đơn hàng của bạn
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush mb-3">
+                  <% cart.forEach(item => { %>
+                  <li
+                    class="list-group-item d-flex justify-content-between lh-sm"
+                  >
+                    <div>
+                      <h6 class="my-0"><%= item.name %></h6>
+                      <small class="text-muted">SL: <%= item.quantity %></small>
+                    </div>
+                    <span class="text-muted"
+                      ><%= new Intl.NumberFormat('vi-VN').format(item.price *
+                      item.quantity) %> đ</span
+                    >
+                  </li>
+                  <% }) %>
+                </ul>
+
+                <div
+                  class="d-flex justify-content-between fw-bold fs-5 text-danger border-top pt-3"
+                >
+                  <span>Tổng tiền:</span>
+                  <span
+                    ><%= new Intl.NumberFormat('vi-VN', { style: 'currency',
+                    currency: 'VND' }).format(totalAmount) %></span
+                  >
+                  <input
+                    type="hidden"
+                    name="total_money"
+                    value="<%= totalAmount %>"
+                  />
+                </div>
+
+                <div class="alert alert-info mt-3 small">
+                  <i class="bi bi-info-circle"></i> Phương thức thanh toán:
+                  <strong>Thanh toán khi nhận hàng (COD)</strong>
+                </div>
+
+                <div class="d-grid mt-4">
+                  <button type="submit" class="btn btn-danger btn-lg">
+                    ĐẶT HÀNG NGAY
+                  </button>
+                </div>
+                <div class="text-center mt-2">
+                  <a href="/cart" class="text-decoration-none"
+                    >Quay lại giỏ hàng</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <%- include('../_partials/footer.ejs') %>
+  </body>
+</html>

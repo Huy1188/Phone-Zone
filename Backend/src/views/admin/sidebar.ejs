@@ -1,0 +1,309 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<style>
+  /* 1. CẤU HÌNH CƠ BẢN */
+  .main-sidebar {
+    width: 250px; /* Chiều rộng mặc định */
+    background-color: #343a40;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    color: #c2c7d0;
+    transition: all 0.3s ease; /* Hiệu ứng trượt mượt mà */
+  }
+
+  /* 2. LOGO & NÚT TOGGLE */
+  .brand-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Đẩy nút toggle sang phải */
+    padding: 0 15px;
+    height: 57px;
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: 1px solid #4b545c;
+    overflow: hidden; /* Ẩn phần thừa khi thu nhỏ */
+  }
+
+  /* Nút 3 gạch để bấm */
+  .btn-toggle-sidebar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* 3. USER PANEL */
+  .user-panel {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #4f5962;
+    margin-bottom: 10px;
+    white-space: nowrap; /* Không xuống dòng chữ */
+    overflow: hidden;
+  }
+  .user-panel img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #fff;
+  }
+  .user-info a {
+    color: #c2c7d0;
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .user-status {
+    font-size: 11px;
+    color: #28a745;
+  }
+
+  /* 4. MENU */
+  .nav-sidebar {
+    list-style: none;
+    padding: 0 10px;
+    margin: 0;
+    padding-bottom: 20px;
+  }
+  .nav-item {
+    margin-bottom: 2px;
+  }
+
+  .nav-header {
+    padding: 5px 10px 5px 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6c757d;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    color: #c2c7d0;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: 0.2s;
+    white-space: nowrap; /* Giữ chữ trên 1 dòng */
+    overflow: hidden;
+  }
+  .nav-link i {
+    width: 25px;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .nav-link:hover {
+    background-color: #494e53;
+    color: #fff;
+  }
+
+  .nav-logout {
+    border-top: 1px solid #4f5962;
+    margin-top: 20px;
+    padding-top: 10px;
+  }
+  .nav-logout a {
+    color: #ff6b6b;
+  }
+  .nav-logout a:hover {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4c4c;
+  }
+
+  /* --- TRẠNG THÁI THU NHỎ (MINI) --- */
+  .main-sidebar.mini {
+    width: 70px; /* Thu nhỏ còn 70px */
+  }
+
+  /* Ẩn chữ Logo, Tên User, Chữ Menu, Header khi thu nhỏ */
+  .main-sidebar.mini .brand-text,
+  .main-sidebar.mini .user-info,
+  .main-sidebar.mini .nav-link p,
+  .main-sidebar.mini .nav-header {
+    display: none; /* Biến mất */
+    opacity: 0;
+  }
+
+  /* Căn giữa các Icon khi thu nhỏ */
+  .main-sidebar.mini .brand-link {
+    justify-content: center;
+    padding: 0;
+  }
+  .main-sidebar.mini .btn-toggle-sidebar {
+    display: none;
+  } /* Ẩn nút toggle bên trong logo khi nhỏ (dùng cách khác để mở lại nếu muốn, hoặc bấm vào vùng trống) */
+
+  /* Ở trạng thái mini, mình sẽ để nút toggle ra ngoài hoặc click vào sidebar để mở lại, 
+       nhưng để đơn giản: Ta vẫn hiện nút toggle nhưng đổi icon */
+  .main-sidebar.mini .brand-link {
+    justify-content: center;
+  }
+  .main-sidebar.mini .brand-link .btn-toggle-sidebar {
+    display: block;
+    margin: 0;
+  }
+
+  .main-sidebar.mini .user-panel {
+    justify-content: center;
+    padding: 15px 0;
+  }
+  .main-sidebar.mini .user-panel img {
+    margin: 0;
+  }
+
+  .main-sidebar.mini .nav-link {
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .main-sidebar.mini .nav-link i {
+    margin: 0;
+    font-size: 18px;
+  } /* Icon to hơn xíu */
+
+  /* Hiện tooltip khi hover vào icon ở chế độ mini (Nâng cao) */
+  .main-sidebar.mini .nav-link:hover {
+    background-color: #007bff;
+  }
+</style>
+
+<aside class="main-sidebar" id="sidebar">
+  <div class="brand-link">
+    <div style="display: flex; align-items: center">
+      <i class="fas fa-store" style="margin-right: 10px" id="logoIcon"></i>
+      <span class="brand-text">Phone Zone</span>
+    </div>
+    <button class="btn-toggle-sidebar" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <div class="sidebar">
+    <div class="user-panel">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2206/2206368.png"
+        alt="Admin"
+      />
+      <div class="user-info">
+        <a href="#">Super Admin</a>
+      </div>
+    </div>
+
+    <ul class="nav-sidebar">
+      <li class="nav-item">
+        <a href="/system/admin-panel" class="nav-link">
+          <i class="fas fa-tachometer-alt" style="color: #007bff"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+
+      <li class="nav-header">HỆ THỐNG</li>
+
+      <li class="nav-item">
+        <a href="/system/user-manage" class="nav-link">
+          <i class="fas fa-users" style="color: #28a745"></i>
+          <p>Người dùng</p>
+        </a>
+      </li>
+
+      <li class="nav-header">KHO & SẢN PHẨM</li>
+
+      <li class="nav-item">
+        <a href="/system/category-manage" class="nav-link">
+          <i class="fas fa-list" style="color: #17a2b8"></i>
+          <p>Danh mục</p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/system/brand-manage" class="nav-link">
+          <i class="fas fa-tags" style="color: #6610f2"></i>
+          <p>Thương hiệu</p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/system/product-manage" class="nav-link">
+          <i class="fas fa-mobile-alt" style="color: #ffc107"></i>
+          <p>Tất cả sản phẩm</p>
+        </a>
+      </li>
+
+      <li class="nav-header">KINH DOANH</li>
+
+      <li class="nav-item">
+        <a href="/system/order-manage" class="nav-link">
+          <i class="fas fa-shopping-cart" style="color: #dc3545"></i>
+          <p>Đơn hàng</p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/system/voucher-manage" class="nav-link">
+          <i class="fas fa-ticket-alt" style="color: #e83e8c"></i>
+          <p>Mã giảm giá (Voucher)</p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/system/review-manage" class="nav-link">
+          <i class="fas fa-star-half-alt" style="color: #fd7e14"></i>
+          <p>Đánh giá & Review</p>
+        </a>
+      </li>
+
+      <li class="nav-header">MARKETING</li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-images" style="color: #20c997"></i>
+          <p>Banner & Slider</p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/system/post-manage" class="nav-link">
+          <i class="fas fa-newspaper" style="color: #007bff"></i>
+          <p>Tin tức / Blog</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>
+
+<script>
+  function toggleSidebar() {
+    let sidebar = document.getElementById("sidebar");
+    // Thêm hoặc xóa class 'mini'
+    sidebar.classList.toggle("mini");
+
+    // Lưu trạng thái vào localStorage để khi F5 không bị mất
+    let isMini = sidebar.classList.contains("mini");
+    localStorage.setItem("sidebarMini", isMini);
+  }
+
+  // Khi load trang, kiểm tra xem trước đó có đang thu nhỏ không
+  document.addEventListener("DOMContentLoaded", function () {
+    let isMini = localStorage.getItem("sidebarMini");
+    if (isMini === "true") {
+      document.getElementById("sidebar").classList.add("mini");
+    }
+  });
+</script>

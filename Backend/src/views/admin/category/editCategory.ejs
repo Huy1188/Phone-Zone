@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chỉnh sửa danh mục</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* ... Giữ nguyên CSS cũ của bạn ... */
+      body {
+        margin: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #f4f6f9;
+      }
+      .wrapper {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+      .main-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+      .content-container {
+        flex: 1;
+        padding: 30px;
+      }
+      .card-box {
+        background: white;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #ffc107;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+      input[type="text"],
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .btn-submit {
+        background: #ffc107;
+        color: #333;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+      }
+      .btn-submit:hover {
+        background: #e0a800;
+      }
+      .btn-back {
+        display: inline-block;
+        margin-bottom: 15px;
+        color: #666;
+        text-decoration: none;
+      }
+      .btn-back:hover {
+        color: #333;
+      }
+
+      /* CSS riêng cho ảnh cũ */
+      .current-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <a href="/system/category-manage" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Quay lại danh sách
+          </a>
+
+          <div class="card-box">
+            <h2><i class="fas fa-edit"></i> Chỉnh Sửa Danh Mục</h2>
+
+            <form
+              action="/update-category"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <input
+                type="hidden"
+                name="category_id"
+                value="<%= category.category_id %>"
+              />
+
+              <div class="form-group">
+                <label>Tên danh mục:</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value="<%= category.name %>"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Hình ảnh minh họa:</label>
+                <input type="file" name="image" accept="image/*" />
+
+                <% if(category.image) { %>
+                <div style="margin-top: 10px">
+                  <p style="font-size: 13px; color: #888; margin-bottom: 5px">
+                    Ảnh hiện tại:
+                  </p>
+                  <img src="<%= category.image %>" class="current-img" />
+                </div>
+                <% } %>
+              </div>
+
+              <button type="submit" class="btn-submit">Lưu Thay Đổi</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

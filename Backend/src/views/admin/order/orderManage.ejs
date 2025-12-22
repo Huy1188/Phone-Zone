@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản lý Đơn hàng</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* 1. Cấu hình Reset & Layout */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Source Sans Pro", sans-serif;
+        background-color: #f4f6f9;
+      }
+
+      .wrapper {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      .main-column {
+        flex: 1; /* Chiếm hết phần còn lại */
+        display: flex;
+        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        overflow-x: hidden;
+      }
+
+      /* 2. Phần nội dung chính */
+      .content-container {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+      }
+
+      /* 3. Card Box (Khung chứa bảng) */
+      .card-box {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #dc3545; /* Màu đỏ đặc trưng cho Đơn hàng */
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+      }
+
+      /* 4. Style cho Bảng */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        text-align: left;
+        padding: 12px;
+        vertical-align: middle;
+      }
+
+      th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+
+      /* 5. Style cho Status Badge (Trạng thái) */
+      .status-badge {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 12px;
+        display: inline-block;
+        text-transform: uppercase;
+      }
+      .status-pending {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+      }
+      .status-shipping {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      .status-done {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .status-cancel {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* 6. Nút Xem chi tiết */
+      .btn-view {
+        background-color: #17a2b8; /* Màu xanh ngọc */
+        color: white;
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: bold;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .btn-view:hover {
+        background-color: #138496;
+      }
+
+      /* Style cho Giá tiền */
+      .price-text {
+        color: #dc3545;
+        font-weight: bold;
+        font-size: 15px;
+      }
+
+      /* Style cho ID đơn hàng */
+      .order-id {
+        font-weight: bold;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('./admin/sidebar.ejs') %>
+      <div class="main-column">
+        <%- include('./admin/header.ejs') %>
+        <div class="content-container">
+          <div class="card-box">
+            <h2>
+              <i
+                class="fas fa-shopping-cart"
+                style="color: #dc3545; margin-right: 10px"
+              ></i>
+              Danh sách Đơn hàng
+            </h2>
+
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 80px">Mã đơn</th>
+                  <th>Khách hàng / Ghi chú</th>
+                  <th>Tổng tiền</th>
+                  <th>Ngày đặt</th>
+                  <th>Trạng thái</th>
+                  <th style="width: 120px; text-align: center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(orders && orders.length > 0) { %> <%
+                orders.forEach(function(item) { %>
+                <tr>
+                  <td class="order-id">#<%= item.order_id %></td>
+
+                  <td>
+                    <% if(item.user) { %>
+                    <div style="font-weight: bold">
+                      <i class="fas fa-user"></i> <%= item.user.first_name %>
+                      <%= item.user.last_name %>
+                    </div>
+                    <% } %>
+                    <div style="font-size: 13px; color: #666; margin-top: 4px">
+                      <%= item.note %>
+                    </div>
+                  </td>
+
+                  <td class="price-text">
+                    <%= new Intl.NumberFormat('vi-VN').format(item.total_money)
+                    %> đ
+                  </td>
+
+                  <td style="color: #555; font-size: 14px">
+                    <%= new Date(item.createdAt).toLocaleString('vi-VN') %>
+                  </td>
+
+                  <td>
+                    <% if(item.status == 'pending') { %>
+                    <span class="status-badge status-pending">Chờ xử lý</span>
+                    <% } else if (item.status == 'shipping') { %>
+                    <span class="status-badge status-shipping">Đang giao</span>
+                    <% } else if (item.status == 'done') { %>
+                    <span class="status-badge status-done">Hoàn thành</span>
+                    <% } else { %>
+                    <span class="status-badge status-cancel">Đã hủy</span>
+                    <% } %>
+                  </td>
+
+                  <td style="text-align: center">
+                    <a
+                      href="/system/order-detail/<%= item.order_id %>"
+                      class="btn-view"
+                    >
+                      <i class="fas fa-eye"></i> Chi tiết
+                    </a>
+                  </td>
+                </tr>
+                <% }); %> <% } else { %>
+                <tr>
+                  <td
+                    colspan="6"
+                    style="text-align: center; padding: 20px; color: #777"
+                  >
+                    Hiện tại chưa có đơn hàng nào!
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
