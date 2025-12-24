@@ -10,36 +10,41 @@ export default function EditCategory() {
     const params = useParams();
     const categoryId = params?.id;
 
-    const [name, setName] = useState('');
+    const [name, setName] = useState<string>('');
     const [file, setFile] = useState<File | null>(null);
-    const [previewImg, setPreviewImg] = useState('');
+    const [previewImg, setPreviewImg] = useState<string>('');
 
     useEffect(() => {
         if (categoryId) fetchDetail(Number(categoryId));
     }, [categoryId]);
 
     const fetchDetail = async (id: number) => {
-        let res: any = await getCategoryById(id);
-        if (res?.success && res.data) {
-            setName(res.data.name);
-            setPreviewImg(res.data.image);
+        const res: any = await getCategoryById(id);
+
+        if (res?.success && res?.data?.category) {
+            setName(res.data.category?.name ?? '');
+            setPreviewImg(res.data.category?.image ?? '');
+        } else {
+            setName('');
+            setPreviewImg('');
         }
     };
 
     const handleSubmit = async () => {
-        if (!name) return alert('Vui lòng nhập tên danh mục');
+        if (!name?.trim()) return alert('Vui lòng nhập tên danh mục');
+
         const formData = new FormData();
-        formData.append('name', name);
+        formData.append('name', name.trim());
         if (file) formData.append('image', file);
 
         try {
-            let res: any = await updateCategory(categoryId as string, formData);
+            const res: any = await updateCategory(categoryId as string, formData);
 
             if (res?.success) {
                 alert('Cập nhật thành công!');
                 router.push('/admin/categories');
             } else {
-                alert(res.message);
+                alert(res?.message || 'Cập nhật thất bại');
             }
         } catch (e) {
             alert('Lỗi hệ thống');
@@ -57,7 +62,7 @@ export default function EditCategory() {
                     <label>Tên danh mục:</label>
                     <input
                         type="text"
-                        value={name}
+                        value={name ?? ''}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Nhập tên danh mục..."
                     />
@@ -70,17 +75,17 @@ export default function EditCategory() {
                             <img src={previewImg} className={styles.previewImage} alt="Preview" />
                         </div>
                     ) : (
-                        <p style={{ fontSize: '13px', color: '#999' }}>Chưa có ảnh</p>
+                        <p className={styles.mutedText}>Chưa có ảnh</p>
                     )}
                 </div>
 
                 <div className={styles.formGroup}>
                     <label>Chọn ảnh mới (Nếu muốn thay đổi):</label>
-                    <input type="file" onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />
+                    <input type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
                 </div>
 
                 <div className={styles.btnGroup}>
-                    <Link href="/admin/categories" style={{ color: '#666', fontSize: '14px', textDecoration: 'none' }}>
+                    <Link href="/admin/categories" className={styles.backLink}>
                         <i className="fas fa-chevron-left"></i> Quay lại
                     </Link>
 

@@ -1,210 +1,216 @@
 'use client';
-import { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
+
+import { useEffect, useMemo, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import styles from '@/app/components/Admin/Orders/EditOrder.module.scss';
 import { getOrderById, updateOrderStatus } from '@/services/admin/orderService';
-import styles from '@/app/components/Admin/Products/ProductManage.module.scss'; // Dùng chung style với Product
 
-const BACKEND_URL = 'http://localhost:8080'; // URL để hiện ảnh sản phẩm
-
-export default function OrderDetail({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = use(params);
+export default function OrderDetailPage() {
     const router = useRouter();
+    const params = useParams();
+    const id = Number(params?.id);
 
-    const [order, setOrder] = useState<any>(null);
-    const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(true);
+    const [order, setOrder] = useState<any>(null);
+    const [details, setDetails] = useState<any[]>([]);
+    const [status, setStatus] = useState('pending');
 
-    useEffect(() => {
-        if (id) fetchDetail();
-    }, [id]);
+    const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
 
     const fetchDetail = async () => {
+        setLoading(true);
         try {
-            let res: any = await getOrderById(Number(id));
+            const res: any = await getOrderById(id);
+
             if (res?.success) {
-                setOrder(res.data);
-                setStatus(res.data.status); // Set trạng thái hiện tại
+                const data = res?.data ?? {};
+                const o = data?.order ?? null;
+                const ds = data?.orderDetails ?? [];
+
+                setOrder(o);
+                setDetails(Array.isArray(ds) ? ds : []);
+                setStatus(String(o?.status || 'pending'));
             } else {
-                alert('Không tìm thấy đơn hàng');
+                alert(res?.message || 'Không tìm thấy đơn hàng');
+                router.push('/admin/orders');
             }
         } catch (e) {
             console.error(e);
+            alert('Lỗi hệ thống');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleUpdateStatus = async () => {
-        if (!status) return;
-        try {
-            let res: any = await updateOrderStatus({
-                order_id: Number(id),
-                status: status,
-            });
+    useEffect(() => {
+        if (id) fetchDetail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
+    const formatCurrency = (amount: any) => {
+        const n = Number(amount ?? 0);
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number.isNaN(n) ? 0 : n);
+    };
+
+    const getImageUrl = (img: string) => {
+        if (!img) return '';
+        return img.startsWith('http') ? img : `${BACKEND_URL}${img}`;
+    };
+
+    const customerName = useMemo(() => {
+        const fn = order?.user?.first_name || '';
+        const ln = order?.user?.last_name || '';
+        const full = `${ln} ${fn}`.trim();
+        return full || 'Khách vãng lai';
+    }, [order]);
+
+    const defaultAddress = useMemo(() => {
+        const addrs = order?.user?.addresses || [];
+        if (!Array.isArray(addrs) || addrs.length === 0) return 'Chưa cập nhật';
+        const d = addrs.find((a: any) => a.is_default === true || a.is_default === 1) || addrs[0];
+        return `${d.street || ''}${d.street ? ', ' : ''}${d.city || ''}`.trim() || 'Chưa cập nhật';
+    }, [order]);
+
+    const calcTotal = useMemo(() => {
+        // ưu tiên total_price từ order
+        if (order?.total_price != null) return Number(order.total_price);
+        // fallback: tự tính từ details
+        return details.reduce((sum, it) => sum + Number(it.price || 0) * Number(it.quantity || 0), 0);
+    }, [details, order]);
+
+    const handleUpdateStatus = async () => {
+        try {
+            const res: any = await updateOrderStatus(id, status);
             if (res?.success) {
-                alert('Cập nhật trạng thái thành công!');
-                fetchDetail(); // Load lại để cập nhật giao diện
+                alert(res?.message || 'Cập nhật trạng thái thành công!');
+                fetchDetail();
             } else {
-                alert(res.message);
+                alert(res?.message || 'Cập nhật thất bại');
             }
         } catch (e) {
+            console.error(e);
             alert('Lỗi hệ thống');
         }
     };
-
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    };
-
-    const getImageUrl = (img: string) => (img?.startsWith('http') ? img : `${BACKEND_URL}${img}`);
 
     if (loading) return <div className={styles.container}>Đang tải...</div>;
     if (!order) return <div className={styles.container}>Đơn hàng không tồn tại</div>;
 
     return (
         <div className={styles.container}>
-            <div className={styles.cardBox} style={{ maxWidth: '900px', margin: '0 auto' }}>
-                {/* --- HEADER: Tiêu đề + Nút Quay lại --- */}
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        borderBottom: '1px solid #eee',
-                        paddingBottom: 15,
-                        marginBottom: 20,
-                    }}
-                >
-                    <h2 style={{ margin: 0, border: 0, padding: 0 }}>
-                        <i className="fas fa-file-invoice-dollar"></i> Chi tiết Đơn hàng #{id}
+            <div className={styles.cardBox}>
+                <div className={styles.cardHeader}>
+                    <h2>
+                        <i className="fas fa-file-invoice-dollar"></i> Chi tiết đơn hàng #{id}
                     </h2>
-                    <Link href="/admin/orders" className={styles.btnCancel}>
-                        « Quay lại danh sách
+
+                    <Link href="/admin/orders" className={styles.backBtn}>
+                        <i className="fas fa-chevron-left"></i> Quay lại
                     </Link>
                 </div>
 
-                {/* --- PHẦN 1: THÔNG TIN KHÁCH HÀNG & TRẠNG THÁI --- */}
-                <div className={styles.formGrid}>
-                    {/* Cột Trái: Thông tin người nhận */}
-                    <div style={{ background: '#f8f9fa', padding: 15, borderRadius: 6 }}>
-                        <h4 style={{ marginTop: 0, color: '#555', borderBottom: '1px dashed #ccc', paddingBottom: 5 }}>
-                            Thông tin khách hàng
-                        </h4>
-                        <p>
-                            <b>Họ tên:</b> {order.user?.username || 'Khách vãng lai'}
-                        </p>
-                        <p>
-                            <b>Email:</b> {order.user?.email}
-                        </p>
-                        <p>
-                            <b>SĐT:</b> {order.user?.phone}
-                        </p>
-                        <p>
-                            <b>Địa chỉ:</b> {order.user?.address || 'Chưa cập nhật'}
-                        </p>
+                <div className={styles.topGrid}>
+                    <div className={styles.infoBox}>
+                        <div className={styles.boxTitle}>Thông tin khách hàng</div>
+                        <div className={styles.row}>
+                            <span>Họ tên</span>
+                            <b>{customerName}</b>
+                        </div>
+                        <div className={styles.row}>
+                            <span>Email</span>
+                            <b>{order?.user?.email || '---'}</b>
+                        </div>
+                        <div className={styles.row}>
+                            <span>SĐT</span>
+                            <b>{order?.user?.phone || '---'}</b>
+                        </div>
+                        <div className={styles.row}>
+                            <span>Địa chỉ</span>
+                            <b>{defaultAddress}</b>
+                        </div>
                     </div>
 
-                    {/* Cột Phải: Cập nhật Trạng thái */}
-                    <div style={{ background: '#e3f2fd', padding: 15, borderRadius: 6, border: '1px solid #b3d7ff' }}>
-                        <h4
-                            style={{
-                                marginTop: 0,
-                                color: '#0056b3',
-                                borderBottom: '1px dashed #9ec5fe',
-                                paddingBottom: 5,
-                            }}
-                        >
-                            Cập nhật Trạng thái
-                        </h4>
+                    <div className={styles.statusBox}>
+                        <div className={styles.boxTitle}>Cập nhật trạng thái</div>
 
-                        <div className={styles.formGroup} style={{ marginTop: 15 }}>
-                            <label>Trạng thái đơn hàng:</label>
-                            <select
-                                value={status}
-                                onChange={(e) => setStatus(e.target.value)}
-                                style={{
-                                    fontWeight: 'bold',
-                                    color: status === 'cancelled' ? 'red' : status === 'succeeded' ? 'green' : '#333',
-                                }}
-                            >
-                                <option value="pending">⏳ Chờ xác nhận</option>
-                                <option value="shipping">🚚 Đang giao hàng</option>
-                                <option value="succeeded">✅ Thành công (Đã giao)</option>
-                                <option value="cancelled">❌ Đã hủy</option>
-                            </select>
-                        </div>
+                        <label className={styles.label}>Trạng thái</label>
+                        <select className={styles.select} value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <option value="pending">⏳ Chờ xác nhận</option>
+                            <option value="shipping">🚚 Đang giao hàng</option>
+                            <option value="succeeded">✅ Thành công</option>
+                            <option value="cancelled">❌ Đã hủy</option>
+                        </select>
 
-                        <button
-                            className={styles.btnAdd}
-                            style={{ width: '100%', justifyContent: 'center', marginTop: 10 }}
-                            onClick={handleUpdateStatus}
-                        >
-                            <i className="fas fa-save"></i> Lưu Trạng Thái
+                        <button className={styles.saveBtn} onClick={handleUpdateStatus}>
+                            <i className="fas fa-save"></i> Lưu trạng thái
                         </button>
                     </div>
                 </div>
 
-                {/* --- PHẦN 2: DANH SÁCH SẢN PHẨM --- */}
-                <h3 style={{ marginTop: 30, fontSize: 16 }}>Danh sách sản phẩm</h3>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th style={{ width: 60 }}>Ảnh</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Phân loại</th>
-                            <th>Đơn giá</th>
-                            <th>Số lượng</th>
-                            <th style={{ textAlign: 'right' }}>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {order.details && order.details.length > 0 ? (
-                            order.details.map((item: any, index: number) => (
-                                <tr key={index}>
-                                    <td>
-                                        <img
-                                            src={getImageUrl(item.product?.image)}
-                                            alt="product"
-                                            className={styles.imgPreview}
-                                        />
-                                    </td>
-                                    <td>
-                                        <div style={{ fontWeight: 600 }}>{item.product?.name}</div>
-                                    </td>
-                                    <td>
-                                        {item.color} - {item.rom}
-                                    </td>{' '}
-                                    {/* Giả sử bạn lưu biến thể vào order detail */}
-                                    <td>{formatCurrency(item.price)}</td>
-                                    <td style={{ textAlign: 'center' }}>{item.quantity}</td>
-                                    <td style={{ textAlign: 'right', fontWeight: 'bold', color: '#333' }}>
-                                        {formatCurrency(item.price * item.quantity)}
+                <div className={styles.tableWrapper}>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th style={{ width: 80 }}>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th style={{ width: 160 }}>Phân loại</th>
+                                <th style={{ width: 140 }}>Đơn giá</th>
+                                <th style={{ width: 100, textAlign: 'center' }}>SL</th>
+                                <th style={{ width: 160, textAlign: 'right' }}>Thành tiền</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {details.length > 0 ? (
+                                details.map((item: any, idx: number) => (
+                                    <tr key={idx}>
+                                        <td>
+                                            {item.product?.image ? (
+                                                // eslint-disable-next-line @next/next/no-img-element
+                                                <img
+                                                    className={styles.thumb}
+                                                    src={getImageUrl(item.product.image)}
+                                                    alt="product"
+                                                />
+                                            ) : (
+                                                <div className={styles.noThumb}>No</div>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <div className={styles.pname}>{item.product?.name || '---'}</div>
+                                        </td>
+                                        <td className={styles.variantText}>
+                                            {item.color || '---'} {item.rom ? `- ${item.rom}` : ''}
+                                        </td>
+                                        <td>{formatCurrency(item.price)}</td>
+                                        <td style={{ textAlign: 'center', fontWeight: 700 }}>{item.quantity}</td>
+                                        <td style={{ textAlign: 'right', fontWeight: 800 }}>
+                                            {formatCurrency(Number(item.price || 0) * Number(item.quantity || 0))}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={6} style={{ textAlign: 'center', padding: 18 }}>
+                                        Không có sản phẩm nào
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
+                            )}
+                        </tbody>
+
+                        <tfoot>
                             <tr>
-                                <td colSpan={6} style={{ textAlign: 'center' }}>
-                                    Không có sản phẩm nào
+                                <td colSpan={5} style={{ textAlign: 'right', fontWeight: 800 }}>
+                                    Tổng tiền thanh toán:
+                                </td>
+                                <td style={{ textAlign: 'right' }} className={styles.totalMoney}>
+                                    {formatCurrency(calcTotal)}
                                 </td>
                             </tr>
-                        )}
-                    </tbody>
-
-                    {/* Footer bảng tổng tiền */}
-                    <tfoot>
-                        <tr style={{ background: '#fafafa' }}>
-                            <td colSpan={5} style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 16 }}>
-                                Tổng tiền thanh toán:
-                            </td>
-                            <td style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 18, color: '#d0011b' }}>
-                                {formatCurrency(order.total_money)}
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     );

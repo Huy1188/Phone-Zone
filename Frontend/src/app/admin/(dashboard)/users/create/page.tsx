@@ -39,23 +39,29 @@ export default function CreateUserPage() {
                 password: formData.password,
                 first_name: formData.first_name,
                 last_name: formData.last_name,
-                phone: formData.phone,
-                 role_id: Number(formData.role_id),
+                phone: formData.phone || null,
+                role_id: Number(formData.role_id),
                 // Chuyển đổi giới tính sang boolean
                 gender: formData.gender === '1',
             };
 
-            let res: any = await createNewUser(payload);
+            const res: any = await createNewUser(payload);
 
             if (res?.success) {
                 alert('Tạo người dùng thành công!');
                 router.push('/admin/users');
             } else {
-                alert(res.message);
+                alert(res?.message || 'Có lỗi xảy ra');
             }
-        } catch (e) {
-            console.error(e);
-            alert('Lỗi kết nối Server.');
+        } catch (e: any) {
+            console.error('API error:', e.response?.data);
+            alert(e.response?.data?.message || 'Lỗi Server');
+            console.log('API error:', e?.response?.data);
+
+            console.log(
+                'Unique fields:',
+                e?.response?.data?.errors?.map((er: any) => ({ path: er.path, value: er.value })),
+            );
         } finally {
             setIsLoading(false);
         }
@@ -65,10 +71,6 @@ export default function CreateUserPage() {
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Thêm người dùng mới</h2>
-                <nav className={styles.breadcrumb}>
-                    <Link href="/admin/dashboard">Dashboard</Link> /<Link href="/admin/users">Quản lý người dùng</Link>{' '}
-                    /<span>Tạo mới</span>
-                </nav>
             </div>
 
             <div className={styles.card}>

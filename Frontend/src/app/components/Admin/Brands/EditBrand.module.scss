@@ -1,148 +1,164 @@
 @use 'sass:color';
 
-$edit-color: #ffc107; // Màu vàng đặc trưng cho tác vụ chỉnh sửa
-$bg-body: #f8f9fa;
+$warning: #ffc107;
+$bg: #f8f9fa;
+$border: #e9ecef;
+$text: #212529;
+$muted: #8898aa;
 $white: #ffffff;
-$text-dark: #212529;
-$border-color: #e9ecef;
 
 .container {
-    padding: 40px 20px;
-    background-color: $bg-body;
+    padding: 20px;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    background: $bg;
 }
 
 .cardBox {
+    max-width: 680px;
+    margin: 0 auto;
     background: $white;
-    width: 100%;
-    padding: 35px;
+    border: 1px solid $border;
     border-radius: 12px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-    border: 1px solid $border-color;
-    border-top: 4px solid $edit-color; // Đường kẻ trên cùng màu vàng
-    animation: slideUp 0.4s ease-out;
-
-    h2 {
-        font-size: 22px;
-        font-weight: 700;
-        color: $edit-color;
-        margin-bottom: 30px;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-bottom: 2px solid $bg-body;
-        padding-bottom: 15px;
-
-        i {
-            margin-right: 10px;
-        }
-    }
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    border-top: 5px solid $warning;
 }
 
-.formGroup {
-    margin-bottom: 25px;
-
-    label {
-        display: block;
-        font-size: 14px;
-        font-weight: 600;
-        color: $text-dark;
-        margin-bottom: 10px;
-    }
-
-    input[type='text'] {
-        width: 100%;
-        height: 48px;
-        border: 1px solid #ced4da;
-        border-radius: 8px;
-        padding: 0 15px;
-        font-size: 14px;
-        outline: none;
-        transition: 0.2s;
-
-        &:focus {
-            border-color: $edit-color;
-            box-shadow: 0 0 0 4px rgba($edit-color, 0.15);
-        }
-    }
-
-    input[type='file'] {
-        width: 100%;
-        padding: 10px;
-        background: #fcfcfc;
-        border: 2px dashed #ced4da;
-        border-radius: 8px;
-        cursor: pointer;
-
-        &:hover {
-            border-color: $edit-color;
-            background: #fffbef;
-        }
-    }
-}
-
-.previewLogo {
-    height: 80px;
-    object-fit: contain;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 5px;
-    background: #fff;
-}
-
-.btnGroup {
+.cardHeader {
+    padding: 20px 22px;
+    border-bottom: 1px solid $border;
     display: flex;
-    justify-content: space-between; // Đẩy "Quay lại" sang trái, "Lưu" sang phải
     align-items: center;
-    margin-top: 35px;
-    padding-top: 20px;
-    border-top: 1px solid #f1f1f1;
+    justify-content: space-between;
+    gap: 12px;
 }
 
-.btnBack {
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
+.title {
+    margin: 0;
+    font-size: 20px;
     font-weight: 600;
+    color: color.scale($warning, $lightness: -15%);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
+
+    i {
+        font-size: 18px;
+    }
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
 
     &:hover {
-        color: $text-dark;
         text-decoration: underline;
     }
 }
 
-.btnSubmit {
-    padding: 12px 25px;
-    background-color: $edit-color;
-    color: #333;
-    font-size: 14px;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 4px 6px rgba($edit-color, 0.2);
+.formGroup {
+    padding: 16px 22px;
 
-    &:hover {
-        background-color: color.scale($edit-color, $lightness: -10%);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba($edit-color, 0.3);
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: $text;
+    }
+
+    input[type='text'],
+    input[type='file'] {
+        width: 100%;
+        height: 46px;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        padding: 0 14px;
+        outline: none;
+        background: #fff;
+        font-size: 14px;
+
+        &:focus {
+            border-color: $warning;
+            box-shadow: 0 0 0 4px rgba($warning, 0.18);
+        }
     }
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+.muted {
+    color: $muted;
+    font-size: 13px;
+    margin: 0;
+}
+
+.previewWrap {
+    border: 1px solid $border;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.previewImage {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+}
+
+.fileBox {
+    border: 1px dashed #ced4da;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fcfcfd;
+
+    input[type='file'] {
+        height: auto;
+        padding: 6px 0;
+        border: none;
+        box-shadow: none;
+
+        &:focus {
+            box-shadow: none;
+        }
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+}
+
+.footer {
+    padding: 18px 22px 22px;
+    border-top: 1px solid $border;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnSubmit {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background: $warning;
+    color: #2b2b2b;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    &:hover {
+        background: color.scale($warning, $lightness: -8%);
+        box-shadow: 0 8px 18px rgba($warning, 0.28);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        box-shadow: none;
     }
 }

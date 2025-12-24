@@ -1,0 +1,209 @@
+@use 'sass:color';
+
+$primary: #4361ee;
+$danger: #ef4444;
+$bg: #f8f9fa;
+$white: #fff;
+$text: #111827;
+$muted: #6b7280;
+$border: #e5e7eb;
+
+.container {
+    padding: 20px;
+    background: $bg;
+    min-height: 100vh;
+}
+
+.cardBox {
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.cardHeader {
+    padding: 18px 20px;
+    border-bottom: 1px solid $border;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: $text;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        i {
+            color: $primary;
+        }
+    }
+}
+
+.backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid $border;
+    border-radius: 10px;
+    color: $text;
+    text-decoration: none;
+    font-weight: 600;
+    background: #fff;
+
+    &:hover {
+        background: #f9fafb;
+    }
+}
+
+.form {
+    padding: 22px 20px 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+        font-size: 13px;
+        font-weight: 600;
+        color: $text;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        border: 1px solid $border;
+        border-radius: 12px;
+        padding: 12px 12px;
+        font-size: 14px;
+        outline: none;
+        background: #fff;
+        color: $text;
+        transition: 0.15s;
+
+        &:focus {
+            border-color: $primary;
+            box-shadow: 0 0 0 4px rgba($primary, 0.12);
+        }
+
+        &:disabled {
+            background: #f3f4f6;
+            color: $muted;
+            cursor: not-allowed;
+        }
+    }
+
+    textarea {
+        min-height: 110px;
+        resize: vertical;
+        line-height: 1.4;
+    }
+}
+
+.required {
+    color: $danger;
+}
+
+.uploadRow {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 14px;
+    align-items: start;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.previewWrap {
+    border: 1px solid $border;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.previewImg {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.clearPreview {
+    border: 0;
+    border-top: 1px solid $border;
+    background: #fff;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: $danger;
+
+    &:hover {
+        background: #fff5f5;
+    }
+}
+
+.previewEmpty {
+    border: 1px dashed $border;
+    border-radius: 12px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $muted;
+    font-weight: 600;
+}
+
+.footer {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnSubmit {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-weight: 600;
+    color: #fff;
+    background: $primary;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    &:hover {
+        background: color.scale($primary, $lightness: -10%);
+        box-shadow: 0 10px 20px rgba($primary, 0.18);
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
