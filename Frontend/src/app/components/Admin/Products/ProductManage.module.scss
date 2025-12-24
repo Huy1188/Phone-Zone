@@ -1,304 +1,333 @@
-/* src/components/Admin/Products/ProductManage.module.scss */
-@use 'sass:color'; // 1. Import module color
+@use 'sass:color';
 
-// --- Variables ---
-$primary-color: #007bff;
-$danger-color: #dc3545;
-$success-color: #28a745;
-$text-color: #333;
-$bg-light: #f8f9fa;
-$border-color: #dee2e6;
-$shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+$primary: #22c55e;
+$bg: #f6f7fb;
+$card: #ffffff;
+$text: #1f2937;
+$muted: #6b7280;
+$border: #e5e7eb;
+
+$warning: #f59e0b;
+$danger: #ef4444;
 
 .container {
     padding: 20px;
-    background-color: #f4f6f9;
     min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: $bg;
 }
 
 .cardBox {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: $shadow;
-    border-top: 4px solid $primary-color;
+    background: $card;
+    border: 1px solid $border;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+    border-top: 5px solid $primary;
+}
+
+.cardHeader {
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $border;
 
     h2 {
-        font-size: 20px;
-        font-weight: 700;
-        color: $text-color;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #eee;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: $text;
         display: flex;
         align-items: center;
-        gap: 12px;
-
-        i {
-            color: $primary-color;
-            font-size: 22px;
-        }
-    }
-}
-
-// --- TOOLBAR ---
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 15px;
-
-    .filterForm {
-        display: flex;
         gap: 10px;
 
-        select {
-            padding: 8px 12px;
-            font-size: 14px;
-            border: 1px solid $border-color;
-            border-radius: 4px;
-            outline: none;
-            height: 38px;
-            background-color: #fff;
-            &:focus {
-                border-color: $primary-color;
-            }
-        }
-
-        .btnReset {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 0 15px;
-            font-size: 14px;
-            height: 38px;
-            border-radius: 4px;
-            cursor: pointer;
-            &:hover {
-                background: #5a6268;
-            }
+        i {
+            color: $primary;
         }
     }
 }
 
-// --- BUTTONS ---
-.btnAdd {
-    text-decoration: none;
-    background: $primary-color;
-    color: white;
-    padding: 0 20px;
-    height: 38px;
-    line-height: 38px;
-    font-size: 14px;
-    border-radius: 4px;
-    font-weight: 600;
+.headerActions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btnCreate {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
     cursor: pointer;
-    transition: 0.2s;
+    border: none;
+}
+
+.btnCreate {
+    background: $primary;
+    color: #fff;
 
     &:hover {
-        // 2. Fix lỗi darken
-        background: color.scale($primary-color, $lightness: -10%);
-        transform: translateY(-1px);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        background: color.scale($primary, $lightness: -10%);
     }
+}
+
+.btnRefresh {
+    background: #fff;
+    border: 1px solid $border;
+    color: $text;
+
+    &:hover {
+        background: #f8fafc;
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+/* FILTER */
+.filterBar {
+    padding: 14px 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-end;
+    border-bottom: 1px solid $border;
+    background: #fcfcfd;
+
+    @media (max-width: 900px) {
+        flex-wrap: wrap;
+    }
+}
+
+.filterItem {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        color: $muted;
+    }
+
+    select {
+        height: 42px;
+        min-width: 220px;
+        border: 1px solid $border;
+        border-radius: 10px;
+        padding: 0 12px;
+        font-size: 14px;
+        outline: none;
+        background: #fff;
+
+        &:focus {
+            border-color: $primary;
+            box-shadow: 0 0 0 4px rgba($primary, 0.12);
+        }
+    }
+}
+
+.btnClear {
+    height: 42px;
+    border-radius: 10px;
+    padding: 0 14px;
+    border: 1px solid $border;
+    background: #fff;
+    color: $text;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        background: #f8fafc;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+/* TABLE */
+.tableWrapper {
+    padding: 16px 18px 18px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid $border;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+
+    thead th {
+        background: #f9fafb;
+        color: $text;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 14px 12px;
+        border-bottom: 1px solid $border;
+        border-right: 1px solid $border;
+        text-align: left;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    tbody td {
+        padding: 12px;
+        border-bottom: 1px solid $border;
+        border-right: 1px solid $border;
+        vertical-align: middle;
+        font-size: 14px;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    tbody tr:hover {
+        background: #fcfcff;
+    }
+}
+
+.centerCell {
+    text-align: center;
+    padding: 18px !important;
+    color: $muted;
+}
+
+.emptyCell {
+    text-align: center;
+    padding: 20px !important;
+    color: $muted;
+    font-style: italic;
+}
+
+.productName {
+    font-weight: 600;
+    color: $text;
+    line-height: 1.2;
+}
+
+.muted {
+    margin-top: 4px;
+    font-size: 14px;
+    color: $muted;
+}
+
+.price {
+    font-weight: 600;
+    color: $text;
+}
+
+.actionGroup {
+    display: inline-flex;
+    gap: 8px;
+}
+
+.actionBtn {
+    width: 40px;
+    height: 34px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     i {
         font-size: 14px;
     }
 }
 
-.btnCancel {
-    text-decoration: none;
-    background: #fff;
-    color: #666;
-    border: 1px solid #ddd;
-    padding: 0 20px;
-    height: 38px;
-    line-height: 38px;
-    font-size: 14px;
-    border-radius: 4px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
+.edit {
+    background: $warning;
+    color: #1f2937;
+
     &:hover {
-        background: #f8f9fa;
-        color: #333;
+        background: color.scale($warning, $lightness: -6%);
     }
 }
 
-// --- TABLE STYLES ---
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 15px;
+.delete {
+    background: $danger;
+    color: #fff;
 
-    th,
-    td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid $border-color;
-        vertical-align: middle;
-    }
-
-    th {
-        background-color: #f1f4f8;
-        font-weight: 700;
-        color: #495057;
-        text-transform: uppercase;
-        font-size: 13px;
-        border-top: 1px solid $border-color;
-    }
-
-    tr:hover {
-        background-color: #fafafa;
-    }
-
-    .imgPreview {
-        width: 55px;
-        height: 55px;
-        object-fit: cover;
-        border-radius: 4px;
-        border: 1px solid #eee;
-    }
-
-    .actionGroup {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-
-        .actionBtn {
-            border: none;
-            width: 34px;
-            height: 34px;
-            border-radius: 4px;
-            cursor: pointer;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: 0.2s;
-
-            &.edit {
-                background-color: #ffc107;
-                color: #333;
-                &:hover {
-                    background: #e0a800;
-                }
-            }
-            &.delete {
-                background-color: $danger-color;
-                &:hover {
-                    background: #c82333;
-                }
-            }
-
-            i {
-                font-size: 14px;
-            }
-        }
+    &:hover {
+        background: color.scale($danger, $lightness: -8%);
     }
 }
 
-// --- PAGINATION ---
+.paginationBar {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.pagingInfo {
+    font-size: 14px;
+    color: $muted;
+
+    b {
+        color: $text;
+    }
+}
+
 .pagination {
     display: flex;
-    justify-content: center;
-    margin-top: 25px;
+    align-items: center;
     gap: 6px;
+    flex-wrap: wrap;
+}
 
-    button {
-        min-width: 36px;
-        height: 36px;
-        padding: 0 10px;
-        font-size: 14px;
-        border: 1px solid #ddd;
-        background: white;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: 0.2s;
-        color: #555;
-        font-weight: 500;
+.pageBtn {
+    min-width: 38px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid $border;
+    background: #fff;
+    color: $text;
+    font-weight: 600;
+    cursor: pointer;
 
-        &:hover:not(:disabled) {
-            background-color: #e9ecef;
-            color: #333;
-            border-color: #ccc;
-        }
+    &:hover {
+        background: #f8fafc;
+    }
 
-        &.active {
-            background-color: $primary-color;
-            color: white;
-            border-color: $primary-color;
-            font-weight: 600;
-        }
-
-        &:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background: #f8f9fa;
-        }
+    &:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
     }
 }
 
-// --- FORM STYLES ---
-.formGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
+.active {
+    background: $primary;
+    border-color: $primary;
+    color: #fff;
+
+    &:hover {
+        background: color.scale($primary, $lightness: -10%);
+    }
 }
 
-.formGroup {
-    margin-bottom: 15px;
-
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #444;
-        font-size: 14px;
-    }
-
-    .miniInput {
-        padding: 8px 10px;
-        font-size: 14px;
-        border: 1px solid $border-color;
-        border-radius: 4px;
-        width: 100%;
-        height: 36px;
-    }
-
-    input[type='text'],
-    input[type='number'],
-    select,
-    textarea {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid $border-color;
-        border-radius: 4px;
-        font-size: 14px;
-        transition: border-color 0.2s;
-        box-sizing: border-box;
-        min-height: 40px;
-
-        &:focus {
-            outline: none;
-            border-color: $primary-color;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-        }
-    }
-
-    input[type='file'] {
-        padding: 8px 0;
-        min-height: auto;
-    }
+.dots {
+    padding: 0 6px;
+    color: $muted;
+    font-weight: 6 00;
 }

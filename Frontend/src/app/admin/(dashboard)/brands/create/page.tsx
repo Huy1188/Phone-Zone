@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createBrand } from '@/services/admin/productService';
+import { createBrand } from '@/services/admin/brandService';
 import styles from '@/app/components/Admin/Brands/CreateBrand.module.scss';
 import Link from 'next/link';
 

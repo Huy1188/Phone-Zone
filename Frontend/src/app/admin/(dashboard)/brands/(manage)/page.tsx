@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getAllBrands, deleteBrand } from '@/services/admin/productService';
+import { getAllBrands, deleteBrand } from '@/services/admin/brandService';
 import { Brand } from '@/types/product';
 import Link from 'next/link';
 import styles from '@/app/components/Admin/Brands/Brand.module.scss';
@@ -13,8 +13,22 @@ export default function BrandPage() {
     }, []);
 
     const fetchBrands = async () => {
-        let res: any = await getAllBrands();
-        if (res?.success) setBrands(res.data);
+        try {
+            const res: any = await getAllBrands();
+
+            // Vì axiosClient đã return response.data nên res chính là JSON backend trả về
+            if (res?.success) {
+                // Backend thường trả: ok(res, { brands }, ...)
+                const list = res?.data?.brands ?? res?.data ?? [];
+                setBrands(Array.isArray(list) ? list : []);
+            } else {
+                alert(res?.message || 'Không tải được danh sách thương hiệu');
+                setBrands([]);
+            }
+        } catch (e) {
+            console.error(e);
+            setBrands([]);
+        }
     };
 
     const handleDelete = async (id: number) => {

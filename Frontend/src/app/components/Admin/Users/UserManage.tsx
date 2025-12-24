@@ -15,10 +15,12 @@ const UserManage = () => {
 
     const fetchUsers = async () => {
         try {
-            let res: any = await getAllUsers();
-            if (res?.success) setUsers(Array.isArray(res?.data?.users) ? res.data.users : []);
+            const res: any = await getAllUsers();
+            const list = res?.data?.users;
+            setUsers(Array.isArray(list) ? list : []);
         } catch (error) {
             console.error(error);
+            setUsers([]);
         } finally {
             setIsLoading(false);
         }
@@ -100,11 +102,10 @@ const UserManage = () => {
                                                 <i className="fas fa-envelope"></i> <span>{item.email}</span>
                                             </div>
                                         </td>
-                                        <td>{item.first_name}</td>
+                                        <td>{item.last_name}</td>
                                         <td>
-                                            <b>{item.last_name}</b>
+                                            <b>{item.first_name}</b>
                                         </td>
-
                                         <td>{renderAddress(item.addresses)}</td>
 
                                         <td className={styles.actions}>

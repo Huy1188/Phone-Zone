@@ -52,8 +52,8 @@ export default function EditUserPage() {
     const fetchUserDetail = async (id: string | number) => {
         try {
             let res: any = await getUserById(id);
-            if (res?.success && res.data) {
-                const u = res.data;
+            const u = res?.data?.user;
+            if (res?.success && u) {
                 // Fill thông tin user
                 setFormData({
                     user_id: u.user_id,
@@ -106,31 +106,40 @@ export default function EditUserPage() {
 
         setIsLoading(true);
         try {
-            // Chuẩn bị payload gửi đi
+            // ✅ Convert array -> object { [address_id]: {...} }
+            const addressesObj = addressList.reduce((acc: any, addr) => {
+                acc[addr.address_id] = {
+                    recipient_name: addr.recipient_name,
+                    recipient_phone: addr.recipient_phone,
+                    street: addr.street,
+                    city: addr.city,
+                };
+                return acc;
+            }, {});
+
             const payload = {
-                // 1. Info User
-                user_id: formData.user_id,
                 first_name: formData.first_name,
                 last_name: formData.last_name,
-                phone: formData.phone,
-                role_id: Number(formData.role_id),
-                gender: formData.gender === '1',
+                phone: formData.phone || null,
 
-                // 2. Danh sách địa chỉ cũ (Gửi cả mảng để backend update)
-                addresses: addressList,
+                // backend putCRUD đang update các trường này
+                addresses: addressesObj,
 
-                // 3. Địa chỉ mới (Backend chỉ tạo khi new_street có dữ liệu)
+                // nếu muốn chọn default thì gửi selected_default_id (chưa có UI thì để null)
+                // selected_default_id: ...
+
                 new_street: newAddress.street,
                 new_city: newAddress.city,
             };
 
-            let res: any = await updateUser(formData.user_id,payload);
+            // ✅ updateUser(userId, payload)
+            let res: any = await updateUser(userId as string, payload);
 
             if (res?.success) {
                 alert('Cập nhật thành công!');
-                window.location.reload(); // Refresh để thấy dữ liệu mới
+                router.push('/admin/users');
             } else {
-                alert(res.message);
+                alert(res?.message || 'Có lỗi xảy ra');
             }
         } catch (e) {
             console.error(e);
@@ -144,10 +153,6 @@ export default function EditUserPage() {
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Cập nhật thông tin người dùng</h2>
-                <nav className={styles.breadcrumb}>
-                    <Link href="/admin/dashboard">Dashboard</Link> /<Link href="/admin/users">Quản lý người dùng</Link>{' '}
-                    /<span>Cập nhật</span>
-                </nav>
             </div>
 
             <div className={styles.card}>
@@ -265,7 +270,7 @@ export default function EditUserPage() {
                                 <input
                                     type="text"
                                     name="city"
-                                    placeholder="Hà Nội..."
+                                    placeholder="Hồ Chí Minh..."
                                     value={newAddress.city}
                                     onChange={handleNewAddressChange}
                                 />

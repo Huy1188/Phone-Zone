@@ -1,29 +1,29 @@
-import db from "../models/index";
-import bcrypt from "bcrypt";
+import db from '../models/index';
+import bcrypt from 'bcrypt';
 
 // REGISTER
 let handleRegister = async (req, res) => {
-  try {
-    const { email, password, username } = req.body;
+    try {
+        const { email, password, username } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Thiếu email hoặc mật khẩu" });
-    }
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Thiếu email hoặc mật khẩu' });
+        }
 
-    let userExist = await db.User.findOne({ where: { email } });
-    if (userExist) {
-      return res.status(400).json({ message: "Email đã tồn tại" });
-    }
+        let userExist = await db.User.findOne({ where: { email } });
+        if (userExist) {
+            return res.status(400).json({ message: 'Email đã tồn tại' });
+        }
 
-    let hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+        let hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-    let user = await db.User.create({
-      username,
-      email,
-      password: hashPassword,
-      role_id: 2,
-      is_active: true,
-    });
+        let user = await db.User.create({
+            username,
+            email,
+            password: hashPassword,
+            role_id: 2,
+            is_active: true,
+        });
 
     // lưu session (để me dùng user_id)
     req.session.user = {
@@ -76,18 +76,18 @@ const mergeSessionCartToDb = async (userId, sessionCart) => {
 
 // LOGIN
 let handleLogin = async (req, res) => {
-  try {
-    let { email, password } = req.body;
+    try {
+        let { email, password } = req.body;
 
-    let user = await db.User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(400).json({ message: "Email không tồn tại" });
-    }
+        let user = await db.User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(400).json({ message: 'Email không tồn tại' });
+        }
 
-    let checkPass = bcrypt.compareSync(password, user.password);
-    if (!checkPass) {
-      return res.status(400).json({ message: "Mật khẩu không đúng" });
-    }
+        let checkPass = bcrypt.compareSync(password, user.password);
+        if (!checkPass) {
+            return res.status(400).json({ message: 'Mật khẩu không đúng' });
+        }
 
     // giữ cart guest trước
     const guestCart = req.session.cart || [];
@@ -111,9 +111,9 @@ let handleLogin = async (req, res) => {
 
 // LOGOUT
 let handleLogout = (req, res) => {
-  req.session.destroy(() => {
-    return res.json({ success: true });
-  });
+    req.session.destroy(() => {
+        return res.json({ success: true });
+    });
 };
 
 // GET ME: lấy full user từ DB

@@ -1,104 +1,205 @@
 @use 'sass:color';
 
-// --- Variables ---
-$primary-color: #007bff;
-$danger-color: #dc3545;
-$warning-color: #ffc107; // Màu vàng cho sao
-$text-color: #333;
-$border-color: #dee2e6;
-$shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+$primary: #28a745; // xanh giống bảng user
+$bg: #f5f6f8;
+$text: #212529;
+$muted: #8898aa;
+$border: #e9ecef;
+$white: #fff;
 
 .container {
-    padding: 20px;
-    background-color: #f4f6f9;
+    padding: 22px;
+    background: $bg;
     min-height: 100vh;
-    font-family: -apple-system, sans-serif;
 }
 
 .cardBox {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: $shadow;
-    border-top: 4px solid $warning-color; // Màu vàng đặc trưng review
+    background: $white;
+    border-radius: 12px;
+    border: 1px solid $border;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    border-top: 4px solid $primary;
+}
 
-    h2 {
-        font-size: 20px;
-        font-weight: 700;
-        color: $text-color;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        i {
-            color: $warning-color;
-            font-size: 22px;
-        }
+.cardHeader {
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid $border;
+}
+
+.title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: $text;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+        color: $primary;
     }
+}
+
+.spin {
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.tableWrap {
+    padding: 18px 22px 22px;
 }
 
 .table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 14px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid $border;
+    border-radius: 10px;
+    overflow: hidden;
 
-    th,
-    td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid $border-color;
-        vertical-align: middle;
-    }
-
-    th {
-        background-color: #f1f4f8;
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 13px;
-    }
-
-    // Style cho phần hiển thị sao
-    .stars {
-        color: $warning-color;
-        i {
-            margin-right: 2px;
-            font-size: 13px;
-        }
-        .empty {
-            color: #ddd;
-        } // Sao rỗng màu xám
-    }
-
-    .productName {
+    thead th {
+        background: #f8f9fb;
+        color: $text;
         font-weight: 600;
-        color: $primary-color;
-        max-width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 14px;
+        padding: 14px 14px;
+        border-bottom: 1px solid $border;
+        text-align: left;
+        vertical-align: middle;
+
+        &:not(:last-child) {
+            border-right: 1px solid $border;
+        }
     }
 
-    .comment {
-        max-width: 300px;
-        line-height: 1.4;
-        color: #555;
+    tbody td {
+        padding: 14px 14px;
+        font-size: 14px;
+        color: $text;
+        border-bottom: 1px solid $border;
+        vertical-align: middle;
+
+        &:not(:last-child) {
+            border-right: 1px solid $border;
+        }
     }
 
-    .actionBtn {
-        width: 34px;
-        height: 34px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: $danger-color;
+    tbody tr {
+        transition: 0.12s ease;
 
         &:hover {
-            background: color.scale($danger-color, $lightness: -10%);
+            background: #fbfcff;
         }
+
+        &:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+.centerRow {
+    text-align: center;
+    padding: 20px !important;
+    color: $muted;
+    font-style: italic;
+}
+
+.emptyRow {
+    text-align: center;
+    padding: 22px !important;
+    color: $muted;
+    font-style: italic;
+}
+
+.mono {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+.customerName {
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.subText {
+    margin-top: 4px;
+    font-size: 12px;
+    color: $muted;
+}
+
+.productName {
+    font-weight: 700;
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comment {
+    max-width: 420px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: color.scale($text, $lightness: -5%);
+}
+
+.stars {
+    display: inline-flex;
+    gap: 4px;
+    font-size: 14px;
+}
+
+.starFilled {
+    color: #f4b400; // vàng
+}
+
+.starEmpty {
+    color: #e1e5ea;
+}
+
+.actionCol {
+    text-align: center;
+}
+
+.btnDelete {
+    width: 44px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: #dc3545;
+    color: $white;
+    cursor: pointer;
+    transition: 0.15s ease;
+
+    &:hover {
+        background: color.scale(#dc3545, $lightness: -8%);
+        box-shadow: 0 6px 12px rgba(#dc3545, 0.25);
+    }
+}
+
+/* Responsive gọn như bảng user */
+@media (max-width: 1200px) {
+    .comment {
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 992px) {
+    .tableWrap {
+        overflow-x: auto;
+    }
+    .table {
+        min-width: 980px;
     }
 }
