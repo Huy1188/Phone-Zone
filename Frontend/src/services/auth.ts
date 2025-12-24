@@ -5,8 +5,18 @@ export type AuthUser = {
   user_id: number;
   email: string;
   role_id?: number;
-};
 
+  username?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  gender?: boolean | null;
+  phone?: string | null;
+  avatar?: string | null;
+
+  is_active?: boolean | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
 export type AuthResponse = {
   success: boolean;
   message?: string;

@@ -22,7 +22,28 @@ const cx = classNames.bind(styles);
 
 function Navbar() {
     const router = useRouter();
+    const searchWrapRef = useRef<HTMLDivElement>(null);
+
     const { user, logoutUser } = useAuth();
+    const displayName = (() => {
+        if (!user) return '';
+
+        const first = user.first_name?.trim();
+        const last = user.last_name?.trim();
+
+        // Ưu tiên: last_name + first_name
+        if (first && last) {
+            return last;
+        }
+
+        // fallback: username
+        if (user.username) return user.username;
+
+        // fallback cuối: email
+        if (user.email) return user.email.split('@')[0];
+
+        return 'User';
+    })();
 
     const [keyword, setKeyword] = useState('');
     const debouncedKeyword = useDebounce(keyword, 300);
@@ -32,7 +53,7 @@ function Navbar() {
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        const q = searchParams.get('keyword');
+        const q = searchParams.get('q'); // ✅ đổi keyword -> q
         if (q) setKeyword(q);
     }, [searchParams]);
 
@@ -56,6 +77,19 @@ function Navbar() {
         setIsFocused(false);
         inputRef.current?.blur();
     }, [pathname]);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (!searchWrapRef.current) return;
+            if (!searchWrapRef.current.contains(e.target as Node)) {
+                setIsSearchOpen(false);
+                setIsFocused(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <>
@@ -90,60 +124,58 @@ function Navbar() {
 
                                 {/* Search + suggest */}
                                 <li className={cx('navbar-left-item')}>
-                                    <form
-                                        className={cx('nav-search-box')}
-                                        onSubmit={(e) => {
-                                            e.preventDefault();
-                                            if (!keyword.trim()) return;
+                                    <div ref={searchWrapRef}>
+                                        <form
+                                            className={cx('nav-search-box')}
+                                            onSubmit={(e) => {
+                                                e.preventDefault();
+                                                if (!keyword.trim()) return;
 
-                                            setIsSearchOpen(false);
-                                            setIsFocused(false);
-                                            inputRef.current?.blur(); // ✅ quan trọng trên mobile
-                                            router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
-                                        }}
-                                    >
-                                        <button type="submit">
-                                            <i className="fa fa-search icon" />
-                                        </button>
-
-                                        <input
-                                            ref={inputRef}
-                                            type="text"
-                                            placeholder="Bạn cần tìm gì?"
-                                            value={keyword}
-                                            onChange={(e) => setKeyword(e.target.value)}
-                                            onFocus={() => {
-                                                setIsFocused(true);
-                                                setIsSearchOpen(true);
-                                            }}
-                                            onBlur={() => {
-                                                setIsFocused(false);
                                                 setIsSearchOpen(false);
+                                                setIsFocused(false);
+                                                inputRef.current?.blur(); // ✅ quan trọng trên mobile
+                                                router.push(`/search?q=${encodeURIComponent(keyword)}`); // ✅
                                             }}
-                                            className={cx('nav-search-input')}
-                                        />
-
-                                        {keyword && (
-                                            <button
-                                                type="button"
-                                                className={cx('search-btn-close')}
-                                                onMouseDown={(e) => {
-                                                    e.preventDefault();
-                                                    setKeyword('');
-                                                    setIsSearchOpen(false);
-                                                }}
-                                            >
-                                                <i className="fa-solid fa-xmark" />
+                                        >
+                                            <button type="submit">
+                                                <i className="fa fa-search icon" />
                                             </button>
-                                        )}
 
-                                        <SearchSuggest
-                                            open={isSearchOpen && isFocused}
-                                            keyword={debouncedKeyword}
-                                            rawKeyword={keyword}
-                                            onSelect={() => setIsSearchOpen(false)}
-                                        />
-                                    </form>
+                                            <input
+                                                ref={inputRef}
+                                                type="text"
+                                                placeholder="Bạn cần tìm gì?"
+                                                value={keyword}
+                                                onChange={(e) => setKeyword(e.target.value)}
+                                                onFocus={() => {
+                                                    setIsFocused(true);
+                                                    setIsSearchOpen(true);
+                                                }}
+                                                className={cx('nav-search-input')}
+                                            />
+
+                                            {keyword && (
+                                                <button
+                                                    type="button"
+                                                    className={cx('search-btn-close')}
+                                                    onMouseDown={(e) => {
+                                                        e.preventDefault();
+                                                        setKeyword('');
+                                                        setIsSearchOpen(false);
+                                                    }}
+                                                >
+                                                    <i className="fa-solid fa-xmark" />
+                                                </button>
+                                            )}
+
+                                            <SearchSuggest
+                                                open={isSearchOpen && isFocused}
+                                                keyword={debouncedKeyword}
+                                                rawKeyword={keyword}
+                                                onSelect={() => setIsSearchOpen(false)}
+                                            />
+                                        </form>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -201,13 +233,13 @@ function Navbar() {
                                             <span className={cx('nav-right-item__link')}>
                                                 Xin chào
                                                 <br />
-                                                <b>{user.email.split('@')[0]}</b>
+                                                <b>{displayName}</b>
                                             </span>
 
                                             {/* Dropdown giống GearVN */}
                                             <div className={cx('user-dropdown')}>
                                                 <Link href="/account">Tài khoản của tôi</Link>
-                                                <Link href="/orders">Đơn hàng</Link>
+                                                <Link href="/account?tab=orders">Đơn hàng</Link>
                                                 <button
                                                     onClick={async () => {
                                                         await logoutUser();

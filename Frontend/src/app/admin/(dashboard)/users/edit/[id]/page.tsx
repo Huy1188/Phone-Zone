@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { handleGetUserById, handleUpdateUser } from '@/services/admin/userService';
+import { getUserById, updateUser } from '@/services/admin/userService';
 import styles from '@/app/components/Admin/Users/EditUser.module.scss';
 import Link from 'next/link';
 
@@ -51,7 +51,7 @@ export default function EditUserPage() {
 
     const fetchUserDetail = async (id: string | number) => {
         try {
-            let res: any = await handleGetUserById(id);
+            let res: any = await getUserById(id);
             if (res?.success && res.data) {
                 const u = res.data;
                 // Fill thông tin user
@@ -64,7 +64,6 @@ export default function EditUserPage() {
                     gender: u.gender ? '1' : '0',
                     role_id: String(u.role_id),
                 });
-
                 // Fill danh sách địa chỉ (nếu có)
                 if (u.addresses && u.addresses.length > 0) {
                     setAddressList(u.addresses);
@@ -125,7 +124,7 @@ export default function EditUserPage() {
                 new_city: newAddress.city,
             };
 
-            let res: any = await handleUpdateUser(payload);
+            let res: any = await updateUser(formData.user_id,payload);
 
             if (res?.success) {
                 alert('Cập nhật thành công!');

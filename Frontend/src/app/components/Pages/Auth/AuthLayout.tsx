@@ -7,6 +7,7 @@ import styles from './AuthLayout.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { login, register } from '@/services/auth';
 import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,8 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
 
-    const { refresh } = useAuth();
+    const { refreshMe: refreshAuth } = useAuth();
+    const { refresh: refreshCart } = useCart();
 
     const [mode, setMode] = useState<Mode>(defaultMode);
 
@@ -80,10 +82,12 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
         setLoading(true);
         try {
             const res = await login({ email: loginEmail, password: loginPassword });
+
             if (!res?.success) throw new Error(res?.message || 'Đăng nhập thất bại');
-            await refresh();
+            await refreshAuth(); // cập nhật user
+            await refreshCart(); // ✅ cập nhật cart ngay để Navbar đổi liền
             router.push(redirect);
-            router.refresh();
+            // router.refresh();
         } catch (error: any) {
             setErr(error?.message || 'Đăng nhập lỗi');
         } finally {

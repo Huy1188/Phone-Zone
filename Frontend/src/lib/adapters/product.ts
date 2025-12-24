@@ -1,57 +1,56 @@
-import type { Product, ProductSpec } from '@/types/product';
-import type { BackendProduct, BackendSpec } from '@/types/backend';
+import type { Product, ProductSpec } from "@/types/product";
+import type { BackendProduct } from "@/types/backend";
 
-const STATIC_BASE = process.env.NEXT_PUBLIC_STATIC_BASE;
+const STATIC_BASE = process.env.NEXT_PUBLIC_STATIC_BASE || "";
 
-function parseSpecs(specifications: string): ProductSpec[] {
-    try {
-        const v = JSON.parse(specifications || '[]');
-        return Array.isArray(v) ? v : [];
-    } catch {
-        return [];
-    }
+function parseSpecs(specifications: any): ProductSpec[] {
+  if (Array.isArray(specifications)) return specifications as ProductSpec[];
+  if (specifications && typeof specifications === "object") return [];
+  try {
+    const v = JSON.parse(String(specifications || "[]"));
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+
+function toFullUrl(path?: string | null) {
+  if (!path) return "";
+  return path.startsWith("http") ? path : `${STATIC_BASE}${path}`;
 }
 
 function resolveImages(p: BackendProduct): string[] {
-    if (p.image) {
-        return [p.image.startsWith('http') ? p.image : `${STATIC_BASE}${p.image}`];
-    }
+  // ✅ 1) gallery images (thumbnail first)
+  const gallery =
+    p.images?.slice().sort((a, b) => Number(b.is_thumbnail) - Number(a.is_thumbnail))
+      .map((i) => toFullUrl(i.image_url))
+      .filter(Boolean) ?? [];
 
-    // 2. Fallback: variants (detail page)
-    if (p.variants?.length) {
-        return p.variants
-            .map((v) => v.image)
-            .filter(Boolean)
-            .map((img) => (img.startsWith('http') ? img : `${STATIC_BASE}${img}`));
-    }
+  if (gallery.length) return gallery;
 
-    return [];
+  // ✅ 2) fallback main image
+  const main = toFullUrl(p.image);
+  if (main) return [main];
+
+  // ✅ 3) fallback variants
+  const vimgs =
+    p.variants?.map((v) => toFullUrl(v.image)).filter(Boolean) ?? [];
+
+  return vimgs;
 }
 
 export function mapBackendProductToProduct(p: BackendProduct): Product {
   const firstVariant = p.variants?.[0];
 
-  // giá hiện tại
   const price = Number(firstVariant?.price ?? p.min_price ?? 0);
 
-  // ✅ discount % từ BE (fallback 0)
   const discountRate = Number(p.discount ?? 0);
-
-  // ✅ suy ra giá gốc để gạch: original = price / (1 - discount%)
-  // chỉ tính khi discount hợp lệ
   const originalPrice =
     discountRate > 0 && discountRate < 100
       ? Math.round(price / (1 - discountRate / 100))
       : undefined;
 
-  const brandSlug = p.brand?.slug;
-  const rawLogo = p.brand?.logo_url ?? null;
-
-  const brandLogo = rawLogo
-    ? rawLogo.startsWith('http')
-      ? rawLogo
-      : `${STATIC_BASE}${rawLogo}`
-    : undefined;
+  const brandLogo = p.brand?.logo_url ? toFullUrl(p.brand.logo_url) : null;
 
   return {
     id: String(p.product_id),
@@ -60,35 +59,29 @@ export function mapBackendProductToProduct(p: BackendProduct): Product {
     name: p.name,
 
     price,
-    originalPrice,     // ✅ FIX
-    discountRate,      // ✅ FIX
+    originalPrice,
+    discountRate,
 
     rating: 0,
     reviewCount: 0,
     images: resolveImages(p),
 
     brand: p.brand?.name,
-    brandSlug,
+    brandSlug: p.brand?.slug,
     brandLogo,
 
-    variants: (p.variants ?? []).map((v) => {
-      const raw = v.image || '';
-      const full = !raw ? '/placeholder.png' : raw.startsWith('http') ? raw : `${STATIC_BASE}${raw}`;
-
-      return {
-        variant_id: v.variant_id,
-        price: Number(v.price),
-        image: full,
-      };
-    }),
+    variants: (p.variants ?? []).map((v) => ({
+      variant_id: v.variant_id,
+      price: Number(v.price),
+      image: toFullUrl(v.image) || "/placeholder.png",
+    })),
 
     usage: p.category?.name,
-    badge: p.is_hot ? 'Hot' : undefined,
+    badge: p.is_hot ? "Hot" : undefined,
     specs: parseSpecs(p.specifications),
-    promotions: p.promotion,
-    warranty: '12 Tháng',
-    status: 'available',
-    description: p.description,
+    promotions: p.promotion ?? null,
+    warranty: "12 Tháng",
+    status: p.is_active ? "available" : "out_of_stock",
+    description: p.description ?? "",
   };
 }
-

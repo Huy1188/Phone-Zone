@@ -9,36 +9,46 @@ export type BackendVariant = {
     image: string;
 };
 
+export type BackendProductImage = {
+  image_url: string;
+  is_thumbnail?: boolean;
+};
+
+
 export type BackendProduct = {
-    product_id: number;
+  product_id: number;
+  name: string;
+  slug: string;
+  description: string;
+  specifications: string;
+  min_price: string | number;
+  discount?: number | string;
+  promotion?: string | null;
+
+  image: string | null;
+
+  images?: BackendProductImage[]; // ✅ THÊM
+
+  category?: {
+    category_id: number;
     name: string;
     slug: string;
-    // image: string | null;
-    description: string;
-    specifications: string;
-    min_price: string | number; // ✅ cho chắc
-    discount?: number | string;
-    promotion?: string | null;
+    image: string;
+  };
 
-    image: string | null;
+  brand?: {
+    brand_id?: number;        // ✅ đổi id -> brand_id (optional)
+    name: string;
+    slug: string;
+    logo_url?: string | null;
+    origin?: string | null;
+  };
 
-    category?: {
-        category_id: number; // ✅
-        name: string;
-        slug: string;
-        image: string;
-    };
-
-    brand?: {
-        id: number;
-        name: string;
-        slug: string;
-        logo_url?: string | null;
-        origin?: string | null;
-    };
-
-    variants?: BackendVariant[];
+  variants?: BackendVariant[];
+  is_hot?: boolean;           // ✅ nếu BE có
+  is_active?: boolean;        // ✅ nếu BE có
 };
+
 
 export type BackendSpec = { label: string; value: string };
 

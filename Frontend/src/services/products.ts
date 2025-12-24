@@ -9,14 +9,52 @@ export type FetchProductsParams = {
   page?: number;
   limit?: number;
   sort?: string;
-  q?: string; // nếu backend hỗ trợ search
+  q?: string;
+  category_slug?: string;
+
+  // multi: brand_slug=apple&brand_slug=samsung
+  brand_slug?: string | string[];
+
+  // price
+  price_range?: string | string[]; // duoi-15 | 15-20 | tren-20
+  price_min?: number;
+  price_max?: number;
+
+  // JSON string: { [title]: string[] }
+  specs?: string;
+
+  // include facets for filters UI
+  facets?: 0 | 1;
 };
+
+export type ProductsMeta = { total: number; page: number; limit: number };
+
+export async function fetchProductsPaged(params?: FetchProductsParams): Promise<{
+  products: Product[];
+  meta: ProductsMeta;
+  facets?: ProductsResponse["facets"];
+}> {
+  const path = withQuery("/products", params);
+  const res = await api<ProductsResponse>(path, { cache: "no-store" });
+
+  const products = Array.isArray(res.products) ? res.products : [];
+  return {
+    products: products.map(mapBackendProductToProduct),
+    meta:
+      res.meta ??
+      ({
+        total: products.length,
+        page: params?.page ?? 1,
+        limit: params?.limit ?? products.length,
+      } as ProductsMeta),
+    facets: res.facets,
+  };
+}
 
 export async function fetchProducts(params?: FetchProductsParams): Promise<Product[]> {
   const path = withQuery("/products", params);
   const res = await api<ProductsResponse>(path, { cache: "no-store" });
 
-  // Guard để tránh crash nếu backend trả thiếu products
   const products = Array.isArray(res.products) ? res.products : [];
   return products.map(mapBackendProductToProduct);
 }
@@ -25,8 +63,6 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
   if (!slug) return null;
 
   const res = await api<ProductResponse>(`/products/slug/${slug}`, { cache: "no-store" });
-
-  // Nếu API trả thiếu product → trả null thay vì map gây crash
   if (!res?.product) return null;
 
   return mapBackendProductToProduct(res.product);

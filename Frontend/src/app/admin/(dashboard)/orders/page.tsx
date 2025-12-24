@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllOrders } from '@/services/admin/orderService';
 // Import file style SCSS module
-import styles from '@/app/components/Admin/Orders/OrderManage.module.css';
+import styles from '@/app/components/Admin/Orders/OrderManage.module.scss';
 import Link from 'next/link';
 
 export default function OrdersPage() {
