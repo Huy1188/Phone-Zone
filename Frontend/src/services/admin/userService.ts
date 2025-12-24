@@ -8,7 +8,6 @@ export const getUserById = (userId: number | string) =>
 export const createNewUser = (payload: any) =>
   axiosClient.post("/admin/users", payload);
 
-
 export const updateUser = (userId: number | string, payload: any) =>
   axiosClient.patch(`/admin/users/${userId}`, payload);
 

@@ -1,16 +1,55 @@
 "use client";
 
-import classNames from "classnames/bind";
-
+import { useEffect, useState } from "react";
 import HotSection from "@/app/components/Common/Section/HotSection";
 import ProductCard from "../../Home/ProductCard";
-import { Phone_BEST_SELLER } from "@/app/components/Pages/Home/home.data";
+import { fetchProductsPaged } from "@/services/products";
+import type { Product } from "@/types/product";
 
-// const cx = classNames.bind(styles);
+export default function HotProduct({
+  categorySlug,
+  limit = 10,
+}: {
+  categorySlug: string;
+  limit?: number;
+}) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const slug = (categorySlug || "").trim();
+    if (!slug) {
+      setProducts([]);
+      return;
+    }
 
-export default function HotProduct() {
-  const products = Phone_BEST_SELLER;
+    let cancelled = false;
+    setLoading(true);
+
+    (async () => {
+      const { products } = await fetchProductsPaged({
+        category_slug: slug,
+        sort: "hot",     // ✅ sort toàn DB theo is_hot
+        page: 1,
+        limit,
+      });
+
+      if (!cancelled) setProducts(products);
+    })()
+      .catch(() => {
+        if (!cancelled) setProducts([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [categorySlug, limit]);
+
+  // không có data thì ẩn section (hoặc bạn muốn show skeleton thì nói mình)
+  if (!loading && products.length === 0) return null;
 
   return (
     <HotSection
@@ -19,9 +58,11 @@ export default function HotProduct() {
       scrollable
       itemsPerView={5}
     >
-      {products.map((product) => (
-        <ProductCard key={product.slug} product={product} />
-      ))}
+      {loading
+        ? Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} style={{ height: 260 }} /> // ✅ placeholder đơn giản
+          ))
+        : products.map((product) => <ProductCard key={product.slug} product={product} />)}
     </HotSection>
   );
 }

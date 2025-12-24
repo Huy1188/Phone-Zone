@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./Sortbar.module.scss";
 
 const cx = classNames.bind(styles);
 
+// UI options giữ nguyên
 const sortOptions = [
   { label: "Phổ biến", value: "popular", icon: "fa-regular fa-star" },
   { label: "Khuyến mãi HOT", value: "hot-discount", icon: "fa-solid fa-fire" },
@@ -15,55 +15,46 @@ const sortOptions = [
 
 export type SortValue = (typeof sortOptions)[number]["value"];
 
-// ✅ Lấy giá hiện tại (tuỳ data bạn có field nào)
-function getCurrentPrice(p: any) {
-  return Number(p?.salePrice ?? p?.finalPrice ?? p?.price ?? p?.regularPrice ?? 0) || 0;
+// ✅ map UI sort -> BE sort
+export function mapUiSortToBackend(sort: SortValue): string {
+  switch (sort) {
+    case "price-asc":
+      return "price_asc";
+    case "price-desc":
+      return "price_desc";
+    case "hot-discount":
+      return "discount_desc";
+    case "popular":
+    default:
+      // nếu bạn muốn "Phổ biến" = newest thì để newest
+      // hoặc nếu có logic popularity thật thì đổi sau
+      return "newest";
+  }
 }
 
-// ✅ Lấy giá gốc
-function getOriginalPrice(p: any) {
-  return Number(p?.originalPrice ?? p?.oldPrice ?? p?.regularPrice ?? 0) || 0;
-}
-
-// ✅ % giảm giá
-function getDiscountPercent(p: any) {
-  const cur = getCurrentPrice(p);
-  const ori = getOriginalPrice(p);
-  if (!ori || ori <= cur) return 0;
-  return (ori - cur) / ori;
+// ✅ map BE sort -> UI sort (để active đúng khi load từ URL)
+export function mapBackendSortToUi(sort: string): SortValue {
+  switch (sort) {
+    case "price_asc":
+      return "price-asc";
+    case "price_desc":
+      return "price-desc";
+    case "discount_desc":
+      return "hot-discount";
+    case "newest":
+    default:
+      return "popular";
+  }
 }
 
 export default function Sortbar({
-  items,
-  onSorted,
-  defaultSort = "popular",
+  value,
+  onChange,
 }: {
-  items: any[];
-  onSorted: (sorted: any[]) => void;
-  defaultSort?: SortValue;
+  value: string; // sortKey đang dùng ở SearchPage (BE sort)
+  onChange: (sort: string) => void; // trả ra BE sort
 }) {
-  const [sortBy, setSortBy] = useState<SortValue>(defaultSort);
-
-  const sorted = useMemo(() => {
-    const arr = [...items];
-
-    switch (sortBy) {
-      case "price-asc":
-        return arr.sort((a, b) => getCurrentPrice(a) - getCurrentPrice(b));
-      case "price-desc":
-        return arr.sort((a, b) => getCurrentPrice(b) - getCurrentPrice(a));
-      case "hot-discount":
-        return arr.sort((a, b) => getDiscountPercent(b) - getDiscountPercent(a));
-      case "popular":
-      default:
-        return arr; // giữ nguyên thứ tự data
-    }
-  }, [items, sortBy]);
-
-  // đẩy kết quả sort ra ngoài để SearchPage paginate
-  useEffect(() => {
-    onSorted(sorted);
-  }, [sorted, onSorted]);
+  const activeUi = mapBackendSortToUi(value);
 
   return (
     <div className={cx("sort")}>
@@ -74,8 +65,8 @@ export default function Sortbar({
           <button
             key={opt.value}
             type="button"
-            className={cx("item", { "item-active": opt.value === sortBy })}
-            onClick={() => setSortBy(opt.value)}
+            className={cx("item", { "item-active": opt.value === activeUi })}
+            onClick={() => onChange(mapUiSortToBackend(opt.value))}
           >
             <i className={opt.icon} />
             {opt.label}

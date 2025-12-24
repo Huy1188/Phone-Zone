@@ -1,24 +1,27 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { me, logout } from "@/services/auth";
-import { User } from "@/types/user";
+import { me, logout, type AuthUser } from "@/services/auth";
 
-const AuthContext = createContext<{
-  user: User | null;
-  refresh: () => Promise<void>;
+type AuthContextValue = {
+  user: AuthUser | null;
+  hydrated: boolean;
+  refreshMe: () => Promise<void>;
   logoutUser: () => Promise<void>;
-} | null>(null);
+};
+
+const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [hydrated, setHydrated] = useState(false);
 
-  const refresh = async () => {
+  const refreshMe = async () => {
     try {
       const res = await me();
-      setUser(res?.user ?? null);
-    } catch {
-      setUser(null);
+      setUser(res.user ?? null);
+    } finally {
+      setHydrated(true);
     }
   };
 
@@ -28,11 +31,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    refresh();
+    refreshMe().catch(() => setHydrated(true));
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, refresh, logoutUser }}>
+    <AuthContext.Provider value={{ user, hydrated, refreshMe, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

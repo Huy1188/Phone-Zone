@@ -1,9 +1,6 @@
 import SearchPage from "../components/Pages/Search";
 
-type SearchParams = {
-  keyword?: string | string[];
-  page?: string | string[];
-};
+type SearchParams = { q?: string | string[]; page?: string | string[]; sort?: string | string[] };
 
 export default async function SearchRoutePage({
   searchParams,
@@ -12,10 +9,11 @@ export default async function SearchRoutePage({
 }) {
   const sp = await searchParams;
 
-  const keyword = typeof sp?.keyword === "string" ? sp.keyword : "";
-
+  const q = typeof sp?.q === "string" ? sp.q : "";
+  
+  const sort = typeof sp?.sort === "string" ? sp.sort : "newest";
   const pageRaw = typeof sp?.page === "string" ? Number(sp.page) : 1;
   const page = Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1;
 
-  return <SearchPage keyword={keyword} page={page} />;
+  return <SearchPage keyword={q} page={page} sort={sort}/>;
 }

@@ -64,7 +64,6 @@ export default function EditUserPage() {
                     gender: u.gender ? '1' : '0',
                     role_id: String(u.role_id),
                 });
-
                 // Fill danh sách địa chỉ (nếu có)
                 if (u.addresses && u.addresses.length > 0) {
                     setAddressList(u.addresses);

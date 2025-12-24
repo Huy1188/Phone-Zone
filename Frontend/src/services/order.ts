@@ -9,3 +9,10 @@ export async function createOrder(payload: CreateOrderPayload) {
     body: payload as any,
   });
 }
+
+export async function getMyOrders() {
+  return api<{ success: boolean; orders: any[] }>("/orders/me", {
+    method: "GET",
+    cache: "no-store",
+  });
+}

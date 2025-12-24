@@ -1,19 +1,58 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CheckoutForm.module.scss';
 import type { PaymentMethod, ShippingAddress } from '@/types/order';
 import { useCart } from '@/hooks/useCart';
 import { useRouter } from 'next/navigation';
 import { createOrder } from '@/services/order';
+import { getDefaultAddress } from '@/services/address';
+import { useAuth } from '@/hooks/useAuth';
+import AddressPickerModal from '../AddressPickerModal';
+import type { Address } from '@/services/address';
 
 const cx = classNames.bind(styles);
 
 export default function CheckoutForm() {
     const router = useRouter();
+    const { user, hydrated } = useAuth();
+    const [addrModalOpen, setAddrModalOpen] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
-    const { items, totalPrice, clearCart } = useCart();
+    useEffect(() => {
+        if (!hydrated) return;
+        if (!user) return;
+
+        (async () => {
+            try {
+                const res = await getDefaultAddress();
+                const a = res.address;
+                if (!a) return;
+
+                // ✅ chỉ gợi ý address mặc định (preview), không fill cứng input
+                setSelectedAddress(a);
+            } catch {}
+        })();
+    }, [hydrated, user]);
+
+    const onSelectAddress = (a: Address) => {
+        setSelectedAddress(a);
+
+        // ✅ fill vào form checkout
+        setShipping((prev: any) => ({
+            ...prev,
+            fullName: a.recipient_name || prev.fullName,
+            phone: a.recipient_phone || prev.phone,
+            address: a.street || prev.address,
+            city: a.city || prev.city,
+            email: user?.email || prev.email,
+        }));
+
+        setAddrModalOpen(false);
+    };
+
+    const { items, totalMoney, refresh } = useCart();
 
     const [shipping, setShipping] = useState<ShippingAddress>({
         fullName: '',
@@ -28,14 +67,19 @@ export default function CheckoutForm() {
     const [submitting, setSubmitting] = useState(false);
 
     // demo: phí ship cố định, sau có thể tính theo địa chỉ
-    const shippingFee = useMemo(() => (totalPrice > 5000000 ? 0 : 30000), [totalPrice]);
-    const total = useMemo(() => totalPrice + shippingFee, [totalPrice, shippingFee]);
+    const shippingFee = useMemo(() => (totalMoney > 5000000 ? 0 : 30000), [totalMoney]);
+    const total = useMemo(() => totalMoney + shippingFee, [totalMoney, shippingFee]);
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!shipping.fullName || !shipping.phone || !shipping.address || !shipping.city) {
             alert('Vui lòng nhập đầy đủ Họ tên / SĐT / Địa chỉ / Tỉnh - TP.');
+            return;
+        }
+
+        if (user && !selectedAddress) {
+            alert('Vui lòng chọn địa chỉ giao hàng.');
             return;
         }
 
@@ -54,9 +98,7 @@ export default function CheckoutForm() {
                 throw new Error('Đặt hàng thất bại');
             }
 
-            // ✅ BE đã clear session.cart rồi, nhưng FE vẫn đang giữ state -> refresh lại
-            await clearCart(); // hoặc gọi refresh() nếu hook bạn có refresh()
-
+            await refresh(); // ✅ quan trọng: đồng bộ lại badge navbar
             router.push(`/order-success?order_id=${res.order_id}`);
         } catch (err: any) {
             alert(err?.message || 'Lỗi đặt hàng');
@@ -68,6 +110,30 @@ export default function CheckoutForm() {
     return (
         <form className={cx('form')} onSubmit={onSubmit}>
             <h2>Thông tin nhận hàng</h2>
+            {user && (
+                <div className={cx('addrTop')}>
+                    <div className={cx('addrPreview')}>
+                        <div className={cx('addrPreviewTitle')}>Địa chỉ giao hàng</div>
+
+                        {selectedAddress ? (
+                            <div className={cx('addrPreviewText')}>
+                                <b>{selectedAddress.recipient_name}</b> — {selectedAddress.recipient_phone}
+                                <br />
+                                {selectedAddress.street}, {selectedAddress.city}
+                                {selectedAddress.is_default ? (
+                                    <span className={cx('addrDefaultTag')}>Mặc định</span>
+                                ) : null}
+                            </div>
+                        ) : (
+                            <div className={cx('addrPreviewText')}>Bạn chưa chọn địa chỉ.</div>
+                        )}
+                    </div>
+
+                    <button type="button" className={cx('btnPickAddr')} onClick={() => setAddrModalOpen(true)}>
+                        Chọn địa chỉ
+                    </button>
+                </div>
+            )}
 
             <div className={cx('grid')}>
                 <div className={cx('field')}>
@@ -104,6 +170,8 @@ export default function CheckoutForm() {
                         onChange={(e) => setShipping((p) => ({ ...p, address: e.target.value }))}
                         placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành"
                     />
+                </div>
+                <div className={cx('field', 'full')}>
                     <label>Tỉnh/Thành phố *</label>
                     <input
                         value={shipping.city}
@@ -111,7 +179,6 @@ export default function CheckoutForm() {
                         placeholder="TP.HCM / Hà Nội..."
                     />
                 </div>
-
                 <div className={cx('field', 'full')}>
                     <label>Ghi chú</label>
                     <textarea
@@ -156,13 +223,20 @@ export default function CheckoutForm() {
                 </label>
             </div>
 
-            <button className={cx('submit')} type="submit" disabled={submitting}>
+            <button className={cx('submit')} type="submit" disabled={submitting || items.length === 0}>
                 {submitting ? 'Đang xử lý...' : 'Đặt hàng'}
             </button>
 
             <p className={cx('hint')}>
                 (Demo) Tổng tiền = {total.toLocaleString('vi-VN')} đ, phí ship = {shippingFee.toLocaleString('vi-VN')} đ
             </p>
+
+            <AddressPickerModal
+                open={addrModalOpen}
+                onClose={() => setAddrModalOpen(false)}
+                onSelect={onSelectAddress}
+                selectedId={selectedAddress?.address_id ?? null}
+            />
         </form>
     );
 }
