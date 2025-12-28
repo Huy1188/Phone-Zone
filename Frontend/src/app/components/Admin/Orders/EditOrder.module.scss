@@ -20,7 +20,6 @@ $success: #22c55e;
     border: 1px solid $border;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
     max-width: 980px;
     margin: 0 auto;
 }
@@ -36,7 +35,7 @@ $success: #22c55e;
     h2 {
         margin: 0;
         font-size: 18px;
-        font-weight: 800;
+        font-weight: 600;
         color: $text;
         display: flex;
         align-items: center;
@@ -59,9 +58,31 @@ $success: #22c55e;
     text-decoration: none;
     font-weight: 700;
     background: #fff;
+    font-size: 1.3rem;
 
     &:hover {
         background: #f9fafb;
+    }
+}
+
+.invoiceBtn {
+    white-space: nowrap;
+    margin-top: 12px;
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    background: red;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+
+    &:hover {
+        background: color.scale(red, $lightness: -10%);
+        box-shadow: 0 10px 20px rgba(red, 0.18);
     }
 }
 
@@ -85,9 +106,10 @@ $success: #22c55e;
 }
 
 .boxTitle {
-    font-weight: 800;
+    font-weight: 600;
     color: $text;
     margin-bottom: 10px;
+    font-size: 1.4rem;
 }
 
 .row {
@@ -100,12 +122,14 @@ $success: #22c55e;
     span {
         color: $muted;
         font-weight: 600;
+        font-size: 1.3rem;
     }
 
     b {
         color: $text;
-        font-weight: 800;
+        font-weight: 600;
         text-align: right;
+        font-size: 1.3rem;
     }
 
     &:last-child {
@@ -116,7 +140,7 @@ $success: #22c55e;
 .label {
     display: block;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
     color: $text;
     margin: 8px 0;
 }
@@ -127,7 +151,7 @@ $success: #22c55e;
     border: 1px solid $border;
     border-radius: 12px;
     padding: 0 12px;
-    font-weight: 800;
+    font-weight: 600;
     outline: none;
     background: #fff;
 
@@ -145,7 +169,7 @@ $success: #22c55e;
     border-radius: 12px;
     background: $primary;
     color: #fff;
-    font-weight: 800;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -159,7 +183,8 @@ $success: #22c55e;
 }
 
 .tableWrapper {
-    overflow: auto;
+    overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
     border-top: 1px solid $border;
     background: #fff;
 }
@@ -167,12 +192,12 @@ $success: #22c55e;
 .table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 920px;
+    min-width: 880px;
 
     thead th {
         text-align: left;
         font-size: 13px;
-        font-weight: 800;
+        font-weight: 600;
         color: $text;
         background: #f9fafb;
         padding: 12px 14px;
@@ -196,6 +221,8 @@ $success: #22c55e;
         padding: 14px;
         background: #fcfcfc;
         border-top: 1px solid $border;
+        font-size: 1.5rem;
+        
     }
 }
 
@@ -217,12 +244,12 @@ $success: #22c55e;
     align-items: center;
     justify-content: center;
     color: $muted;
-    font-weight: 800;
+    font-weight: 600;
     background: #fff;
 }
 
 .pname {
-    font-weight: 800;
+    font-weight: 600;
     color: $text;
 }
 

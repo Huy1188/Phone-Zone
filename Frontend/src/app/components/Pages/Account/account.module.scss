@@ -133,6 +133,8 @@
 .label {
   color: #777;
   font-size: 13px;
+  display: flex;
+  align-items: center;
 }
 
 .value {
@@ -140,8 +142,12 @@
   font-size: 1.4rem;
 }
 
+.notText {
+  font-size: 1.3rem;
+}
+
 .hint {
-  margin-top: 10px;
+  margin: 10px 0;
   color: #777;
   font-size: 13px;
 

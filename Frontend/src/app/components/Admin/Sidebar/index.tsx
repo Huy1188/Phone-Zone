@@ -3,24 +3,25 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './AdminSidebar.module.scss';
 
-const AdminSidebar = ({ user }: { user: any }) => {
+const AdminSidebar = ({ user, open, onClose }: { user: any; open?: boolean; onClose?: () => void }) => {
     const pathname = usePathname();
 
     // Hàm helper để check active link
     const isActive = (path: string) => pathname.startsWith(path);
 
     return (
-        <aside className={styles.mainSidebar}>
+        <aside className={`${styles.mainSidebar} ${open ? styles.open : ''}`}>
+            <div className={styles.mobileTop}>
+                <button className={styles.closeBtn} onClick={onClose}>
+                    ✕
+                </button>
+            </div>
             {/* BRAND LOGO */}
             <div className={styles.brandLink}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <i className={`fas fa-store ${styles.logoIcon}`}></i>
                     <span>Phone Zone</span>
                 </div>
-                {/* Nút toggle để tạm ở đây, xử lý logic thu nhỏ sau */}
-                <button className={styles.btnToggle}>
-                    <i className="fas fa-bars"></i>
-                </button>
             </div>
 
             {/* USER PANEL */}

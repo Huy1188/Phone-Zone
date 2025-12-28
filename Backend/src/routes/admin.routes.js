@@ -192,17 +192,26 @@ router.get(
   adminController.checkLoggedIn,
   adminController.getOrderDetail
 );
+
 router.patch(
-  "/admin/orders/:orderId/status",
+  "/admin/orders/:id/status",
   adminController.checkLoggedIn,
   adminController.updateOrderStatus
 );
+
 
 router.delete(
   "/admin/orders/:orderId",
   adminController.checkLoggedIn,
   adminController.handleDeleteOrder
 );
+
+router.get(
+  "/admin/orders/:id/invoice",
+  adminController.checkLoggedIn,
+  adminController.exportOrderInvoice
+);
+
 
 
 // Vouchers

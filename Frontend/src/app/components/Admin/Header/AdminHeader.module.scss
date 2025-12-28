@@ -150,3 +150,16 @@
         transform: translateY(0);
     }
 }
+
+.menuBtn {
+  display: none;
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .menuBtn { display: inline-flex; align-items: center; }
+}
+

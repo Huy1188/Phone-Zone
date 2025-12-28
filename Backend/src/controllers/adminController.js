@@ -1,6 +1,7 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
 import slugify from 'slugify';
+import { generateInvoicePdf } from '../utils/invoicePdf';
 
 /**
  * Helpers
@@ -738,18 +739,22 @@ let handleOrderManage = async (req, res) => {
     }
 };
 
-let getOrderDetail = async (req, res) => {
+// adminController.js
+// giả sử bạn đang có helper ok/fail giống project bạn
+// ok(res, data, message) / fail(res, code, message)
+
+const getOrderDetail = async (req, res) => {
     try {
-        const orderId = req.params.orderId;
+        const orderId = Number(req.params.orderId || req.params.id);
         if (!orderId) return fail(res, 400, 'Thiếu order id');
 
+        // 1) Lấy order + user + addresses (giữ logic cũ của bạn nếu khác)
         const order = await db.Order.findOne({
             where: { order_id: orderId },
             include: [
                 {
                     model: db.User,
                     as: 'user',
-                    attributes: ['user_id', 'email', 'first_name', 'last_name', 'phone'],
                     include: [{ model: db.Address, as: 'addresses' }],
                 },
             ],
@@ -758,47 +763,150 @@ let getOrderDetail = async (req, res) => {
         });
 
         if (!order) return fail(res, 404, 'Không tìm thấy đơn hàng');
+
+        // 2) Lấy orderDetails + variant + product
         const orderDetails = await db.OrderDetail.findAll({
             where: { order_id: orderId },
             include: [
                 {
-                    model: db.Product,
-                    as: 'product',
-                    attributes: ['product_id', 'name', 'image'],
+                    model: db.ProductVariant,
+                    as: 'variant', // ✅ đúng alias theo model :contentReference[oaicite:4]{index=4}
+                    attributes: ['variant_id', 'product_id', 'sku', 'color', 'ram', 'rom', 'image', 'price'],
+                    include: [
+                        {
+                            model: db.Product,
+                            as: 'product', // ✅ đúng alias theo model :contentReference[oaicite:5]{index=5}
+                            attributes: ['product_id', 'name', 'image'],
+                        },
+                    ],
                 },
             ],
             raw: false,
             nest: true,
         });
 
+        // 3) Normalize output: luôn có variant_label để FE hiển thị phân loại
+        const normalized = orderDetails.map((d) => {
+            const x = d.toJSON ? d.toJSON() : d;
+            const v = x.variant || null;
+
+            const parts = [];
+            if (v?.color) parts.push(v.color);
+            if (v?.rom) parts.push(v.rom);
+            // nếu bạn muốn thêm RAM vào label
+            // if (v?.ram) parts.push(v.ram);
+
+            const variant_label = parts.join(' - ') || v?.sku || '';
+
+            return {
+                detail_id: x.detail_id,
+                order_id: x.order_id,
+                variant_id: x.variant_id,
+
+                // snapshot từ OrderDetail (giữ đúng DB bạn đang có) :contentReference[oaicite:6]{index=6}
+                product_name: x.product_name,
+                quantity: Number(x.quantity || 0),
+                price: Number(x.price || 0),
+
+                variant: v,
+                variant_label,
+            };
+        });
+
         return ok(
             res,
             {
-                order: order.toJSON(),
-                orderDetails: orderDetails.map((x) => (x.toJSON ? x.toJSON() : x)),
+                order: order.toJSON ? order.toJSON() : order,
+                orderDetails: normalized,
             },
             'Chi tiết đơn hàng',
         );
     } catch (e) {
-        console.log(e);
-        return fail(res, 500, 'Lỗi: ' + e);
+        console.error(e);
+        return fail(res, 500, 'Lỗi hệ thống');
     }
 };
 
-let updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
     try {
-        const order_id = req.params.orderId;
+        const { id } = req.params;
         const { status } = req.body;
 
-        if (!order_id || !status) return fail(res, 400, 'Thiếu orderId hoặc status');
+        const allowStatus = ['pending', 'shipping', 'delivered', 'cancelled'];
+        if (!allowStatus.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Trạng thái đơn hàng không hợp lệ',
+            });
+        }
 
-        await db.Order.update({ status }, { where: { order_id } });
+        const order = await db.Order.findByPk(id);
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy đơn hàng',
+            });
+        }
 
-        const order = await db.Order.findOne({ where: { order_id }, raw: true });
-        return ok(res, { order }, 'Cập nhật trạng thái đơn thành công');
+        order.status = status;
+        await order.save();
+
+        return res.json({
+            success: true,
+            message: 'Cập nhật trạng thái đơn hàng thành công',
+            data: { order_id: order.order_id, status: order.status },
+        });
+    } catch (error) {
+        console.error('updateOrderStatus error:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Lỗi server',
+        });
+    }
+};
+
+const exportOrderInvoice = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+
+        const order = await db.Order.findOne({
+            where: { order_id: orderId },
+            include: [
+                { model: db.User, as: 'user' },
+                {
+                    model: db.OrderDetail,
+                    as: 'details',
+                    // ✅ lấy luôn product_name/price/quantity từ order detail
+                    attributes: ['detail_id', 'product_name', 'price', 'quantity', 'variant_id', 'order_id'],
+                    include: [
+                        {
+                            model: db.ProductVariant,
+                            as: 'variant',
+                            include: [
+                                {
+                                    model: db.Product,
+                                    as: 'product', // ✅ đúng alias bạn đang dùng ở getOrderDetail
+                                    attributes: ['product_id', 'name'],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        });
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Khong tim thay don hang' });
+        }
+
+        return generateInvoicePdf(res, {
+            order,
+            user: order.user,
+            details: order.details || [],
+        });
     } catch (e) {
-        console.log(e);
-        return fail(res, 500, 'Lỗi update: ' + e);
+        console.error(e);
+        return res.status(500).json({ success: false, message: 'Loi xuat hoa don' });
     }
 };
 
@@ -1244,6 +1352,7 @@ export default {
     getOrderDetail,
     updateOrderStatus,
     handleDeleteOrder,
+    exportOrderInvoice,
 
     // voucher
     handleVoucherManage,

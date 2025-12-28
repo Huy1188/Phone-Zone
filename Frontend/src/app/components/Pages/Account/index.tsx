@@ -8,7 +8,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
 import { getMyOrders } from '@/services/order';
-import { updateMe } from '@/services/user';
+import { updateMe, changeMyPassword } from '@/services/user';
 import {
     getMyAddresses,
     createAddress,
@@ -262,7 +262,7 @@ export default function AccountPage() {
 
                         <div className={cx('userInfo')}>
                             <div className={cx('hello')}>Xin chào,</div>
-                            <div className={cx('name')}>{displayName}</div>
+                            <div className={cx('name')}>{user.last_name || ''}</div>
                             <div className={cx('email')}>{user.email}</div>
                         </div>
                     </div>
@@ -313,16 +313,6 @@ export default function AccountPage() {
                                 <div className={cx('row')}>
                                     <div className={cx('label')}>Email</div>
                                     <div className={cx('value')}>{user.email}</div>
-                                </div>
-
-                                <div className={cx('row')}>
-                                    <div className={cx('label')}>Username</div>
-                                    <input
-                                        className={cx('input')}
-                                        value={profile.username}
-                                        onChange={(e) => setProfile((p) => ({ ...p, username: e.target.value }))}
-                                        placeholder="Nhập username"
-                                    />
                                 </div>
 
                                 <div className={cx('row')}>
@@ -396,7 +386,9 @@ export default function AccountPage() {
                             {!loadingOrders && ordersError && <div className={cx('card')}>{ordersError}</div>}
 
                             {!loadingOrders && !ordersError && orders.length === 0 && (
-                                <div className={cx('card')}>Bạn chưa có đơn hàng nào.</div>
+                                <div className={cx('card')}>
+                                    <span className={cx('notText')}>Bạn chưa có đơn hàng nào.</span>
+                                </div>
                             )}
 
                             {!loadingOrders && !ordersError && orders.length > 0 && (
@@ -490,7 +482,9 @@ export default function AccountPage() {
                             {!loadingAddr && addrError && <div className={cx('card')}>{addrError}</div>}
 
                             {!loadingAddr && !addrError && addresses.length === 0 && (
-                                <div className={cx('card')}>Bạn chưa có địa chỉ nào.</div>
+                                <div className={cx('card')}>
+                                    <span className={cx('notText')}>Bạn chưa có địa chỉ nào.</span>
+                                </div>
                             )}
 
                             {!loadingAddr && !addrError && addresses.length > 0 && (
@@ -603,9 +597,50 @@ export default function AccountPage() {
                     {tab === 'password' && (
                         <section>
                             <h2 className={cx('title')}>Đổi mật khẩu</h2>
-                            <div className={cx('card')}>
-                                <p>Chưa có API đổi mật khẩu cho user. Nếu bạn đưa endpoint, mình nối luôn.</p>
-                            </div>
+
+                            <form className={cx('card')} onSubmit={onChangePassword}>
+                                <div className={cx('row')}>
+                                    <div className={cx('label')}>Mật khẩu hiện tại</div>
+                                    <input
+                                        className={cx('input')}
+                                        type="password"
+                                        value={pw.oldPassword}
+                                        onChange={(e) => setPw((p) => ({ ...p, oldPassword: e.target.value }))}
+                                        placeholder="Nhập mật khẩu hiện tại"
+                                        autoComplete="current-password"
+                                    />
+                                </div>
+
+                                <div className={cx('row')}>
+                                    <div className={cx('label')}>Mật khẩu mới</div>
+                                    <input
+                                        className={cx('input')}
+                                        type="password"
+                                        value={pw.newPassword}
+                                        onChange={(e) => setPw((p) => ({ ...p, newPassword: e.target.value }))}
+                                        placeholder="Nhập mật khẩu mới"
+                                        autoComplete="new-password"
+                                    />
+                                </div>
+
+                                <div className={cx('row')}>
+                                    <div className={cx('label')}>Nhập lại mật khẩu mới</div>
+                                    <input
+                                        className={cx('input')}
+                                        type="password"
+                                        value={pw.confirm}
+                                        onChange={(e) => setPw((p) => ({ ...p, confirm: e.target.value }))}
+                                        placeholder="Nhập lại mật khẩu mới"
+                                        autoComplete="new-password"
+                                    />
+                                </div>
+
+                                {pwMsg && <div className={cx('hint')}>{pwMsg}</div>}
+
+                                <button className={cx('btnPrimary')} type="submit" disabled={pwSaving}>
+                                    {pwSaving ? 'Đang đổi...' : 'Đổi mật khẩu'}
+                                </button>
+                            </form>
                         </section>
                     )}
                 </main>

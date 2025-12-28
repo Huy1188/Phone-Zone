@@ -1,16 +1,14 @@
 .mainSidebar {
-    width: 250px;
     background-color: #343a40; // Màu tối chuẩn AdminLTE
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
     position: fixed;
     top: 0;
+    bottom: 0; // quan trọng: tạo khung cao full màn
     left: 0;
-    z-index: 100;
-    transition: width 0.3s;
-    overflow-y: auto; // Cho phép cuộn nếu menu dài
+    width: 250px;
+
+    overflow-y: auto; // cho phép scroll dọc
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; // mượt trên iOS
 
     // 1. Logo Brand
     .brandLink {
@@ -117,5 +115,35 @@
                 }
             }
         }
+    }
+}
+
+.mainSidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileTop {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .mainSidebar {
+        transform: translateX(-100%);
+        z-index: 100;
+    }
+    .open {
+        transform: translateX(0);
+    }
+    .mobileTop {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+    }
+    .closeBtn {
+        border: 0;
+        background: transparent;
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
     }
 }

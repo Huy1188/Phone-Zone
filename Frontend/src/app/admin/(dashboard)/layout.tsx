@@ -1,47 +1,49 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { checkAdminAuth } from '@/services/admin/authService';
 import AdminSidebar from '@/app/components/Admin/Sidebar';
 import AdminHeader from '@/app/components/Admin/Header';
+import styles from './AdminDashboardLayout.module.scss';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<any>(null);
 
+  // NEW
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     const checkLogin = async () => {
       try {
         const res: any = await checkAdminAuth();
-
-        // BE session trả: { success, data: { loggedIn, adminUser } }
-        const loggedIn = !!res?.data?.loggedIn;
-        const adminUser = res?.data?.adminUser ?? null;
-
-        if (res?.success && loggedIn && adminUser) {
-          setIsAuth(true);
-          setUser(adminUser);
-        } else {
+        if (!res?.success) {
           router.push('/admin/login');
+          return;
         }
-      } catch (e) {
+        setUser(res?.data?.user);
+        setIsAuth(true);
+      } catch {
         router.push('/admin/login');
       }
     };
-
     checkLogin();
   }, [router]);
 
   if (!isAuth) return null;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f4f6f9' }}>
-      <AdminSidebar user={user} />
-      <div style={{ flex: 1, marginLeft: '250px', display: 'flex', flexDirection: 'column' }}>
-        <AdminHeader user={user} />
-        <main style={{ padding: '20px', flex: 1 }}>{children}</main>
+    <div className={styles.wrapper}>
+      <AdminSidebar user={user} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className={styles.content}>
+        <AdminHeader user={user} onToggleSidebar={() => setSidebarOpen(v => !v)} />
+        <main className={styles.main}>{children}</main>
       </div>
+
+      {/* overlay mobile */}
+      {sidebarOpen && <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />}
     </div>
   );
 }

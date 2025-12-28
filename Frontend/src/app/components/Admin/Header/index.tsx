@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import ChangePasswordModal from '@/app/components/Admin/Auth/ChangePasswordModal'; // 1. Import Modal
 import styles from './AdminHeader.module.scss';
 
-const AdminHeader = ({ user }: { user: any }) => {
+const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: () => void }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     // 2. State for Change Password Modal
@@ -34,6 +34,9 @@ const AdminHeader = ({ user }: { user: any }) => {
     return (
         <>
             <header className={styles.adminHeader}>
+                <button className={styles.menuBtn} onClick={onToggleSidebar} aria-label="Toggle sidebar">
+                    <i className="fas fa-bars" />
+                </button>
                 {/* LEFT: Web Link */}
                 <div className={styles.headerLeft}>
                     <Link href="/" target="_blank">

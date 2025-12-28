@@ -31,7 +31,8 @@
     width: 60px;
     height: 60px;
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       border-color: #e30019;
     }
 

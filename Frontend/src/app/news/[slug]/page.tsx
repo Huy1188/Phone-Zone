@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import NewsDetail from "@/app/components/Pages/News/NewsDetail";
-import { getNewsBySlug } from "@/app/data/newsData";
+import { getNewsBySlug } from "@/services/news";
 
 export default async function NewsDetailPage({
   params,
@@ -9,8 +9,9 @@ export default async function NewsDetailPage({
 }) {
   const { slug } = await params;
 
-  const item = getNewsBySlug(slug);
-  if (!item) return notFound();
+  if (!slug) return notFound();
 
+  const item = await getNewsBySlug(slug);
   return <NewsDetail item={item} />;
 }
+
