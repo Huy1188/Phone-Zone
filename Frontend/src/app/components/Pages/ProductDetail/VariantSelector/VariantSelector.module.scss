@@ -1,0 +1,55 @@
+.wrap {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+.title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.label {
+  width: 70px;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.opt {
+  padding: 4px 6px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.opt.active {
+  border-color: #111;
+  font-weight: 700;
+}
+
+.hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #444;
+}
+
+.opt:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

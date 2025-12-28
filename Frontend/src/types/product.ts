@@ -7,7 +7,15 @@ export type ProductVariant = {
   variant_id: number;
   price: number;
   image?: string;
+
+  // ✅ thêm option
+  sku?: string;
+  color?: string | null;
+  ram?: string | null;
+  rom?: string | null;      // dùng “rom” thống nhất
+  stock?: number | null;
 };
+
 
 export type ProductImage = {
     image_id: number;

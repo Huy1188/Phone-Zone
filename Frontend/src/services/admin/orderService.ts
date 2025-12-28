@@ -1,4 +1,5 @@
 import axiosClient from '@/lib/axiosClient';
+import { axiosDownload } from "@/lib/axiosDownload";
 
 export const getAllOrders = (params?: { page?: number; limit?: number }) => {
     const q = new URLSearchParams();
@@ -10,12 +11,21 @@ export const getAllOrders = (params?: { page?: number; limit?: number }) => {
 
 export const getOrderById = (orderId: number | string) => axiosClient.get(`/admin/orders/${orderId}`);
 
-export const updateOrderStatus = (orderId: number | string, status: string) =>
-    axiosClient.patch(`/admin/orders/${orderId}/status`, { status });
+export const updateOrderStatus = (id: number, status: string) => {
+  // axiosClient interceptor đã return data rồi => không .data nữa
+  return axiosClient.patch(`/admin/orders/${id}/status`, { status });
+};
+
 export const deleteOrder = (orderId: number) => {
     return axiosClient.delete(`/admin/orders/${orderId}`);
 };
 
 export const getInvoiceData = (orderId: number) => {
     return axiosClient.get(`/admin/orders/${orderId}/invoice`);
+};
+
+export const downloadInvoice = (id: number) => {
+  return axiosClient.get(`/admin/orders/${id}/invoice`, {
+    responseType: "blob",
+  } as any);
 };

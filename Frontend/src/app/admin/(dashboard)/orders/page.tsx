@@ -116,7 +116,9 @@ export default function OrdersPage() {
                                             </div>
                                         </td>
 
-                                        <td className={styles.money}>{formatMoney(o.total_price)} ₫</td>
+                                        <td className={styles.money}>
+                                            {formatMoney(o.total_money ?? o.total_price)} ₫
+                                        </td>
 
                                         <td>
                                             <span

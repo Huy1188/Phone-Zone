@@ -16,3 +16,15 @@ export async function updateMe(payload: UpdateMePayload) {
     body: payload as any,
   });
 }
+
+export type ChangePasswordPayload = {
+  oldPassword: string;
+  newPassword: string;
+};
+
+export async function changeMyPassword(payload: ChangePasswordPayload) {
+  return api<{ success: boolean; message: string }>("/users/me/password", {
+    method: "PATCH",
+    body: payload as any,
+  });
+}

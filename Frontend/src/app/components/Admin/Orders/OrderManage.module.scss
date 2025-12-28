@@ -23,7 +23,6 @@ $info: #0ea5e9;
     border: 1px solid $border;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
 }
 
 .cardHeader {
@@ -67,14 +66,14 @@ $info: #0ea5e9;
 }
 
 .tableWrapper {
-    overflow: auto;
-    background: #fff;
+    overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 980px;
+    min-width: 880px;
 
     thead th {
         text-align: left;
@@ -109,11 +108,13 @@ $info: #0ea5e9;
 .customerName {
     font-weight: 700;
     color: $text;
+    font-size: 1.4rem;
 }
 
 .customerEmail {
-    font-size: 12px;
+    font-size: 1.4rem;
     color: $muted;
+    font-weight: 500;
 }
 
 .money {
@@ -179,7 +180,7 @@ $info: #0ea5e9;
     background: rgba($primary, 0.12);
     border-color: rgba($primary, 0.25);
 }
-.st_completed {
+.st_delivered {
     color: $success;
     background: rgba($success, 0.12);
     border-color: rgba($success, 0.25);

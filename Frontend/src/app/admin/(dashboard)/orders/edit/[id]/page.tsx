@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from '@/app/components/Admin/Orders/EditOrder.module.scss';
-import { getOrderById, updateOrderStatus } from '@/services/admin/orderService';
+import { getOrderById, updateOrderStatus, downloadInvoice } from '@/services/admin/orderService';
 
 export default function OrderDetailPage() {
     const router = useRouter();
@@ -82,15 +82,18 @@ export default function OrderDetailPage() {
     const handleUpdateStatus = async () => {
         try {
             const res: any = await updateOrderStatus(id, status);
+
             if (res?.success) {
                 alert(res?.message || 'Cập nhật trạng thái thành công!');
-                fetchDetail();
-            } else {
-                alert(res?.message || 'Cập nhật thất bại');
+                await fetchDetail(); // luôn đồng bộ lại order + details
+                router.push('/admin/orders');
+                return;
             }
-        } catch (e) {
+
+            alert(res?.message || 'Cập nhật thất bại');
+        } catch (e: any) {
             console.error(e);
-            alert('Lỗi hệ thống');
+            alert(e?.response?.data?.message || 'Lỗi khi cập nhật trạng thái');
         }
     };
 
@@ -138,7 +141,7 @@ export default function OrderDetailPage() {
                         <select className={styles.select} value={status} onChange={(e) => setStatus(e.target.value)}>
                             <option value="pending">⏳ Chờ xác nhận</option>
                             <option value="shipping">🚚 Đang giao hàng</option>
-                            <option value="succeeded">✅ Thành công</option>
+                            <option value="delivered">✅ Thành công</option>
                             <option value="cancelled">❌ Đã hủy</option>
                         </select>
 
@@ -163,33 +166,48 @@ export default function OrderDetailPage() {
 
                         <tbody>
                             {details.length > 0 ? (
-                                details.map((item: any, idx: number) => (
-                                    <tr key={idx}>
-                                        <td>
-                                            {item.product?.image ? (
-                                                // eslint-disable-next-line @next/next/no-img-element
-                                                <img
-                                                    className={styles.thumb}
-                                                    src={getImageUrl(item.product.image)}
-                                                    alt="product"
-                                                />
-                                            ) : (
-                                                <div className={styles.noThumb}>No</div>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <div className={styles.pname}>{item.product?.name || '---'}</div>
-                                        </td>
-                                        <td className={styles.variantText}>
-                                            {item.color || '---'} {item.rom ? `- ${item.rom}` : ''}
-                                        </td>
-                                        <td>{formatCurrency(item.price)}</td>
-                                        <td style={{ textAlign: 'center', fontWeight: 700 }}>{item.quantity}</td>
-                                        <td style={{ textAlign: 'right', fontWeight: 800 }}>
-                                            {formatCurrency(Number(item.price || 0) * Number(item.quantity || 0))}
-                                        </td>
-                                    </tr>
-                                ))
+                                details.map((item: any, idx: number) => {
+                                    // ✅ ƯU TIÊN tên thật từ Product (variant.product.name)
+                                    // fallback mới là snapshot product_name
+                                    const name = item.variant?.product?.name || item.product_name || '---';
+
+                                    // ảnh ưu tiên variant.image, fallback product.image
+                                    const img = item.variant?.image || item.variant?.product?.image || '';
+
+                                    // phân loại ưu tiên variant_label do BE build sẵn, fallback sku
+                                    const variantLabel = item.variant_label || item.variant?.sku || '---';
+
+                                    return (
+                                        <tr key={idx}>
+                                            <td>
+                                                {img ? (
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    <img
+                                                        className={styles.thumb}
+                                                        src={getImageUrl(img)}
+                                                        alt="product"
+                                                    />
+                                                ) : (
+                                                    <div className={styles.noThumb}>No</div>
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                <div className={styles.pname}>{name}</div>
+                                            </td>
+
+                                            <td className={styles.variantText}>{variantLabel}</td>
+
+                                            <td>{formatCurrency(item.price)}</td>
+
+                                            <td style={{ textAlign: 'center', fontWeight: 700 }}>{item.quantity}</td>
+
+                                            <td style={{ textAlign: 'right', fontWeight: 600 }}>
+                                                {formatCurrency(Number(item.price || 0) * Number(item.quantity || 0))}
+                                            </td>
+                                        </tr>
+                                    );
+                                })
                             ) : (
                                 <tr>
                                     <td colSpan={6} style={{ textAlign: 'center', padding: 18 }}>
@@ -201,7 +219,36 @@ export default function OrderDetailPage() {
 
                         <tfoot>
                             <tr>
-                                <td colSpan={5} style={{ textAlign: 'right', fontWeight: 800 }}>
+                                <td>
+                                    <button
+                                        type="button"
+                                        className={styles.invoiceBtn}
+                                        onClick={async () => {
+                                            try {
+                                                const blob: any = await downloadInvoice(Number(id));
+                                                // axiosClient interceptor của bạn đang return data,
+                                                // nhưng với responseType blob thì thường trả ra Blob luôn.
+                                                const fileBlob =
+                                                    blob instanceof Blob
+                                                        ? blob
+                                                        : new Blob([blob], { type: 'application/pdf' });
+
+                                                const url = window.URL.createObjectURL(fileBlob);
+                                                const a = document.createElement('a');
+                                                a.href = url;
+                                                a.download = `invoice-order-${id}.pdf`;
+                                                a.click();
+                                                window.URL.revokeObjectURL(url);
+                                            } catch (e: any) {
+                                                console.error(e);
+                                                alert('Khong tai duoc hoa don. Kiem tra dang nhap hoac API.');
+                                            }
+                                        }}
+                                    >
+                                        Xuất hoá đơn (PDF)
+                                    </button>
+                                </td>
+                                <td colSpan={5} style={{ textAlign: 'right', fontWeight: 600 }}>
                                     Tổng tiền thanh toán:
                                 </td>
                                 <td style={{ textAlign: 'right' }} className={styles.totalMoney}>

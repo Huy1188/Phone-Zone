@@ -3,6 +3,8 @@ import styles from './page.module.scss';
 import { fetchProductBySlug, fetchRelatedProducts } from '@/services/products';
 import { notFound } from 'next/navigation';
 
+import ReviewSection from '@/app/components/Pages/ProductDetail/ReviewSection';
+import ProductDetailClient from '@/app/components/Pages/ProductDetail/ProductDetailClient';
 import Gallery from '@/app/components/Pages/ProductDetail/Gallery';
 import Info from '@/app/components/Pages/ProductDetail/Info';
 import PriceBox from '@/app/components/Pages/ProductDetail/PriceBox';
@@ -42,14 +44,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </div>
 
             <div className={cx('main-layout')}>
-                <div className={cx('left-col')}>
-                    <Gallery images={product.images} />
-                </div>
-
-                <div className={cx('right-col')}>
-                    <Info name={product.name} sku={product.sku} rating={product.rating} />
-                    <PriceBox product={product} />
-                </div>
+                {/* chuyển vào client */}
+                <ProductDetailClient product={product} />
             </div>
 
             {related.length > 0 && (
@@ -67,6 +63,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 <div className={cx('specs')}>
                     <SpecsTable specs={product.specs} />
                 </div>
+            </div>
+            <div className={cx('section')}>
+                <ReviewSection productId={Number(product.id)} />
             </div>
         </div>
     );

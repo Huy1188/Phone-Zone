@@ -8,7 +8,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
 import { getMyOrders } from '@/services/order';
-import { updateMe } from '@/services/user';
+import { updateMe, changeMyPassword } from '@/services/user';
 import {
     getMyAddresses,
     createAddress,
@@ -123,9 +123,6 @@ export default function AccountPage() {
         // nếu bạn muốn điều khiển tab theo query ?tab=
         // hiện tại default profile
     }, [pathname]);
-
-    if (!hydrated) return null; // hoặc render loading
-    if (!user) return null;
 
     const withBackend = (p?: string) => {
         if (!p) return '';
@@ -250,6 +247,42 @@ export default function AccountPage() {
         setAddresses(res.addresses || []);
     };
 
+    const [pw, setPw] = useState({ oldPassword: '', newPassword: '', confirm: '' });
+    const [pwSaving, setPwSaving] = useState(false);
+    const [pwMsg, setPwMsg] = useState<string | null>(null);
+
+    const onChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setPwMsg(null);
+
+        if (!pw.oldPassword || !pw.newPassword) {
+            setPwMsg('Vui lòng nhập mật khẩu hiện tại và mật khẩu mới');
+            return;
+        }
+        if (pw.newPassword.length < 6) {
+            setPwMsg('Mật khẩu mới phải có ít nhất 6 ký tự');
+            return;
+        }
+        if (pw.newPassword !== pw.confirm) {
+            setPwMsg('Nhập lại mật khẩu mới không khớp');
+            return;
+        }
+
+        setPwSaving(true);
+        try {
+            const res = await changeMyPassword({ oldPassword: pw.oldPassword, newPassword: pw.newPassword });
+            setPwMsg(res?.message || 'Đổi mật khẩu thành công');
+            setPw({ oldPassword: '', newPassword: '', confirm: '' });
+        } catch (err: any) {
+            setPwMsg(err?.message || 'Đổi mật khẩu thất bại');
+        } finally {
+            setPwSaving(false);
+        }
+    };
+
+    if (!hydrated) return null; // hoặc render loading
+    if (!user) return null;
+
     return (
         <div className={cx('wrap')}>
             <div className={cx('container')}>
@@ -262,7 +295,7 @@ export default function AccountPage() {
 
                         <div className={cx('userInfo')}>
                             <div className={cx('hello')}>Xin chào,</div>
-                            <div className={cx('name')}>{displayName}</div>
+                            <div className={cx('name')}>{user.last_name || ''}</div>
                             <div className={cx('email')}>{user.email}</div>
                         </div>
                     </div>
@@ -313,16 +346,6 @@ export default function AccountPage() {
                                 <div className={cx('row')}>
                                     <div className={cx('label')}>Email</div>
                                     <div className={cx('value')}>{user.email}</div>
-                                </div>
-
-                                <div className={cx('row')}>
-                                    <div className={cx('label')}>Username</div>
-                                    <input
-                                        className={cx('input')}
-                                        value={profile.username}
-                                        onChange={(e) => setProfile((p) => ({ ...p, username: e.target.value }))}
-                                        placeholder="Nhập username"
-                                    />
                                 </div>
 
                                 <div className={cx('row')}>
@@ -396,7 +419,9 @@ export default function AccountPage() {
                             {!loadingOrders && ordersError && <div className={cx('card')}>{ordersError}</div>}
 
                             {!loadingOrders && !ordersError && orders.length === 0 && (
-                                <div className={cx('card')}>Bạn chưa có đơn hàng nào.</div>
+                                <div className={cx('card')}>
+                                    <span className={cx('notText')}>Bạn chưa có đơn hàng nào.</span>
+                                </div>
                             )}
 
                             {!loadingOrders && !ordersError && orders.length > 0 && (
@@ -490,7 +515,9 @@ export default function AccountPage() {
                             {!loadingAddr && addrError && <div className={cx('card')}>{addrError}</div>}
 
                             {!loadingAddr && !addrError && addresses.length === 0 && (
-                                <div className={cx('card')}>Bạn chưa có địa chỉ nào.</div>
+                                <div className={cx('card')}>
+                                    <span className={cx('notText')}>Bạn chưa có địa chỉ nào.</span>
+                                </div>
                             )}
 
                             {!loadingAddr && !addrError && addresses.length > 0 && (
@@ -603,9 +630,50 @@ export default function AccountPage() {
                     {tab === 'password' && (
                         <section>
                             <h2 className={cx('title')}>Đổi mật khẩu</h2>
-                            <div className={cx('card')}>
-                                <p>Chưa có API đổi mật khẩu cho user. Nếu bạn đưa endpoint, mình nối luôn.</p>
-                            </div>
+
+                            <form className={cx('card')} onSubmit={onChangePassword}>
+                                <div className={cx('row')}>
+                                    <div className={cx('label')}>Mật khẩu hiện tại</div>
+                                    <input
+                                        className={cx('input')}
+                                        type="password"
+                                        value={pw.oldPassword}
+                                        onChange={(e) => setPw((p) => ({ ...p, oldPassword: e.target.value }))}
+                                        placeholder="Nhập mật khẩu hiện tại"
+                                        autoComplete="current-password"
+                                    />
+                                </div>
+
+                                <div className={cx('row')}>
+                                    <div className={cx('label')}>Mật khẩu mới</div>
+                                    <input
+                                        className={cx('input')}
+                                        type="password"
+                                        value={pw.newPassword}
+                                        onChange={(e) => setPw((p) => ({ ...p, newPassword: e.target.value }))}
+                                        placeholder="Nhập mật khẩu mới"
+                                        autoComplete="new-password"
+                                    />
+                                </div>
+
+                                <div className={cx('row')}>
+                                    <div className={cx('label')}>Nhập lại mật khẩu mới</div>
+                                    <input
+                                        className={cx('input')}
+                                        type="password"
+                                        value={pw.confirm}
+                                        onChange={(e) => setPw((p) => ({ ...p, confirm: e.target.value }))}
+                                        placeholder="Nhập lại mật khẩu mới"
+                                        autoComplete="new-password"
+                                    />
+                                </div>
+
+                                {pwMsg && <div className={cx('hint')}>{pwMsg}</div>}
+
+                                <button className={cx('btnPrimary')} type="submit" disabled={pwSaving}>
+                                    {pwSaving ? 'Đang đổi...' : 'Đổi mật khẩu'}
+                                </button>
+                            </form>
                         </section>
                     )}
                 </main>

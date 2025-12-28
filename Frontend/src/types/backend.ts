@@ -1,13 +1,18 @@
 export type BackendVariant = {
-    variant_id: number;
-    sku: string;
-    color: string;
-    ram: string;
-    storage: string;
-    price: string;
-    stock: number;
-    image: string;
+  variant_id: number;
+  sku: string;
+  color?: string | null;
+  ram?: string | null;
+
+  // ✅ BE dùng rom; giữ thêm storage optional để “an toàn”
+  rom?: string | null;
+  storage?: string | null;
+
+  price: string;
+  stock?: number | null;
+  image?: string | null;
 };
+
 
 export type BackendProductImage = {
   image_url: string;

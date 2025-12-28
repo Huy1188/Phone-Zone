@@ -19,7 +19,6 @@ $border: #e5e7eb;
     border: 1px solid $border;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
 }
 
 .cardHeader {
@@ -86,14 +85,14 @@ $border: #e5e7eb;
 }
 
 .tableWrapper {
-    overflow: auto;
-    background: #fff;
+    overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 980px;
+    min-width: 880px;
 
     thead th {
         text-align: left;

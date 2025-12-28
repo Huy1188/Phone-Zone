@@ -10,13 +10,18 @@ const axiosClient = axios.create({
 
 // Cấu hình phản hồi (Optional: giúp lấy data gọn hơn)
 axiosClient.interceptors.response.use(
-    (response) => {
-        // Nếu backend trả về { errCode: 0, data: [...] } thì lấy luôn phần data
-        return response.data;
-    },
-    (error) => {
-        return Promise.reject(error);
-    },
+  (response) => {
+    const data = response.data;
+
+    // PATCH/DELETE đôi khi backend trả 204 hoặc body rỗng
+    if (data === '' || data == null) {
+      return { success: true };
+    }
+
+    return data;
+  },
+  (error) => Promise.reject(error),
 );
+
 
 export default axiosClient;
