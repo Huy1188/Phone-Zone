@@ -124,9 +124,6 @@ export default function AccountPage() {
         // hiện tại default profile
     }, [pathname]);
 
-    if (!hydrated) return null; // hoặc render loading
-    if (!user) return null;
-
     const withBackend = (p?: string) => {
         if (!p) return '';
         if (p.startsWith('http')) return p;
@@ -249,6 +246,9 @@ export default function AccountPage() {
         const res = await setDefaultAddress(id);
         setAddresses(res.addresses || []);
     };
+
+    if (!hydrated) return null; // hoặc render loading
+    if (!user) return null;
 
     return (
         <div className={cx('wrap')}>
