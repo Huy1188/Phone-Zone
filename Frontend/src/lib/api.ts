@@ -1,4 +1,4 @@
-// src/lib/api.ts
+
 type ApiInit = RequestInit & { cache?: RequestCache };
 
 function getApiBase() {
@@ -12,11 +12,11 @@ export async function api<T>(path: string, init: ApiInit = {}): Promise<T> {
   const base = getApiBase();
   const url = `${base}${path.startsWith("/") ? path : `/${path}`}`;
 
-  // clone headers để tránh bị ghi đè
+  
   const headers = new Headers(init.headers || {});
   let body = init.body;
 
-  // ✅ Nếu body là object -> stringify JSON
+  
   if (body && typeof body === "object" && !(body instanceof FormData)) {
     if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");
     body = JSON.stringify(body);
@@ -26,7 +26,7 @@ export async function api<T>(path: string, init: ApiInit = {}): Promise<T> {
     ...init,
     body,
     headers,
-    credentials: "include", // ✅ session-cookie
+    credentials: "include", 
   });
 
   const contentType = res.headers.get("content-type") || "";

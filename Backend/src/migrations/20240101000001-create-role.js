@@ -1,5 +1,5 @@
 "use strict";
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Roles", {
@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-      }, // Admin, Customer
+      }, 
       description: {
         type: Sequelize.STRING,
       },

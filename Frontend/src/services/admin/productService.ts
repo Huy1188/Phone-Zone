@@ -1,6 +1,6 @@
 import axiosClient from "@/lib/axiosClient";
 
-// Products list (backend hỗ trợ page/limit/category_id/brand_id)
+
 export const getAllProducts = (params?: {
   page?: number;
   limit?: number;
@@ -16,8 +16,8 @@ export const getAllProducts = (params?: {
   return axiosClient.get(`/admin/products${qs ? `?${qs}` : ""}`);
 };
 
-// backend có /admin/products/create để trả meta categories/brands,
-// nhưng FE có thể tự gọi getAllCategories + getAllBrands
+
+
 export const getCreateProductMeta = () => axiosClient.get("/admin/products/create");
 
 export const getProductById = (productId: number | string) =>
@@ -36,7 +36,7 @@ export const updateProduct = (productId: number | string, formData: FormData) =>
 export const deleteProduct = (productId: number | string) =>
   axiosClient.delete(`/admin/products/${productId}`);
 
-// Variants
+
 export const createVariant = (productId: number | string, formData: FormData) =>
   axiosClient.post(`/admin/products/${productId}/variants`, formData, {
     headers: { "Content-Type": "multipart/form-data" },

@@ -1,9 +1,9 @@
 import db from '../models/index';
 import { Op, Sequelize } from 'sequelize';
 
-// =====================
-// Helpers
-// =====================
+
+
+
 
 const toArray = (v) => {
     if (v === undefined || v === null) return [];
@@ -18,7 +18,7 @@ const toArray = (v) => {
         .filter(Boolean);
 };
 
-// Escape a JS string to be safe inside a single-quoted SQL literal.
+
 const sqlEscapeSingle = (s) => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
 const parseSpecsParam = (raw) => {
@@ -48,7 +48,7 @@ const buildPriceWhere = ({ price_min, price_max, price_range }) => {
     const min = price_min !== undefined && price_min !== null ? Number(price_min) : null;
     const max = price_max !== undefined && price_max !== null ? Number(price_max) : null;
 
-    // custom min/max
+    
     if (Number.isFinite(min) || Number.isFinite(max)) {
         const w = {};
         if (Number.isFinite(min)) w[Op.gte] = min;
@@ -57,7 +57,7 @@ const buildPriceWhere = ({ price_min, price_max, price_range }) => {
         return and;
     }
 
-    // buckets by FE
+    
     const ranges = toArray(price_range);
     if (!ranges.length) return and;
 
@@ -72,7 +72,7 @@ const buildPriceWhere = ({ price_min, price_max, price_range }) => {
     return and;
 };
 
-// Build SQL conditions for JSON specs stored as array of objects: [{label, value}, ...]
+
 const buildSpecsWhereLiterals = (specsObj) => {
     if (!specsObj) return [];
 
@@ -98,17 +98,17 @@ export const getHomePage = async (req, res) => {
             page = 1,
             limit = 20,
 
-            // filters
+            
             price_range,
             price_min,
             price_max,
             specs,
 
-            // facets for filter UI
+            
             facets = '0',
         } = req.query;
 
-        // Base where: category + search only (for facets)
+        
         const baseWhere = { is_active: true };
 
         if (category_slug) {
@@ -129,10 +129,10 @@ export const getHomePage = async (req, res) => {
             baseWhere.name = { [Op.like]: `%${kw}%` };
         }
 
-        // Filtered where: base + brand + price + specs
+        
         const whereProduct = { ...baseWhere };
 
-        // brand_slug multi
+        
         const brandSlugs = toArray(brand_slug);
         if (brandSlugs.length) {
             const brands = await db.Brand.findAll({
@@ -151,25 +151,25 @@ export const getHomePage = async (req, res) => {
             whereProduct.brand_id = { [Op.in]: brands.map((b) => b.brand_id) };
         }
 
-        // price
+        
         const priceAnd = buildPriceWhere({ price_min, price_max, price_range });
         if (priceAnd.length) {
             whereProduct[Op.and] = (whereProduct[Op.and] || []).concat(priceAnd);
         }
 
-        // specs (JSON)
+        
         const specsObj = parseSpecsParam(specs);
         const specLits = buildSpecsWhereLiterals(specsObj);
         if (specLits.length) {
             whereProduct[Op.and] = (whereProduct[Op.and] || []).concat(specLits.map((sql) => Sequelize.literal(sql)));
         }
 
-        // paging
+        
         const pageNum = Math.max(1, Number(page) || 1);
         const limitNum = Math.min(50, Math.max(1, Number(limit) || 20));
         const offset = (pageNum - 1) * limitNum;
 
-        // sort
+        
         const minPriceCast = Sequelize.literal('CAST(min_price AS UNSIGNED)');
         let order = [['createdAt', 'DESC']];
         if (sort === 'price-asc') order = [[minPriceCast, 'ASC']];
@@ -203,16 +203,16 @@ export const getHomePage = async (req, res) => {
             distinct: true,
         });
 
-        // const products = rows.map((p) => {
-        //   const plain = p.toJSON();
-        //   const mainImg =
-        //     plain.images?.find((img) => img.is_thumbnail)?.image_url ||
-        //     plain.images?.[0]?.image_url ||
-        //     plain.variants?.[0]?.image ||
-        //     plain.image ||
-        //     null;
-        //   return { ...plain, image: mainImg };
-        // });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         const productsBase = rows.map((p) => {
             const plain = p.toJSON();
@@ -225,7 +225,7 @@ export const getHomePage = async (req, res) => {
             return { ...plain, image: mainImg };
         });
 
-        // ====== attach rating + reviewCount ======
+        
         const productIds = productsBase.map((p) => Number(p.product_id));
 
         let products = productsBase;
@@ -256,7 +256,7 @@ export const getHomePage = async (req, res) => {
             });
         }
 
-        // facets (category + q only) -> cho sidebar option đầy đủ
+        
         let facetsPayload = undefined;
         if (facets === '1') {
             const brands = await db.Brand.findAll({
@@ -293,7 +293,7 @@ export const getHomePage = async (req, res) => {
                 attributes: ['specifications'],
                 raw: true,
             });
-            const specMap = new Map(); // label -> Set(values)
+            const specMap = new Map(); 
 
             specRows.forEach((r) => {
                 let specsVal = r.specifications;
@@ -333,7 +333,7 @@ export const getHomePage = async (req, res) => {
     }
 };
 
-// DETAIL BY SLUG
+
 let getDetailProductBySlug = async (req, res) => {
     try {
         const slug = req.params.slug;
@@ -373,7 +373,7 @@ let getDetailProductBySlug = async (req, res) => {
     }
 };
 
-// DETAIL BY ID
+
 let getDetailProductById = async (req, res) => {
     try {
         let productId = req.params.id;
@@ -398,7 +398,7 @@ let getDetailProductById = async (req, res) => {
     }
 };
 
-// LIST CATEGORIES
+
 export const getCategories = async (req, res) => {
     try {
         const categories = await db.Category.findAll({
@@ -460,7 +460,7 @@ export const getRelatedProducts = async (req, res) => {
             return { ...plain, image: mainImg };
         });
 
-        // ===== attach rating + reviewCount cho products related =====
+        
         const productIds = dataBase.map((p) => Number(p.product_id));
 
         let data = dataBase;

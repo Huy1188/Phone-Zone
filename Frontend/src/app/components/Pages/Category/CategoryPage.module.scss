@@ -3,7 +3,7 @@
   width: 100%;
 }
 
-/* ✅ Desktop mới center */
+
 @media (min-width: 768px) {
   .wrapper {
     display: flex;
@@ -16,7 +16,7 @@
   margin: 10px 20px 0;
 }
 
-/* ✅ Mobile: bỏ margin lớn, thêm padding nhỏ */
+
 @media (max-width: 767px) {
   .inner {
     margin: 0;
@@ -37,14 +37,14 @@
   gap: 10px;
 }
 
-/* ✅ Mobile: cuộn ngang + nhỏ hơn */
+
 @media (max-width: 767px) {
   .banner {
   display: block;
   padding: 12px 0;
 }
 
-/* Nếu bạn đặt 2 banner (Galery1 + Galery2) */
+
 .banner > * + * {
   margin-top: 10px;
 }
@@ -77,8 +77,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-content: flex-start; /* ✅ bỏ space-between */
-    overflow-x: auto;            /* ✅ cho cuộn ngang */
+    justify-content: flex-start; 
+    overflow-x: auto;            
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
   }
@@ -93,7 +93,7 @@
 }
 
 
-/* Filter chiếm bên trái, sort bên phải -> đã handle bên trong component */
+
 
 .grid {
   display: flex;
@@ -116,20 +116,20 @@
   font-weight: 600;
 }
 
-/* ✅ Mobile/Tablet */
+
 @media (max-width: 1023px) {
   .desktopFilters {
-    display: none; /* ẩn filters block */
+    display: none; 
   }
 
   .filterBtn {
-    display: inline-flex; /* hiện nút để mở drawer */
+    display: inline-flex; 
   }
 
-  /* Optional: sticky top row giống CellphoneS */
+  
   .top-row {
     position: sticky;
-    top: 0;          /* nếu bạn có header fixed, tăng top lên đúng chiều cao header */
+    top: 0;          
     z-index: 20;
     background: #fff;
     padding: 10px 0;

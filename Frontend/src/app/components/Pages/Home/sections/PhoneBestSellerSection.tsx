@@ -13,7 +13,7 @@ export default function PhoneBestSellerSection() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // 1) load tabs (brands) từ DB theo category phone
+  
   useEffect(() => {
     let cancelled = false;
 
@@ -32,7 +32,7 @@ export default function PhoneBestSellerSection() {
     };
   }, []);
 
-  // 2) load products theo brand tab
+  
   useEffect(() => {
     if (!activeBrandSlug) return;
 
@@ -43,7 +43,7 @@ export default function PhoneBestSellerSection() {
       const { products } = await fetchProductsPaged({
         category_slug: "phone",
         brand_slug: activeBrandSlug,
-        sort: "hot",     // hoặc "popular" / "newest" tùy bạn
+        sort: "hot",     
         page: 1,
         limit: 20,
       });
@@ -74,7 +74,7 @@ export default function PhoneBestSellerSection() {
       tabs={tabs}
       activeKey={activeBrandSlug}
       onTabChange={setActiveBrandSlug}
-      viewAllHref={`/search?category_slug=phone&brand_slug=${activeBrandSlug}`} // optional
+      viewAllHref={`/category/phone`} 
       scrollable
       itemsPerView={5}
     >

@@ -1,4 +1,4 @@
-/* src/components/Admin/Brands/Brand.module.scss */
+
 
 .container {
     padding: 20px;
@@ -11,7 +11,7 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    border-top: 3px solid #6f42c1; // Màu tím
+    border-top: 3px solid #6f42c1; 
 
     h2 {
         text-align: center;
@@ -19,7 +19,7 @@
         border-bottom: 1px solid #eee;
         padding-bottom: 20px;
         margin-bottom: 25px;
-        font-size: 24px; // Chữ tiêu đề to
+        font-size: 24px; 
         font-weight: 700;
     }
 
@@ -34,7 +34,7 @@
         gap: 8px;
         margin-bottom: 20px;
         font-weight: bold;
-        font-size: 15px; // Tăng chữ nút thêm
+        font-size: 15px; 
         transition: 0.2s;
         &:hover {
             background: #218838;
@@ -50,18 +50,18 @@
     th,
     td {
         border: 1px solid #dee2e6;
-        padding: 15px; // 🔥 Tăng khoảng cách cho thoáng
+        padding: 15px; 
         text-align: left;
         vertical-align: middle;
         color: #333;
-        font-size: 15px; // 🔥 TĂNG CỠ CHỮ NỘI DUNG BẢNG
+        font-size: 15px; 
     }
 
     th {
         background: #f8f9fa;
         font-weight: 700;
         text-transform: uppercase;
-        font-size: 14px; // Tiêu đề cột
+        font-size: 14px; 
     }
 
     .brandLogo {
@@ -74,7 +74,7 @@
         background: #fff;
     }
 
-    /* Action Buttons */
+    
     .actionGroup {
         display: flex;
         align-items: center;
@@ -87,7 +87,7 @@
         background: none;
         cursor: pointer;
         font-weight: 600;
-        font-size: 14px; // 🔥 Tăng chữ trong nút Sửa/Xóa
+        font-size: 14px; 
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -119,7 +119,7 @@
     }
 }
 
-// Form Style giữ nguyên hoặc tăng font-size nếu cần
+
 .formGroup {
     margin-bottom: 20px;
     label {
@@ -127,15 +127,15 @@
         font-weight: bold;
         margin-bottom: 8px;
         color: #555;
-        font-size: 15px; // Tăng chữ label
+        font-size: 15px; 
     }
     input {
         width: 100%;
-        padding: 12px; // Ô nhập liệu cao hơn chút
+        padding: 12px; 
         border: 1px solid #ccc;
         border-radius: 4px;
         outline: none;
-        font-size: 15px; // Tăng chữ khi gõ
+        font-size: 15px; 
     }
     input:focus {
         border-color: #6f42c1;
@@ -150,7 +150,7 @@
         border-radius: 4px;
         cursor: pointer;
         font-weight: bold;
-        font-size: 16px; // Nút Submit to rõ
+        font-size: 16px; 
         margin-top: 10px;
         &:hover {
             background: #5a32a3;

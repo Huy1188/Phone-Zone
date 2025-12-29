@@ -1,4 +1,4 @@
-/* src/app/components/Layouts/Footer/index.tsx */
+
 "use client";
 
 import classNames from "classnames/bind";
@@ -31,7 +31,7 @@ export default function Footer() {
   return (
     <footer className={cx("wrapper")}>
       <div className={cx("inner")}>
-        {/* ===== DESKTOP/TABLET: GRID ===== */}
+        {}
         <div className={cx("desktopTop")}>
           <div className={cx("col")}>
             <h4 className={cx("colTitle")}>Về PhoneZone</h4>
@@ -109,7 +109,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ===== MOBILE: ACCORDION (GIỐNG ẢNH) ===== */}
+        {}
         <div className={cx("mobileTop")}>
           <details className={cx("accordionItem")}>
             <summary className={cx("accordionHeader")}>Về PhoneZone</summary>
@@ -165,7 +165,7 @@ export default function Footer() {
           </details>
         </div>
 
-        {/* MIDDLE: social */}
+        {}
         <div className={cx("socialRow")}>
           <span className={cx("socialLabel")}>Kết nối với chúng tôi</span>
           <div className={cx("socialIcons")}>
@@ -184,7 +184,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* BOTTOM */}
+        {}
         <div className={cx("bottom")}>
           <span className={cx("copyright")}>
             © {new Date().getFullYear()} PhoneZone - Hệ thống máy tính & thiết bị công nghệ.

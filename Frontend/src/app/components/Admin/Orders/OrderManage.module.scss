@@ -150,7 +150,7 @@ $info: #0ea5e9;
     }
 }
 
-/* Badge status */
+
 .badge {
     display: inline-flex;
     align-items: center;
@@ -164,7 +164,7 @@ $info: #0ea5e9;
     border: 1px solid transparent;
 }
 
-/* Bạn map theo status bạn đang dùng */
+
 .st_pending {
     color: $warning;
     background: rgba($warning, 0.12);

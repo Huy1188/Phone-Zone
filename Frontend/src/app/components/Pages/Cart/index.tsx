@@ -2,7 +2,7 @@
 
 import classNames from "classnames/bind";
 import styles from "./CartPage.module.scss";
-import { useCart } from "@/hooks/useCart";    // ĐÚNG kiến trúc theo file cấu trúc
+import { useCart } from "@/hooks/useCart";    
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import EmptyCart from "./EmptyCart";

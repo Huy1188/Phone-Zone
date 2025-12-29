@@ -29,7 +29,7 @@ export default function HotProduct({
     (async () => {
       const { products } = await fetchProductsPaged({
         category_slug: slug,
-        sort: "hot",     // ✅ sort toàn DB theo is_hot
+        sort: "hot",     
         page: 1,
         limit,
       });
@@ -48,7 +48,7 @@ export default function HotProduct({
     };
   }, [categorySlug, limit]);
 
-  // không có data thì ẩn section (hoặc bạn muốn show skeleton thì nói mình)
+  
   if (!loading && products.length === 0) return null;
 
   return (
@@ -60,7 +60,7 @@ export default function HotProduct({
     >
       {loading
         ? Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} style={{ height: 260 }} /> // ✅ placeholder đơn giản
+            <div key={i} style={{ height: 260 }} /> 
           ))
         : products.map((product) => <ProductCard key={product.slug} product={product} />)}
     </HotSection>

@@ -41,25 +41,25 @@ const UserManage = () => {
         }
     };
 
-    // 👇 HÀM XỬ LÝ HIỂN THỊ ĐỊA CHỈ TỪ BẢNG RIÊNG 👇
+    
     const renderAddress = (addresses?: Address[]) => {
-        // 1. Nếu không có địa chỉ nào -> Hiện "Chưa cập nhật"
+        
         if (!addresses || addresses.length === 0) {
             return <span style={{ color: '#999', fontStyle: 'italic' }}>Chưa cập nhật</span>;
         }
 
-        // 2. Tìm địa chỉ mặc định (is_default = 1 hoặc true)
+        
         const defaultAddr = addresses.find((a) => a.is_default === true);
 
-        // 3. Nếu không có mặc định thì lấy cái đầu tiên
+        
         const addrToShow = defaultAddr || addresses[0];
 
         return (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                {/* Nếu là mặc định thì hiện Badge xanh */}
+                {}
                 {addrToShow.is_default === true && <span className={styles.badgeDefault}>Default</span>}
 
-                {/* Ghép chuỗi địa chỉ */}
+                {}
                 <span className={styles.addressText}>
                     {addrToShow.street ? `${addrToShow.street}, ` : ''}
                     {addrToShow.city}

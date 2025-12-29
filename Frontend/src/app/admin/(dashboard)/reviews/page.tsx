@@ -20,7 +20,7 @@ export default function ReviewManage() {
 
     useEffect(() => {
         fetchReviews();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
 
     const fetchReviews = async () => {
@@ -28,7 +28,7 @@ export default function ReviewManage() {
         try {
             const res: any = await getAllReviews();
 
-            // Backend của bạn đang trả dạng: { success, message, data: { reviews: [] } }
+            
             if (res?.success) {
                 setReviews(res?.data?.reviews ?? []);
             } else {

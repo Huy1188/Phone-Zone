@@ -1,4 +1,4 @@
-// src/app/components/pages/Home/ProductGrid/index.tsx
+
 import classNames from "classnames/bind";
 import styles from "./ProductGrid.module.scss";
 import type { Product } from "@/types/product";

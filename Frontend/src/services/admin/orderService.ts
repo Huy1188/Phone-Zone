@@ -12,7 +12,7 @@ export const getAllOrders = (params?: { page?: number; limit?: number }) => {
 export const getOrderById = (orderId: number | string) => axiosClient.get(`/admin/orders/${orderId}`);
 
 export const updateOrderStatus = (id: number, status: string) => {
-  // axiosClient interceptor đã return data rồi => không .data nữa
+  
   return axiosClient.patch(`/admin/orders/${id}/status`, { status });
 };
 

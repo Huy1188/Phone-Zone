@@ -1,6 +1,6 @@
 "use strict";
 
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("CartItems", {
@@ -50,7 +50,7 @@ module.exports = {
       },
     });
 
-    // ❗ đảm bảo 1 variant chỉ xuất hiện 1 lần trong cart
+    
     await queryInterface.addConstraint("CartItems", {
       fields: ["cart_id", "variant_id"],
       type: "unique",

@@ -1,5 +1,5 @@
 "use strict";
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Posts", {
@@ -19,7 +19,7 @@ module.exports = {
       },
       content: {
         type: Sequelize.TEXT,
-      }, // TEXT cho bài viết dài
+      }, 
       thumbnail: {
         type: Sequelize.STRING,
       },

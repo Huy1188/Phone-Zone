@@ -22,12 +22,12 @@ export interface User {
     email: string;
     first_name: string | null;
     last_name: string | null;
-    gender: boolean | null; // true: Nam, false: Nữ
+    gender: boolean | null; 
     phone: string | null;
     avatar: string | null;
     role_id: number;
     is_active: boolean;
-    // Quan hệ (Có thể có hoặc không tùy API include)
+    
     role?: Role;
     addresses?: Address[];
     createdAt?: string;

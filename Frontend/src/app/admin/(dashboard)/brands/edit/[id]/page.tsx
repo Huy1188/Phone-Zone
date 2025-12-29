@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default function EditBrand() {
     const router = useRouter();
     const params = useParams();
-    const brandId = params?.id; // string | string[] | undefined
+    const brandId = params?.id; 
 
     const [name, setName] = useState('');
     const [origin, setOrigin] = useState('');
@@ -26,8 +26,8 @@ export default function EditBrand() {
             setLoading(true);
             const res: any = await getBrandById(id);
 
-            // ✅ axiosClient đã return response.data
-            // Backend của bạn thường: ok(res, { brand }, "...")
+            
+            
             const brand = res?.data?.brand ?? res?.data ?? null;
 
             if (res?.success && brand) {
@@ -50,7 +50,7 @@ export default function EditBrand() {
         const f = e.target.files?.[0] ?? null;
         setFile(f);
 
-        // preview local file
+        
         if (f) {
             const url = URL.createObjectURL(f);
             setPreviewLogo(url);
@@ -64,12 +64,12 @@ export default function EditBrand() {
         const formData = new FormData();
         formData.append('name', name.trim());
         formData.append('origin', origin.trim());
-        if (file) formData.append('image', file); // ✅ đúng key upload.single("image")
+        if (file) formData.append('image', file); 
 
         try {
             setLoading(true);
 
-            // ✅ truyền đúng id
+            
             const res: any = await updateBrand(String(brandId), formData);
 
             if (res?.success) {

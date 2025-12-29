@@ -10,7 +10,7 @@ type CartContextValue = {
 
     totalItems: number;
 
-    // ✅ thêm
+    
     totalMoney: number;
 
     refresh: () => Promise<void>;
@@ -31,7 +31,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         try {
             const res = await getCart();
             setItems(res.cart ?? []);
-            setTotalMoney(Number(res.totalMoney ?? 0)); // ✅ thêm dòng này
+            setTotalMoney(Number(res.totalMoney ?? 0)); 
         } finally {
             setHydrated(true);
         }

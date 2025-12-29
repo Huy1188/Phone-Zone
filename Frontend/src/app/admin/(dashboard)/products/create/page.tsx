@@ -20,7 +20,7 @@ export default function CreateProductPage() {
     const [preview, setPreview] = useState<string>('');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    // dùng để clear preview URL
+    
     const previewUrl = useMemo(() => preview, [preview]);
 
     const fetchMeta = async () => {
@@ -45,17 +45,17 @@ export default function CreateProductPage() {
     useEffect(() => {
         fetchMeta();
         return () => {
-            // cleanup blob URL
+            
             if (previewUrl?.startsWith('blob:')) URL.revokeObjectURL(previewUrl);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
 
     const onPickFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const f = e.target.files?.[0] || null;
         setSelectedFile(f);
 
-        // cleanup cũ
+        
         if (previewUrl?.startsWith('blob:')) URL.revokeObjectURL(previewUrl);
 
         if (f) {
@@ -72,7 +72,7 @@ export default function CreateProductPage() {
 
         const fd = new FormData(e.currentTarget);
 
-        // đảm bảo tên field đúng là "image"
+        
         if (selectedFile) fd.set('image', selectedFile);
 
         setSubmitting(true);

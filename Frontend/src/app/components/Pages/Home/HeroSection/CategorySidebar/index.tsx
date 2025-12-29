@@ -24,21 +24,6 @@ type SidebarItem = {
 
 const STATIC_ITEMS: SidebarItem[] = [
   {
-    icon: "fa-money-check",
-    label: "Thu Cũ Đổi Mới",
-    href: "/trade-in",
-    groups: [
-      {
-        title: "Dịch vụ",
-        links: [
-          { label: "Thu cũ iPhone", href: "/trade-in/iphone" },
-          { label: "Thu cũ Samsung", href: "/trade-in/samsung" },
-          { label: "Định giá online", href: "/trade-in/price-check" },
-        ],
-      },
-    ],
-  },
-  {
     icon: "fa-coins",
     label: "Hàng Cũ",
     href: "/products?condition=used",
@@ -55,21 +40,6 @@ const STATIC_ITEMS: SidebarItem[] = [
         links: [
           { label: "Bảo hành 6–12 tháng", href: "/used/warranty" },
           { label: "Test máy 7 ngày", href: "/used/return-policy" },
-        ],
-      },
-    ],
-  },
-  {
-    icon: "fa-gift",
-    label: "Khuyến Mãi",
-    href: "/promotions",
-    groups: [
-      {
-        title: "Ưu đãi",
-        links: [
-          { label: "Flash Sale", href: "/promotions/flash-sale" },
-          { label: "Deal cuối tuần", href: "/promotions/weekend" },
-          { label: "Trả góp 0%", href: "/promotions/installment" },
         ],
       },
     ],
@@ -138,11 +108,11 @@ function CategorySidebar({ isDropdown }: CategorySidebarProps) {
 };
 
 const buildHrefFromSlug = (slug: string) => {
-  // CÁCH 1 (giống nhiều dự án): đi trang category theo slug
+  
   return `/category/${slug}`;
 
-  // CÁCH 2 (nếu bạn đang list sản phẩm bằng query): bật cái này và tắt CÁCH 1
-  // return `/products?category=${slug}`;
+  
+  
 };
 
   useEffect(() => {
@@ -157,12 +127,12 @@ const buildHrefFromSlug = (slug: string) => {
         icon: iconBySlug[c.slug] ?? "fa-bars",
         label: c.name,
         href: buildHrefFromSlug(c.slug),
-        // groups: ... // nếu sau này BE có filters/brands thì nhét vào đây
+        
       }));
 
       if (mounted) setItems([...categoryItems, ...STATIC_ITEMS]);
     } catch (e) {
-      // fail thì fallback static (không crash UI)
+      
       if (mounted) setItems(STATIC_ITEMS);
     } finally {
       if (mounted) setLoading(false);
@@ -175,10 +145,10 @@ const buildHrefFromSlug = (slug: string) => {
 }, []);
 
 
-  // desktop hover
+  
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  // mobile accordion
+  
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -207,21 +177,21 @@ const buildHrefFromSlug = (slug: string) => {
     >
       {items.map((item, idx) => {
         const hasGroups = !!item.groups?.length;
-        const isActive = idx === activeIndex; // desktop hover active
-        const isOpen = idx === openIndex; // mobile accordion open
+        const isActive = idx === activeIndex; 
+        const isOpen = idx === openIndex; 
 
-        // ===== MOBILE (GearVN accordion) =====
+        
         if (isMobile && isDropdown) {
           return (
             <div key={item.label} className={cx("mb-item", { open: isOpen })}>
               <div className={cx("mb-row")}>
-                {/* Text -> đi trang */}
+                {}
                 <Link href={item.href} className={cx("mb-link")}>
                   <i className={cx("fa-solid", item.icon, "sidebar-item_firsticon")} />
                   <span className={cx("sidebar-item__name")}>{item.label}</span>
                 </Link>
 
-                {/* Arrow -> toggle submenu */}
+                {}
                 {hasGroups && (
                   <button
                     type="button"
@@ -234,7 +204,7 @@ const buildHrefFromSlug = (slug: string) => {
                 )}
               </div>
 
-              {/* Submenu nằm dưới item */}
+              {}
               {hasGroups && (
                 <div className={cx("mb-sub", { show: isOpen })}>
                   {item.groups!.map((group) => (
@@ -255,7 +225,7 @@ const buildHrefFromSlug = (slug: string) => {
           );
         }
 
-        // ===== DESKTOP (giữ hover panel như cũ) =====
+        
         return (
           <Link
             key={item.label}
@@ -268,13 +238,13 @@ const buildHrefFromSlug = (slug: string) => {
             <span className={cx("sidebar-item__name")}>{item.label}</span>
             <i className="fa-solid fa-angle-right" />
 
-            {/* desktop: tam giác đỏ */}
+            {}
             <div className={cx("sidebar-hover", { show: isActive && isPanelOpen })} />
           </Link>
         );
       })}
 
-      {/* ===== DESKTOP PANEL (chỉ render khi KHÔNG phải mobile dropdown) ===== */}
+      {}
       {!isMobile && (
         <div className={cx("section1-hover", { open: isPanelOpen })}>
           {activeItem?.groups?.map((group) => (

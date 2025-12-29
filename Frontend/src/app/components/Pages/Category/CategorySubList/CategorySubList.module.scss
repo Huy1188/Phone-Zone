@@ -3,7 +3,7 @@
   justify-content: center;
   margin-bottom: 24px;
 
-  /* chặn tràn ngang nếu có item nào lỡ vượt */
+  
   overflow-x: hidden;
 }
 
@@ -11,7 +11,7 @@
   width: 100%;
   max-width: 1200px;
 
-  /* rất quan trọng để 100% + padding không bị tràn ngang */
+  
   box-sizing: border-box;
   padding: 0 16px;
 }
@@ -22,14 +22,14 @@
   margin: 0 0 12px;
 }
 
-/* LIST */
+
 .content {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; /* desktop/tablet có thể wrap */
+  flex-wrap: wrap; 
 }
 
-/* ITEM */
+
 .item {
   display: inline-flex;
   align-items: center;
@@ -43,7 +43,7 @@
   border-radius: 10px;
   border: 1px solid #eee;
 
-  /* tránh item tự kéo rộng làm tràn */
+  
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -56,33 +56,33 @@
 }
 
 .label {
-  font-size: 14px; /* 1.5rem dễ quá to trên mobile */
+  font-size: 14px; 
   font-weight: 500;
 
-  /* tránh label dài làm tràn */
+  
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* MOBILE: chuyển sang scroll ngang giống CellphoneS */
+
 @media (max-width: 768px) {
   .content {
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 
-    /* để nhìn như “chip row” */
+    
     padding-bottom: 4px;
   }
 
   .item {
-    flex: 0 0 auto;        /* item không co giãn */
-    min-width: 120px;      /* tuỳ bạn chỉnh */
+    flex: 0 0 auto;        
+    min-width: 120px;      
   }
 
   .item img {
-    width: 56px;           /* nhỏ lại cho hợp mobile */
+    width: 56px;           
   }
 }

@@ -6,8 +6,8 @@ export type UpdateMePayload = {
   first_name?: string;
   last_name?: string;
   phone?: string;
-  gender?: "male" | "female" | ""; // FE gửi string cho dễ
-  avatar?: string; // nếu bạn cho user nhập url avatar
+  gender?: "male" | "female" | ""; 
+  avatar?: string; 
 };
 
 export async function updateMe(payload: UpdateMePayload) {

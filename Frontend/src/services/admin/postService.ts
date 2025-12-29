@@ -2,7 +2,7 @@ import axiosClient from '@/lib/axiosClient';
 
 export const getAllPosts = () => axiosClient.get('/admin/posts');
 
-// export const getCreatePostMeta = () => axiosClient.get("/admin/posts/create");
+
 export const getPostMeta = () => axiosClient.get('/admin/posts/create');
 
 export const createPost = (formData: FormData) =>

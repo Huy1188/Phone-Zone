@@ -22,7 +22,7 @@ export default function CreatePostPage() {
     const fetchMeta = async () => {
         const res: any = await getPostMeta();
         if (res?.success) {
-            // backend bạn đang trả categories + products trong data
+            
             const data = res?.data ?? {};
             setCategories(data.categories ?? []);
             setProducts(data.products ?? []);
@@ -47,7 +47,7 @@ export default function CreatePostPage() {
         fd.append('title', form.title);
         fd.append('content', form.content);
         if (form.product_id) fd.append('product_id', form.product_id);
-        if (file) fd.append('image', file); // ✅ field name phải là "image" vì multer upload.single("image")
+        if (file) fd.append('image', file); 
 
         setLoading(true);
         try {

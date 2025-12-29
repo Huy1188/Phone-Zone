@@ -77,7 +77,7 @@
   font-size: 13px;
 }
 
-/* Right side: price + remove */
+
 .right {
   display: flex;
   flex-direction: column;
@@ -101,7 +101,7 @@
   text-decoration: underline;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .item {
     align-items: flex-start;

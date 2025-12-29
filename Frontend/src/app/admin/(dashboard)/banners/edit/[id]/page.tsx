@@ -157,7 +157,7 @@ export default function EditBannerPage() {
                         <div className={styles.imageBox}>
                             <div className={styles.imageTitle}>Ảnh mới</div>
                             {file ? (
-                                // eslint-disable-next-line @next/next/no-img-element
+                                
                                 <img src={URL.createObjectURL(file)} alt="new" className={styles.newPreview} />
                             ) : (
                                 <div className={styles.noimg}>Chưa chọn ảnh</div>

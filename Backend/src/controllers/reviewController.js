@@ -1,7 +1,7 @@
 import db from '../models/index';
 import { Op } from 'sequelize';
 
-// middleware nhỏ: bắt buộc đăng nhập (session)
+
 export const requireUser = (req, res, next) => {
   const user = req.session?.user;
   if (!user?.user_id) {
@@ -10,7 +10,7 @@ export const requireUser = (req, res, next) => {
   next();
 };
 
-// GET /api/products/:productId/reviews?page=&limit=
+
 export const listProductReviews = async (req, res) => {
   try {
     const productId = Number(req.params.productId);
@@ -45,7 +45,7 @@ export const listProductReviews = async (req, res) => {
   }
 };
 
-// GET /api/products/:productId/reviews/summary
+
 export const getReviewSummary = async (req, res) => {
   try {
     const productId = Number(req.params.productId);
@@ -74,12 +74,9 @@ export const getReviewSummary = async (req, res) => {
   }
 };
 
-/**
- * Check user đã mua sản phẩm và đơn đã delivered chưa
- * Cách làm chắc ăn: không include/join để tránh lỗi eager loading
- */
+
 async function hasPurchasedProductDelivered(userId, productId) {
-  // 1) lấy orders delivered của user
+  
   const deliveredOrders = await db.Order.findAll({
     where: { user_id: userId, status: 'delivered' },
     attributes: ['order_id'],
@@ -89,7 +86,7 @@ async function hasPurchasedProductDelivered(userId, productId) {
   const orderIds = deliveredOrders.map((o) => o.order_id);
   if (!orderIds.length) return false;
 
-  // 2) lấy danh sách variant_id thuộc productId
+  
   const variants = await db.ProductVariant.findAll({
     where: { product_id: productId },
     attributes: ['variant_id'],
@@ -99,7 +96,7 @@ async function hasPurchasedProductDelivered(userId, productId) {
   const variantIds = variants.map((v) => v.variant_id);
   if (!variantIds.length) return false;
 
-  // 3) check OrderDetails có variant thuộc product và nằm trong order delivered không
+  
   const found = await db.OrderDetail.findOne({
     where: {
       order_id: { [Op.in]: orderIds },
@@ -111,7 +108,7 @@ async function hasPurchasedProductDelivered(userId, productId) {
   return !!found;
 }
 
-// GET /api/products/:productId/reviews/can-review
+
 export const canReview = async (req, res) => {
   try {
     const user = req.session?.user;
@@ -134,10 +131,10 @@ export const canReview = async (req, res) => {
   }
 };
 
-// POST /api/products/:productId/reviews
+
 export const upsertMyReview = async (req, res) => {
   try {
-    // guard tránh 500 nếu route quên gắn middleware requireUser hoặc session mất
+    
     const userId = req.session?.user?.user_id;
     if (!userId) {
       return res.status(401).json({ success: false, message: 'Bạn cần đăng nhập để đánh giá.' });

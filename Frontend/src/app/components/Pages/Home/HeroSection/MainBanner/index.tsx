@@ -29,7 +29,7 @@ function MainBanner() {
   return (
     <div className={cx("banner-wrapper")}>
       <div className={cx("section-banner")}>
-        {/* MAIN SLIDE */}
+        {}
         <div className={cx("section-banner1")}>
           <Link href="#">
             <img
@@ -40,7 +40,7 @@ function MainBanner() {
           </Link>
         </div>
 
-        {/* SIDE BANNERS */}
+        {}
         <div className={cx("section-banner2")}>
           <Link href="#">
             <img
@@ -57,7 +57,7 @@ function MainBanner() {
         </div>
       </div>
 
-      {/* 4 SUBBANNERS */}
+      {}
       <div className={cx("section-subbanner")}>
         <Link href="#" className={cx("section-subbanner__item")}>
           <img src="https://file.hstatic.net/200000722513/file/gearvn-gaming-gear-deal-hoi-sub-banner-t8.png" />

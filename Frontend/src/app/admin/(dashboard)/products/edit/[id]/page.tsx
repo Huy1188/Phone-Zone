@@ -62,7 +62,7 @@ export default function EditProductPage() {
                 const p = resProd?.data?.product ?? resProd?.data ?? null;
                 setProduct(p);
 
-                // luôn ép về string để tránh controlled/uncontrolled
+                
                 setForm({
                     name: String(p?.name ?? ''),
                     min_price: String(p?.min_price ?? ''),
@@ -86,7 +86,7 @@ export default function EditProductPage() {
 
     useEffect(() => {
         if (id) fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [id]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -183,7 +183,7 @@ export default function EditProductPage() {
     return (
         <div className={styles.container}>
             <div className={styles.cardBox}>
-                {/* HEADER */}
+                {}
                 <div className={styles.cardHeader}>
                     <h2>
                         <i className="fas fa-box"></i> Sửa sản phẩm #{product.product_id}
@@ -193,7 +193,7 @@ export default function EditProductPage() {
                     </Link>
                 </div>
 
-                {/* FORM */}
+                {}
                 <form className={styles.form} onSubmit={handleUpdate}>
                     <div className={styles.grid}>
                         <div className={styles.formGroup}>
@@ -266,38 +266,7 @@ export default function EditProductPage() {
                                 <div className={styles.uploadBox}>
                                     <input
                                         type="file"
-                                        accept="image/*"
-                                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                                    />
-                                    {file && (
-                                        <button type="button" className={styles.clearBtn} onClick={() => setFile(null)}>
-                                            <i className="fas fa-times"></i> Bỏ chọn ảnh
-                                        </button>
-                                    )}
-                                    <div style={{ fontSize: 12, color: '#6b7280' }}>
-                                        * Không chọn ảnh mới thì giữ ảnh cũ.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.footer}>
-                        <button className={styles.btnSubmit} type="submit" disabled={saving}>
-                            {saving ? (
-                                <>
-                                    <i className="fas fa-spinner fa-spin"></i> Đang lưu...
-                                </>
-                            ) : (
-                                <>
-                                    <i className="fas fa-save"></i> Lưu thay đổi
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </form>
-
-                {/* VARIANTS TABLE */}
+                                        accept="image}
                 <div className={styles.variantSection}>
                     <div className={styles.variantHeader}>
                         <h3>
@@ -353,7 +322,7 @@ export default function EditProductPage() {
                         </table>
                     </div>
 
-                    {/* ADD VARIANT */}
+                    {}
                     <VariantForm
                         onSubmit={async (fd) => {
                             const res: any = await createVariant(id, fd);

@@ -5,6 +5,8 @@ import { NewsItem } from "@/types/news";
 const cx = classNames.bind(styles);
 
 export default function NewsDetail({ item }: { item: NewsItem }) {
+  const staticBase = process.env.NEXT_PUBLIC_STATIC_BASE || "";
+  const img = `${staticBase}${item.thumbnail}`
   return (
     <div className={cx("wrapper")}>
       <article className={cx("inner")}>
@@ -16,10 +18,10 @@ export default function NewsDetail({ item }: { item: NewsItem }) {
       </div>
 
       <div className={cx("thumb")}>
-        <img src={item.thumbnail} alt={item.title} />
+        <img src={img} alt={item.title} />
       </div>
 
-      {/* content mock là HTML */}
+      {}
       <div
         className={cx("content")}
         dangerouslySetInnerHTML={{ __html: item.content }}

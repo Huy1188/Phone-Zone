@@ -1,9 +1,9 @@
-// src/app/components/Pages/Category/CategoryProductList/index.tsx
+
 import classNames from 'classnames/bind';
 import Link from 'next/link';
 import styles from './CategoryProductList.module.scss';
 
-// Import component hiển thị từng thẻ sản phẩm
+
 import ProductCard from '../../Home/ProductCard';
 
 import { Product } from '@/types/product';
@@ -18,7 +18,7 @@ interface Props {
 function CategoryProductList({ products, totalProducts }: Props) {
     return (
         <section className={cx('section')}>
-            {/* <div className={cx('header')}></div> */}
+            {}
 
             <div className={cx('grid-list')}>
                 {products.map((product) => (

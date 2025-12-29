@@ -1,4 +1,4 @@
-/* src/components/Admin/Categories/Category.module.scss */
+
 
 .container {
     padding: 20px;
@@ -11,7 +11,7 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    border-top: 3px solid #17a2b8; // Màu xanh dương đặc trưng
+    border-top: 3px solid #17a2b8; 
 
     h2 {
         text-align: center;
@@ -19,13 +19,13 @@
         border-bottom: 1px solid #eee;
         padding-bottom: 20px;
         margin-bottom: 20px;
-        font-size: 24px; // Tăng cỡ chữ tiêu đề
+        font-size: 24px; 
     }
 
     .btnAdd {
         background: #007bff;
         color: white;
-        padding: 10px 20px; // Nút to hơn
+        padding: 10px 20px; 
         border-radius: 4px;
         text-decoration: none;
         display: inline-flex;
@@ -49,10 +49,10 @@
     th,
     td {
         border: 1px solid #dee2e6;
-        padding: 15px; // Tăng padding cho thoáng
+        padding: 15px; 
         text-align: left;
         vertical-align: middle;
-        font-size: 15px; // 🔥 TĂNG CỠ CHỮ BẢNG Ở ĐÂY
+        font-size: 15px; 
         color: #333;
     }
 
@@ -63,9 +63,9 @@
         font-size: 14px;
     }
 
-    // Ảnh danh mục
+    
     .catImg {
-        width: 60px; // Ảnh to hơn chút
+        width: 60px; 
         height: 60px;
         object-fit: cover;
         border-radius: 4px;

@@ -16,7 +16,7 @@ interface Props {
 export default function ProductCarousel({ title, products }: Props) {
   const listRef = useRef<HTMLDivElement | null>(null);
 
-  // Tạo danh sách loop: [last, ...original, first]
+  
   const loopProducts = [
     products[products.length - 1],
     ...products,
@@ -36,7 +36,7 @@ export default function ProductCarousel({ title, products }: Props) {
     });
   };
 
-  /** Xử lý loop vô hạn **/
+  
   useEffect(() => {
     const container = listRef.current;
     if (!container) return;
@@ -44,7 +44,7 @@ export default function ProductCarousel({ title, products }: Props) {
     const handleInfinite = () => {
       const maxScroll = container.scrollWidth - container.clientWidth;
 
-      // Nếu lướt sang cuối (đang ở clone cuối → nhảy về item thật)
+      
       if (container.scrollLeft >= maxScroll - 5) {
         container.style.scrollBehavior = "auto";
         const firstRealItem = container.children[1] as HTMLElement;
@@ -52,7 +52,7 @@ export default function ProductCarousel({ title, products }: Props) {
         container.style.scrollBehavior = "smooth";
       }
 
-      // Nếu lướt sang đầu (đang ở clone đầu → nhảy về item thật cuối)
+      
       if (container.scrollLeft <= 5) {
         container.style.scrollBehavior = "auto";
         const lastRealItem = container.children[products.length] as HTMLElement;
@@ -65,7 +65,7 @@ export default function ProductCarousel({ title, products }: Props) {
     return () => container.removeEventListener("scroll", handleInfinite);
   }, [products]);
 
-  /** Sau khi mount → nhảy về item đầu tiên thật */
+  
   useEffect(() => {
     const container = listRef.current;
     if (!container) return;

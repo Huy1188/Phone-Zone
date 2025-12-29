@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
 import classNames from "classnames/bind";
-import styles from "./DropMenuMobile.module.scss"; // hoặc file scss bạn đang để dropmenu
-import CategorySidebar from "@/app/components/Pages/Home/HeroSection/CategorySidebar"; // giữ nguyên của bạn
+import styles from "./DropMenuMobile.module.scss"; 
+import CategorySidebar from "@/app/components/Pages/Home/HeroSection/CategorySidebar"; 
 
 const cx = classNames.bind(styles);
 
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function DropMenuMobile({ open, onClose }: Props) {
-  // lock scroll body khi mở trên mobile
+  
   useEffect(() => {
     const isMobile = typeof window !== "undefined" && window.innerWidth <= 1023;
     if (open && isMobile) document.body.style.overflow = "hidden";
@@ -27,10 +27,10 @@ export default function DropMenuMobile({ open, onClose }: Props) {
 
   return (
     <>
-      {/* overlay */}
+      {}
       <div className={cx("dropOverlay")} onClick={onClose} aria-hidden="true" />
 
-      {/* panel */}
+      {}
       <aside
         className={cx("dropPanel", { open })}
         role="dialog"

@@ -9,7 +9,7 @@ const getUserId = (req, res) => {
   return userId;
 };
 
-// GET /users/me/addresses
+
 export const listMyAddresses = async (req, res) => {
   try {
     const userId = getUserId(req, res);
@@ -27,7 +27,7 @@ export const listMyAddresses = async (req, res) => {
   }
 };
 
-// POST /users/me/addresses
+
 export const createMyAddress = async (req, res) => {
   try {
     const userId = getUserId(req, res);
@@ -59,7 +59,7 @@ export const createMyAddress = async (req, res) => {
         { transaction: t }
       );
 
-      // Nếu user chưa có default nào -> set default cho địa chỉ mới
+      
       const hasDefault = await db.Address.findOne({
         where: { user_id: userId, is_default: true },
         transaction: t,
@@ -87,7 +87,7 @@ export const createMyAddress = async (req, res) => {
   }
 };
 
-// PUT /users/me/addresses/:id
+
 export const updateMyAddress = async (req, res) => {
   try {
     const userId = getUserId(req, res);
@@ -131,7 +131,7 @@ export const updateMyAddress = async (req, res) => {
   }
 };
 
-// DELETE /users/me/addresses/:id
+
 export const deleteMyAddress = async (req, res) => {
   try {
     const userId = getUserId(req, res);
@@ -145,7 +145,7 @@ export const deleteMyAddress = async (req, res) => {
     const wasDefault = !!addr.is_default;
     await addr.destroy();
 
-    // Nếu xóa default -> set default cho địa chỉ mới nhất còn lại
+    
     if (wasDefault) {
       const latest = await db.Address.findOne({
         where: { user_id: userId },
@@ -166,7 +166,7 @@ export const deleteMyAddress = async (req, res) => {
   }
 };
 
-// PATCH /users/me/addresses/:id/default
+
 export const setDefaultMyAddress = async (req, res) => {
   try {
     const userId = getUserId(req, res);
@@ -196,7 +196,7 @@ export const setDefaultMyAddress = async (req, res) => {
   }
 };
 
-// GET /users/me/addresses/default  (checkout autofill)
+
 export const getMyDefaultAddress = async (req, res) => {
   try {
     const userId = getUserId(req, res);

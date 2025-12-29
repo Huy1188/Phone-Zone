@@ -7,25 +7,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* 1. Reset & Layout */
+        
         body { margin: 0; font-family: "Source Sans Pro", sans-serif; background-color: #f4f6f9; }
         .wrapper { display: flex; width: 100%; min-height: 100vh; }
         .main-column {
-        flex: 1; /* Chiếm hết phần còn lại */
+        flex: 1; 
         display: flex;
-        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        flex-direction: column; 
         overflow-x: hidden;
         }
         .content-container { flex: 1; padding: 30px; overflow-y: auto; }
 
-        /* 2. Card Box */
+        
         .card-box {
             background: white; padding: 20px; border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.05); border-top: 3px solid #ffc107;
         }
         h2 { text-align: center; color: #333; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
 
-        /* 3. THANH CÔNG CỤ (FILTER & ADD) */
+        
         .toolbar {
             display: flex; justify-content: space-between; align-items: center;
             background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #e9ecef;
@@ -50,13 +50,13 @@
         }
         .btn-add:hover { background-color: #0056b3; }
 
-        /* 4. Table */
+        
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #dee2e6; text-align: left; padding: 12px; vertical-align: middle; }
         th { background-color: #f8f9fa; color: #333; }
         .img-preview { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
         
-        /* 5. Pagination (Phân trang) */
+        
         .pagination { display: flex; justify-content: center; margin-top: 20px; gap: 5px; }
         .page-link {
             padding: 8px 12px; border: 1px solid #dee2e6; color: #007bff; text-decoration: none; border-radius: 4px; background: white;
@@ -65,7 +65,7 @@
         .page-link.active { background: #007bff; color: white; border-color: #007bff; }
         .page-link.disabled { color: #6c757d; pointer-events: none; background: #fff; border-color: #dee2e6; }
 
-        /* Actions */
+        
         .btn-action { padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; color: white; font-weight: bold; margin-right: 3px;}
         .btn-edit { background-color: #ffc107; color: #333; }
         .btn-delete { background-color: #dc3545; }

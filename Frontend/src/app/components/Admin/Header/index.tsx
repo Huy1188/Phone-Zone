@@ -3,19 +3,19 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { adminLogout } from '@/services/admin/authService';
 import { useRouter } from 'next/navigation';
-import ChangePasswordModal from '@/app/components/Admin/Auth/ChangePasswordModal'; // 1. Import Modal
+import ChangePasswordModal from '@/app/components/Admin/Auth/ChangePasswordModal'; 
 import styles from './AdminHeader.module.scss';
 
 const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: () => void }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    // 2. State for Change Password Modal
+    
     const [showChangePass, setShowChangePass] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    // Handle clicking outside to close dropdown
+    
     useEffect(() => {
         const handleClickOutside = (event: any) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -37,7 +37,7 @@ const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: (
                 <button className={styles.menuBtn} onClick={onToggleSidebar} aria-label="Toggle sidebar">
                     <i className="fas fa-bars" />
                 </button>
-                {/* LEFT: Web Link */}
+                {}
                 <div className={styles.headerLeft}>
                     <Link href="/" target="_blank">
                         <i className="fas fa-globe" style={{ marginRight: 5 }}></i> Xem Website
@@ -46,9 +46,9 @@ const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: (
                     <span>Quản trị hệ thống</span>
                 </div>
 
-                {/* RIGHT: Icons & Profile */}
+                {}
                 <div className={styles.headerRight}>
-                    {/* Notifications */}
+                    {}
                     <div className={styles.navIconBtn}>
                         <i className="far fa-bell"></i>
                         <span className={styles.badge}>3</span>
@@ -60,7 +60,7 @@ const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: (
                         </span>
                     </div>
 
-                    {/* Profile Dropdown */}
+                    {}
                     <div className={styles.adminProfile} onClick={() => setIsOpen(!isOpen)} ref={dropdownRef}>
                         <img
                             src={user?.avatar || 'https://cdn-icons-png.flaticon.com/512/2206/2206368.png'}
@@ -79,7 +79,7 @@ const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: (
                             ></i>
                         </div>
 
-                        {/* DROPDOWN MENU */}
+                        {}
                         <div className={`${styles.dropdownMenu} ${isOpen ? styles.show : ''}`}>
                             <div className={styles.menuHeader}>
                                 <small>Đăng nhập bởi:</small>
@@ -87,14 +87,14 @@ const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: (
                                 <strong>{user ? `${user.last_name} ${user.first_name}` : 'Super Admin'}</strong>
                             </div>
 
-                            {/* 3. Update Change Password Item */}
-                            {/* Instead of Link, use a div with onClick */}
+                            {}
+                            {}
                             <div
                                 className={styles.dropdownItem}
                                 onClick={(e) => {
-                                    e.stopPropagation(); // Prevent closing dropdown immediately if needed, though usually we want it to close.
-                                    setIsOpen(false); // Close dropdown
-                                    setShowChangePass(true); // Open Modal
+                                    e.stopPropagation(); 
+                                    setIsOpen(false); 
+                                    setShowChangePass(true); 
                                 }}
                                 style={{ cursor: 'pointer' }}
                             >
@@ -115,7 +115,7 @@ const AdminHeader = ({ user, onToggleSidebar }: { user: any, onToggleSidebar?: (
                 </div>
             </header>
 
-            {/* 4. Render the Modal */}
+            {}
             <ChangePasswordModal isOpen={showChangePass} onClose={() => setShowChangePass(false)} />
         </>
     );

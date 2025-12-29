@@ -30,7 +30,7 @@ function CategoryBanner({ items }: CategoryBannerProps) {
 
   return (
     <div className={cx("wrapper")}>
-      {/* DESKTOP: chỉ hiển thị banner active */}
+      {}
       <Link href="#" className={cx("desktopOnly")}>
         <img
           src={items[index].url}
@@ -39,7 +39,7 @@ function CategoryBanner({ items }: CategoryBannerProps) {
         />
       </Link>
 
-      {/* MOBILE: cuộn ngang */}
+      {}
       <div className={cx("mobileOnly")}>
         {items.map((item, i) => (
           <Link href="#" key={i} className={cx("bannerItem")}>

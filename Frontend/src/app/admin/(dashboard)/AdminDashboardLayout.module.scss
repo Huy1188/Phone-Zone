@@ -9,7 +9,7 @@
   margin-left: 250px;
   display: flex;
   flex-direction: column;
-  min-width: 0; // tránh layout bị “cứng” khi có table
+  min-width: 0; 
 }
 
 .main {

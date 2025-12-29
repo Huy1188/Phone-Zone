@@ -1,6 +1,6 @@
 @use 'sass:color';
 
-$primary: #28a745; // xanh giống bảng user
+$primary: #28a745; 
 $bg: #f5f6f8;
 $text: #212529;
 $muted: #8898aa;
@@ -161,7 +161,7 @@ $white: #fff;
 }
 
 .starFilled {
-    color: #f4b400; // vàng
+    color: #f4b400; 
 }
 
 .starEmpty {
@@ -188,7 +188,7 @@ $white: #fff;
     }
 }
 
-/* Responsive gọn như bảng user */
+
 @media (max-width: 1200px) {
     .comment {
         max-width: 320px;

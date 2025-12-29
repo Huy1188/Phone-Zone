@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { changeAdminPassword } from '@/services/admin/authService'; // Nhớ import đúng
+import { changeAdminPassword } from '@/services/admin/authService'; 
 import styles from './ChangePassword.module.scss';
 
 interface Props {
@@ -17,7 +17,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
     if (!isOpen) return null;
 
     const handleSubmit = async () => {
-        // Validate cơ bản
+        
         if (!currentPassword || !newPassword || !confirmPassword) {
             return alert('Vui lòng điền đầy đủ thông tin!');
         }
@@ -30,7 +30,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
 
         setLoading(true);
         try {
-            // Gọi API
+            
             let res: any = await changeAdminPassword({
                 currentPassword,
                 newPassword,
@@ -39,9 +39,9 @@ const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
 
             if (res?.success) {
                 alert('Đổi mật khẩu thành công!');
-                handleClose(); // Đóng modal và reset form
+                handleClose(); 
             } else {
-                alert(res.message); // Hiện lỗi từ backend (vd: Sai pass cũ)
+                alert(res.message); 
             }
         } catch (e) {
             console.error(e);
@@ -51,7 +51,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
     };
 
     const handleClose = () => {
-        // Reset form khi đóng
+        
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');

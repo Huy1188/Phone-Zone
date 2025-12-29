@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 require("dotenv").config();
 
-const nonSecurePaths = ["/admin-login", "/admin-logout", "/create-new-user"]; // Các API không cần check token
+const nonSecurePaths = ["/admin-login", "/admin-logout", "/create-new-user"]; 
 
 const createJWT = (payload) => {
   let key = process.env.JWT_SECRET || "bi_mat_khong_bat_mi";
   let token = null;
   try {
-    token = jwt.sign(payload, key, { expiresIn: "1d" }); // Token sống 1 ngày
+    token = jwt.sign(payload, key, { expiresIn: "1d" }); 
   } catch (err) {
     console.log(err);
   }
@@ -25,18 +25,18 @@ const verifyToken = (token) => {
   return decoded;
 };
 
-// Middleware check quyền Admin trên từng request
+
 const checkUserJWT = (req, res, next) => {
-  if (nonSecurePaths.includes(req.path)) return next(); // Bỏ qua trang login
+  if (nonSecurePaths.includes(req.path)) return next(); 
 
   let cookies = req.cookies;
-  let tokenFromHeader = cookies.jwt; // Lấy token từ cookie tên là 'jwt'
+  let tokenFromHeader = cookies.jwt; 
 
   if (tokenFromHeader) {
     let decoded = verifyToken(tokenFromHeader);
     if (decoded && decoded.role_id === 1) {
-      // Chỉ cho phép Admin (role_id = 1)
-      req.user = decoded; // Gán user vào request để dùng sau này
+      
+      req.user = decoded; 
       next();
     } else {
       return res

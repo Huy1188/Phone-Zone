@@ -3,18 +3,13 @@ import bcrypt from 'bcrypt';
 import slugify from 'slugify';
 import { generateInvoicePdf } from '../utils/invoicePdf';
 
-/**
- * Helpers
- */
+
 const ok = (res, data = null, message = 'OK', meta = null) => res.json({ success: true, message, data, meta });
 
 const fail = (res, status = 400, message = 'Bad Request', errors = null) =>
     res.status(status).json({ success: false, message, errors });
 
-/**
- * Middleware: yêu cầu admin đăng nhập + đúng quyền
- * (Dùng cho các route /api/admin/... trừ login)
- */
+
 let requireAdmin = (req, res, next) => {
     if (!req.session?.isLoggedIn || !req.session?.adminUser) {
         return fail(res, 401, 'Unauthorized');
@@ -25,11 +20,9 @@ let requireAdmin = (req, res, next) => {
     next();
 };
 
-/**
- * ADMIN AUTH
- */
 
-// API check login status (thay cho getAdminLogin render form)
+
+
 let getAdminLogin = (req, res) => {
     const loggedIn = !!req.session?.isLoggedIn && !!req.session?.adminUser;
     return ok(
@@ -76,7 +69,7 @@ let handleAdminLogin = async (req, res) => {
     }
 };
 
-// Middleware cũ (để tương thích nếu routes bạn đang gọi tên này)
+
 let checkLoggedIn = requireAdmin;
 
 let handleLogout = (req, res) => {
@@ -85,7 +78,7 @@ let handleLogout = (req, res) => {
     });
 };
 
-// API đổi mật khẩu (không cần getChangePassword render form)
+
 let getChangePassword = (req, res) => {
     return ok(res, {}, 'Ready');
 };
@@ -117,15 +110,13 @@ let handleChangePassword = async (req, res) => {
     }
 };
 
-// Giữ lại hàm này nếu nơi khác còn dùng
+
 let checkUserEmail = async (userEmail) => {
     const user = await db.User.findOne({ where: { email: userEmail } });
     return !!user;
 };
 
-/**
- * USER CRUD
- */
+
 let handleCreateUser = async (req, res) => {
     try {
         const { email, password, first_name, last_name, phone, gender, role_id } = req.body;
@@ -134,11 +125,11 @@ let handleCreateUser = async (req, res) => {
             return fail(res, 400, 'Thiếu thông tin bắt buộc (email, password, first_name, last_name)');
         }
 
-        // check email tồn tại
+        
         const existed = await db.User.findOne({ where: { email } });
         if (existed) return fail(res, 400, 'Email đã tồn tại trong hệ thống!');
 
-        // hash password
+        
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
 
@@ -148,11 +139,11 @@ let handleCreateUser = async (req, res) => {
             first_name,
             last_name,
             phone: phone || null,
-            gender: gender === true || gender === 'true' || gender === 1 || gender === '1', // boolean
-            role_id: Number(role_id || 2), // mặc định user
+            gender: gender === true || gender === 'true' || gender === 1 || gender === '1', 
+            role_id: Number(role_id || 2), 
         });
 
-        // không trả password
+        
         const data = {
             user_id: user.user_id,
             email: user.email,
@@ -212,7 +203,7 @@ let putCRUD = async (req, res) => {
     try {
         if (!userId) return fail(res, 400, 'Thiếu user_id');
 
-        // 1) Update user
+        
         await db.User.update(
             {
                 first_name: data.first_name,
@@ -222,13 +213,13 @@ let putCRUD = async (req, res) => {
             { where: { user_id: userId } },
         );
 
-        // 2) Update default address
+        
         if (data.selected_default_id) {
             await db.Address.update({ is_default: false }, { where: { user_id: userId } });
             await db.Address.update({ is_default: true }, { where: { address_id: data.selected_default_id } });
         }
 
-        // 3) Update existing addresses
+        
         if (data.addresses) {
             for (let addrId in data.addresses) {
                 let addrData = data.addresses[addrId];
@@ -245,7 +236,7 @@ let putCRUD = async (req, res) => {
             }
         }
 
-        // 4) Create new address (optional)
+        
         if (data.new_street && data.new_street.trim() !== '') {
             await db.Address.create({
                 user_id: userId,
@@ -302,7 +293,7 @@ let handleUserManage = async (req, res) => {
     }
 };
 
-// Address
+
 let handleDeleteAddress = async (req, res) => {
     try {
         let addressId = req.params.addressId;
@@ -316,9 +307,7 @@ let handleDeleteAddress = async (req, res) => {
     }
 };
 
-/**
- * CATEGORY
- */
+
 let handleCategoryManage = async (req, res) => {
     try {
         let categories = await db.Category.findAll({ raw: true });
@@ -410,9 +399,7 @@ let handleUpdateCategory = async (req, res) => {
     }
 };
 
-/**
- * BRAND
- */
+
 let handleBrandManage = async (req, res) => {
     try {
         let brands = await db.Brand.findAll({ raw: true });
@@ -511,9 +498,7 @@ let handleDeleteBrand = async (req, res) => {
     }
 };
 
-/**
- * PRODUCT (quản lý)
- */
+
 let handleProductManage = async (req, res) => {
     try {
         let page = req.query.page ? parseInt(req.query.page) : 1;
@@ -665,7 +650,7 @@ let handleDeleteProduct = async (req, res) => {
         const productId = req.params.productId;
         if (!productId) return fail(res, 400, 'Thiếu productId');
 
-        await db.ProductVariant.destroy({ where: { product_id: productId } }); // tránh rác
+        await db.ProductVariant.destroy({ where: { product_id: productId } }); 
         await db.Product.destroy({ where: { product_id: productId } });
 
         return ok(res, {}, 'Xóa sản phẩm thành công');
@@ -714,9 +699,7 @@ let handleDeleteVariant = async (req, res) => {
     }
 };
 
-/**
- * ORDER (admin)
- */
+
 let handleOrderManage = async (req, res) => {
     try {
         let orders = await db.Order.findAll({
@@ -739,16 +722,16 @@ let handleOrderManage = async (req, res) => {
     }
 };
 
-// adminController.js
-// giả sử bạn đang có helper ok/fail giống project bạn
-// ok(res, data, message) / fail(res, code, message)
+
+
+
 
 const getOrderDetail = async (req, res) => {
     try {
         const orderId = Number(req.params.orderId || req.params.id);
         if (!orderId) return fail(res, 400, 'Thiếu order id');
 
-        // 1) Lấy order + user + addresses (giữ logic cũ của bạn nếu khác)
+        
         const order = await db.Order.findOne({
             where: { order_id: orderId },
             include: [
@@ -764,18 +747,18 @@ const getOrderDetail = async (req, res) => {
 
         if (!order) return fail(res, 404, 'Không tìm thấy đơn hàng');
 
-        // 2) Lấy orderDetails + variant + product
+        
         const orderDetails = await db.OrderDetail.findAll({
             where: { order_id: orderId },
             include: [
                 {
                     model: db.ProductVariant,
-                    as: 'variant', // ✅ đúng alias theo model :contentReference[oaicite:4]{index=4}
+                    as: 'variant', 
                     attributes: ['variant_id', 'product_id', 'sku', 'color', 'ram', 'rom', 'image', 'price'],
                     include: [
                         {
                             model: db.Product,
-                            as: 'product', // ✅ đúng alias theo model :contentReference[oaicite:5]{index=5}
+                            as: 'product', 
                             attributes: ['product_id', 'name', 'image'],
                         },
                     ],
@@ -785,7 +768,7 @@ const getOrderDetail = async (req, res) => {
             nest: true,
         });
 
-        // 3) Normalize output: luôn có variant_label để FE hiển thị phân loại
+        
         const normalized = orderDetails.map((d) => {
             const x = d.toJSON ? d.toJSON() : d;
             const v = x.variant || null;
@@ -793,8 +776,8 @@ const getOrderDetail = async (req, res) => {
             const parts = [];
             if (v?.color) parts.push(v.color);
             if (v?.rom) parts.push(v.rom);
-            // nếu bạn muốn thêm RAM vào label
-            // if (v?.ram) parts.push(v.ram);
+            
+            
 
             const variant_label = parts.join(' - ') || v?.sku || '';
 
@@ -803,7 +786,7 @@ const getOrderDetail = async (req, res) => {
                 order_id: x.order_id,
                 variant_id: x.variant_id,
 
-                // snapshot từ OrderDetail (giữ đúng DB bạn đang có) :contentReference[oaicite:6]{index=6}
+                
                 product_name: x.product_name,
                 quantity: Number(x.quantity || 0),
                 price: Number(x.price || 0),
@@ -876,7 +859,7 @@ const exportOrderInvoice = async (req, res) => {
                 {
                     model: db.OrderDetail,
                     as: 'details',
-                    // ✅ lấy luôn product_name/price/quantity từ order detail
+                    
                     attributes: ['detail_id', 'product_name', 'price', 'quantity', 'variant_id', 'order_id'],
                     include: [
                         {
@@ -885,7 +868,7 @@ const exportOrderInvoice = async (req, res) => {
                             include: [
                                 {
                                     model: db.Product,
-                                    as: 'product', // ✅ đúng alias bạn đang dùng ở getOrderDetail
+                                    as: 'product', 
                                     attributes: ['product_id', 'name'],
                                 },
                             ],
@@ -925,9 +908,7 @@ let handleDeleteOrder = async (req, res) => {
     }
 };
 
-/**
- * VOUCHER
- */
+
 let handleVoucherManage = async (req, res) => {
     try {
         let vouchers = await db.Voucher.findAll({
@@ -1018,9 +999,7 @@ let handleDeleteVoucher = async (req, res) => {
     }
 };
 
-/**
- * REVIEW
- */
+
 let handleReviewManage = async (req, res) => {
     try {
         let reviews = await db.Review.findAll({
@@ -1054,9 +1033,7 @@ let handleDeleteReview = async (req, res) => {
     }
 };
 
-/**
- * POST
- */
+
 let handlePostManage = async (req, res) => {
     try {
         let posts = await db.Post.findAll({
@@ -1164,9 +1141,7 @@ let handleUpdatePost = async (req, res) => {
     }
 };
 
-/**
- * INVOICE (API-only -> trả data, FE tự render/in PDF)
- */
+
 let printInvoice = async (req, res) => {
     try {
         let orderId = req.params.orderId;
@@ -1184,9 +1159,7 @@ let printInvoice = async (req, res) => {
     }
 };
 
-/**
- * DASHBOARD
- */
+
 let getAdminDashboard = async (req, res) => {
     try {
         let userCount = await db.User.count({ where: { role_id: 2 } });
@@ -1201,9 +1174,7 @@ let getAdminDashboard = async (req, res) => {
     }
 };
 
-/**
- * BANNER
- */
+
 let handleBannerManage = async (req, res) => {
     try {
         const banners = await db.Banner.findAll({
@@ -1301,11 +1272,11 @@ let handleDeleteBanner = async (req, res) => {
 };
 
 export default {
-    // middleware
+    
     requireAdmin,
     checkLoggedIn,
 
-    // auth
+    
     getAdminLogin,
     handleAdminLogin,
     handleLogout,
@@ -1313,7 +1284,7 @@ export default {
     getChangePassword,
     handleChangePassword,
 
-    // user
+    
     handleDeleteUser,
     handleCreateUser,
     getEditUser,
@@ -1321,7 +1292,7 @@ export default {
     handleUserManage,
     handleDeleteAddress,
 
-    // category
+    
     handleCategoryManage,
     getCreateCategory,
     handleCreateCategory,
@@ -1329,7 +1300,7 @@ export default {
     getEditCategory,
     handleUpdateCategory,
 
-    // brand
+    
     handleBrandManage,
     getCreateBrand,
     handleCreateBrand,
@@ -1337,7 +1308,7 @@ export default {
     handleUpdateBrand,
     handleDeleteBrand,
 
-    // product
+    
     handleProductManage,
     getCreateProduct,
     handleCreateProduct,
@@ -1347,14 +1318,14 @@ export default {
     handleAddVariant,
     handleDeleteVariant,
 
-    // order
+    
     handleOrderManage,
     getOrderDetail,
     updateOrderStatus,
     handleDeleteOrder,
     exportOrderInvoice,
 
-    // voucher
+    
     handleVoucherManage,
     getCreateVoucher,
     handleStoreVoucher,
@@ -1362,11 +1333,11 @@ export default {
     handleUpdateVoucher,
     handleDeleteVoucher,
 
-    // review
+    
     handleReviewManage,
     handleDeleteReview,
 
-    // post
+    
     handlePostManage,
     getCreatePost,
     handleStorePost,
@@ -1374,13 +1345,13 @@ export default {
     handleUpdatePost,
     getEditPost,
 
-    // invoice
+    
     printInvoice,
 
-    // dashboard
+    
     getAdminDashboard,
 
-    // banner
+    
     handleBannerManage,
     getEditBanner,
     handleCreateBanner,

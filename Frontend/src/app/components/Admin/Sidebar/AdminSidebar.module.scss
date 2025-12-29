@@ -1,23 +1,23 @@
 .mainSidebar {
-    background-color: #343a40; // Màu tối chuẩn AdminLTE
+    background-color: #343a40; 
     position: fixed;
     top: 0;
-    bottom: 0; // quan trọng: tạo khung cao full màn
+    bottom: 0; 
     left: 0;
     width: 250px;
 
-    overflow-y: auto; // cho phép scroll dọc
+    overflow-y: auto; 
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; // mượt trên iOS
+    -webkit-overflow-scrolling: touch; 
 
-    // 1. Logo Brand
+    
     .brandLink {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 15px;
         height: 57px;
-        background-color: #dc3545; // Màu đỏ logo
+        background-color: #dc3545; 
         color: white;
         text-decoration: none;
         font-weight: bold;
@@ -36,7 +36,7 @@
         }
     }
 
-    // 2. User Panel
+    
     .userPanel {
         display: flex;
         align-items: center;
@@ -70,7 +70,7 @@
         }
     }
 
-    // 3. Menu Nav
+    
     .navSidebar {
         list-style: none;
         padding: 0 10px 20px 10px;

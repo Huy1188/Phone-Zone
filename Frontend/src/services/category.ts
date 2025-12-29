@@ -1,4 +1,4 @@
-// src/services/category.ts
+
 import { api } from "@/lib/api";
 import { mapBackendProductToProduct } from "@/lib/adapters/product";
 import type { ProductsResponse } from "@/types/api";
@@ -24,7 +24,7 @@ export async function fetchProductsByCategorySlug(
 
   const res = await api<ProductsResponse>(path, { cache: "no-store" });
 
-  // Guard chống crash nếu backend trả thiếu products
+  
   const backendProducts = Array.isArray(res.products) ? res.products : [];
   return backendProducts.map(mapBackendProductToProduct);
 }

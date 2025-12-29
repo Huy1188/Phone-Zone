@@ -27,11 +27,11 @@
   width: 64px;
   height: 3px;
   border-radius: 999px;
-  background: #e5e7eb; // gray
+  background: #e5e7eb; 
 }
 
 .line.done {
-  background: #16a34a; // green
+  background: #16a34a; 
 }
 
 .text {
@@ -59,7 +59,7 @@
   color: #6b7280;
 }
 
-/* Mobile: xếp dọc, line thành vertical */
+
 @media (max-width: 640px) {
   .step {
     min-width: unset;

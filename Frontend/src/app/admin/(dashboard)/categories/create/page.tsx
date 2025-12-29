@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCategory } from '@/services/admin/categoryService';
 import styles from '@/app/components/Admin/Categories/CreateCategory.module.scss';
-import Link from 'next/link'; // Import Link
+import Link from 'next/link'; 
 
 export default function CreateCategory() {
     const router = useRouter();

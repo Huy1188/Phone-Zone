@@ -1,14 +1,14 @@
 import db from "../models";
 
-// helper: bỏ HTML để cắt excerpt
+
 const stripHtml = (html = "") => html.replace(/<[^>]*>/g, "");
 const makeExcerpt = (html = "", len = 160) => {
   const text = stripHtml(html).trim().replace(/\s+/g, " ");
   return text.length > len ? text.slice(0, len) + "..." : text;
 };
 
-// helper: thumbnail đang lưu kiểu "/images/products/xxx"
-// nhưng server đang serve static qua "/static" => chuyển thành "/static/images/products/xxx"
+
+
 const normalizeThumb = (thumb = "") => {
   if (!thumb) return "";
   if (thumb.startsWith("/static/")) return thumb;
@@ -36,7 +36,7 @@ export const getNewsList = async (req, res) => {
       category: p.category?.name ?? null,
       author:
         p.author ? `${p.author.first_name ?? ""} ${p.author.last_name ?? ""}`.trim() : null,
-      publishedAt: p.created_at, // frontend đang dùng publishedAt
+      publishedAt: p.created_at, 
       tags: [],
     }));
 

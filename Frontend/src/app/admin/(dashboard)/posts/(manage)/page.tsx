@@ -47,7 +47,7 @@ export default function PostManagePage() {
 
     useEffect(() => {
         if (page !== pageSafe) setPage(pageSafe);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [totalPages]);
 
     const paged = useMemo(() => {

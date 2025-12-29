@@ -2,7 +2,7 @@ import axiosClient from "@/lib/axiosClient";
 
 export const getAllBrands = () => axiosClient.get("/admin/brands");
 
-// export const getCreateBrandMeta = () => axiosClient.get("/admin/brands/create");
+
 
 export const getBrandById = (brandId: number | string) =>
   axiosClient.get(`/admin/brands/${brandId}`);

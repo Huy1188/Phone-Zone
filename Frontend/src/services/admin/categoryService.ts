@@ -2,8 +2,8 @@ import axiosClient from "@/lib/axiosClient";
 
 export const getAllCategories = () => axiosClient.get("/admin/categories");
 
-// route này backend có, nhưng FE thường không cần (chỉ dùng để render page server-side)
-// export const getCreateCategoryMeta = () => axiosClient.get("/admin/categories/create");
+
+
 
 export const getCategoryById = (categoryId: number | string) =>
   axiosClient.get(`/admin/categories/${categoryId}`);

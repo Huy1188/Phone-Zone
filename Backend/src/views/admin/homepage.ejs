@@ -29,9 +29,9 @@
         overflow-y: auto;
       }
       .main-column {
-        flex: 1; /* Chiếm hết phần còn lại */
+        flex: 1; 
         display: flex;
-        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        flex-direction: column; 
         overflow-x: hidden;
       }
 
@@ -42,7 +42,7 @@
         font-size: 24px;
       }
 
-      /* Grid System */
+      
       .row {
         display: flex;
         gap: 20px;
@@ -53,7 +53,7 @@
         min-width: 220px;
       }
 
-      /* Small Box (Card thống kê) */
+      
       .small-box {
         border-radius: 4px;
         position: relative;
@@ -106,7 +106,7 @@
         background: rgba(0, 0, 0, 0.15);
       }
 
-      /* Màu nền */
+      
       .bg-success {
         background-color: #28a745 !important;
       }
@@ -121,7 +121,7 @@
         background-color: #dc3545 !important;
       }
 
-      /* Chart Box */
+      
       .chart-box {
         background: white;
         padding: 20px;
@@ -222,8 +222,8 @@
     <script>
       const ctx = document.getElementById("myChart").getContext("2d");
 
-      // Dữ liệu giả lập (Sau này bạn có thể truyền từ Controller sang bằng EJS)
-      // Ví dụ: Doanh thu 6 tháng cuối năm
+      
+      
       const labels = [
         "Tháng 7",
         "Tháng 8",
@@ -238,14 +238,14 @@
       const orderData = [12, 19, 15, 25, 22, 40];
 
       new Chart(ctx, {
-        type: "bar", // Kiểu biểu đồ: 'bar' (cột), 'line' (đường), 'pie' (tròn)
+        type: "bar", 
         data: {
           labels: labels,
           datasets: [
             {
               label: "Doanh thu (VNĐ)",
               data: revenueData,
-              backgroundColor: "rgba(54, 162, 235, 0.6)", // Màu xanh dương
+              backgroundColor: "rgba(54, 162, 235, 0.6)", 
               borderColor: "rgba(54, 162, 235, 1)",
               borderWidth: 1,
               yAxisID: "y",
@@ -253,11 +253,11 @@
             {
               label: "Số đơn hàng",
               data: orderData,
-              type: "line", // Kết hợp đường line trong biểu đồ cột
-              borderColor: "rgba(255, 99, 132, 1)", // Màu đỏ
+              type: "line", 
+              borderColor: "rgba(255, 99, 132, 1)", 
               borderWidth: 2,
               fill: false,
-              yAxisID: "y1", // Trục Y thứ 2 bên phải
+              yAxisID: "y1", 
             },
           ],
         },
@@ -273,7 +273,7 @@
             y1: {
               beginAtZero: true,
               position: "right",
-              grid: { drawOnChartArea: false }, // Ẩn lưới trục phải cho đỡ rối
+              grid: { drawOnChartArea: false }, 
               title: { display: true, text: "Số đơn" },
             },
           },

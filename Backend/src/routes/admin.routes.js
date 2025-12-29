@@ -5,13 +5,9 @@ import upload from "../config/multerConfig";
 
 const router = express.Router();
 
-/**
- * ============== ADMIN (API JSON) ==============
- * Admin UI sẽ chuyển sang Next.js.
- * Backend chỉ giữ API + session.
- */
 
-// Admin auth
+
+
 router.get("/admin/auth", adminController.getAdminLogin);
 router.post("/admin/login", adminController.handleAdminLogin);
 router.post("/admin/logout", adminController.handleLogout);
@@ -21,14 +17,14 @@ router.post(
   adminController.handleChangePassword
 );
 
-// Dashboard
+
 router.get(
   "/admin/dashboard",
   adminController.checkLoggedIn,
   adminController.getAdminDashboard
 );
 
-// Users
+
 router.get(
   "/admin/users",
   adminController.checkLoggedIn,
@@ -56,14 +52,14 @@ router.delete(
   adminController.handleDeleteUser
 );
 
-// Addresses
+
 router.delete(
   "/admin/addresses/:addressId",
   adminController.checkLoggedIn,
   adminController.handleDeleteAddress
 );
 
-// Categories
+
 router.get(
   "/admin/categories",
   adminController.checkLoggedIn,
@@ -97,7 +93,7 @@ router.delete(
   adminController.handleDeleteCategory
 );
 
-// Brands
+
 router.get(
   "/admin/brands",
   adminController.checkLoggedIn,
@@ -131,7 +127,7 @@ router.delete(
   adminController.handleDeleteBrand
 );
 
-// Products
+
 router.get(
   "/admin/products",
   adminController.checkLoggedIn,
@@ -168,7 +164,7 @@ router.delete(
 );
 
 
-// Variants
+
 router.post(
   "/admin/products/:productId/variants",
   adminController.checkLoggedIn,
@@ -181,7 +177,7 @@ router.delete(
   adminController.handleDeleteVariant
 );
 
-// Orders
+
 router.get(
   "/admin/orders",
   adminController.checkLoggedIn,
@@ -214,7 +210,7 @@ router.get(
 
 
 
-// Vouchers
+
 router.get(
   "/admin/vouchers",
   adminController.checkLoggedIn,
@@ -246,7 +242,7 @@ router.delete(
   adminController.handleDeleteVoucher
 );
 
-// Reviews
+
 router.get(
   "/admin/reviews",
   adminController.checkLoggedIn,
@@ -258,7 +254,7 @@ router.delete(
   adminController.handleDeleteReview
 );
 
-// Posts
+
 router.get(
   "/admin/posts",
   adminController.checkLoggedIn,
@@ -295,14 +291,14 @@ router.patch(
 );
 
 
-// Invoice
+
 router.get(
   "/admin/orders/:orderId/invoice",
   adminController.checkLoggedIn,
   adminController.printInvoice
 );
 
-// Banners
+
 router.get(
   "/admin/banners",
   adminController.checkLoggedIn,

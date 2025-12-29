@@ -1,5 +1,5 @@
 "use strict";
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Addresses", {
@@ -11,7 +11,7 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        references: { model: "Users", key: "user_id" }, // Khóa ngoại
+        references: { model: "Users", key: "user_id" }, 
         onDelete: "CASCADE",
       },
       recipient_name: {

@@ -1,6 +1,6 @@
 @use 'sass:color';
 
-// --- MÀU SẮC CHO EDIT (MÀU VÀNG) ---
+
 $edit-color: #ffc107;
 $bg-body: #f8f9fa;
 $white: #ffffff;
@@ -23,7 +23,7 @@ $border-color: #e9ecef;
     border-radius: 12px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
     border: 1px solid $border-color;
-    // Điểm nhấn viền trên màu vàng
+    
     border-top: 4px solid $edit-color;
     animation: slideUp 0.4s ease-out;
 
@@ -98,7 +98,7 @@ $border-color: #e9ecef;
 
 .btnGroup {
     display: flex;
-    justify-content: space-between; // Đẩy nút Back và Submit ra 2 đầu
+    justify-content: space-between; 
     align-items: center;
     margin-top: 30px;
     padding-top: 20px;

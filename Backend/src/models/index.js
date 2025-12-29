@@ -1,5 +1,5 @@
 "use strict";
-require("dotenv").config(); //dùng để gọi các hàm đã có trong env
+require("dotenv").config(); 
 
 const fs = require("fs");
 const path = require("path");

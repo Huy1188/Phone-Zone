@@ -13,13 +13,13 @@ interface DropMenuProps {
 }
 
 export default function DropMenu({ open, onClose }: DropMenuProps) {
-  const NAVBAR_H = 80; // desktop only
+  const NAVBAR_H = 80; 
   const START_TOP = 177;
 
   const [menuTop, setMenuTop] = useState(START_TOP);
   const [isMobile, setIsMobile] = useState(false);
 
-  // detect mobile
+  
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 1023);
     check();
@@ -27,7 +27,7 @@ export default function DropMenu({ open, onClose }: DropMenuProps) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // desktop dropdown scroll logic
+  
   useEffect(() => {
     if (!open || isMobile) return;
 
@@ -41,7 +41,7 @@ export default function DropMenu({ open, onClose }: DropMenuProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [open, isMobile]);
 
-  // lock body scroll on mobile
+  
   useEffect(() => {
     if (open && isMobile) {
       document.body.style.overflow = "hidden";
@@ -57,14 +57,14 @@ export default function DropMenu({ open, onClose }: DropMenuProps) {
 
   return (
     <>
-      {/* overlay */}
+      {}
       <div
         className={cx("nav-overlay")}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* panel */}
+      {}
       <div
         className={cx("nav-panel", { mobile: isMobile, open })}
         role="dialog"

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import CheckoutPage from "@/app/components/Pages/Checkout"; // đổi path theo dự án bạn
+import CheckoutPage from "@/app/components/Pages/Checkout"; 
 
 export default function CheckoutRoutePage() {
   const router = useRouter();
@@ -15,8 +15,8 @@ export default function CheckoutRoutePage() {
     }
   }, [loading, user, router]);
 
-  if (loading) return null;   // hoặc skeleton
-  if (!user) return null;      // đang redirect
+  if (loading) return null;   
+  if (!user) return null;      
 
   return <CheckoutPage />;
 }

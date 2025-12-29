@@ -30,7 +30,7 @@ interface Props {
   onToggleFilter: (key: keyof SelectedFilters, value: string) => void;
   onClearAll: () => void;
 
-  // optional: bấm "Xem kết quả" -> đóng drawer / scroll
+  
   onApply?: () => void;
 }
 
@@ -50,7 +50,7 @@ function CategoryFilters({
   const [openKey, setOpenKey] = useState<MenuKey>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  // click outside -> đóng
+  
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
       if (!rootRef.current) return;
@@ -66,7 +66,7 @@ function CategoryFilters({
     Object.keys(selectedSpecs).length > 0;
 
   const specTop = useMemo(() => {
-    // giới hạn số pill spec cho gọn (bạn có thể tăng)
+    
     return specFilterGroups.slice(0, 6);
   }, [specFilterGroups]);
 
@@ -125,7 +125,7 @@ function CategoryFilters({
   const renderMenu = () => {
     if (!openKey) return null;
 
-    // BRAND
+    
     if (openKey === "brand") {
       return (
         <div className={cx("menu")}>
@@ -159,7 +159,7 @@ function CategoryFilters({
       );
     }
 
-    // PRICE
+    
     if (openKey === "priceRange") {
       return (
         <div className={cx("menu")}>
@@ -193,7 +193,7 @@ function CategoryFilters({
       );
     }
 
-    // SPEC
+    
     if (openKey.startsWith("spec:")) {
       const title = openKey.replace("spec:", "");
       const group = specFilterGroups.find((g) => g.title === title);

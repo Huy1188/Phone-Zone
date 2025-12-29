@@ -17,7 +17,7 @@ export default function CreateBrand() {
         const formData = new FormData();
         formData.append('name', name);
         formData.append('origin', origin);
-        if (file) formData.append('image', file); // Key 'image' hoặc 'logo' tùy backend
+        if (file) formData.append('image', file); 
 
         try {
             let res: any = await createBrand(formData);
@@ -35,7 +35,7 @@ export default function CreateBrand() {
     return (
         <div className={styles.container}>
             <div className={styles.cardBox} style={{ maxWidth: '600px', margin: '0 auto', borderTopColor: '#28a745' }}>
-                {/* Border xanh lá cho trang tạo mới */}
+                {}
                 <h2 style={{ color: '#28a745' }}>+ Thêm Thương Hiệu Mới</h2>
 
                 <div className={styles.formGroup}>

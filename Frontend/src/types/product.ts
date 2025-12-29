@@ -8,11 +8,11 @@ export type ProductVariant = {
   price: number;
   image?: string;
 
-  // ✅ thêm option
+  
   sku?: string;
   color?: string | null;
   ram?: string | null;
-  rom?: string | null;      // dùng “rom” thống nhất
+  rom?: string | null;      
   stock?: number | null;
 };
 
@@ -36,10 +36,10 @@ export interface Product {
   reviewCount: number;
   images: string[];
 
-  // ✅ giữ brand string để không vỡ code cũ
+  
   brand?: string;
 
-  // ✅ thêm để map logo hãng từ BE
+  
   brandSlug?: string;
   brandLogo?: string | null;
 

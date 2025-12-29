@@ -31,15 +31,12 @@ function Navbar() {
         const first = user.first_name?.trim();
         const last = user.last_name?.trim();
 
-        // Ưu tiên: last_name + first_name
         if (first && last) {
             return last;
         }
 
-        // fallback: username
         if (user.username) return user.username;
 
-        // fallback cuối: email
         if (user.email) return user.email.split('@')[0];
 
         return 'User';
@@ -53,7 +50,7 @@ function Navbar() {
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        const q = searchParams.get('q'); // ✅ đổi keyword -> q
+        const q = searchParams.get('q');
         if (q) setKeyword(q);
     }, [searchParams]);
 
@@ -70,7 +67,6 @@ function Navbar() {
         setIsSearchOpen(false);
     };
 
-    // đóng menu khi đổi trang
     useEffect(() => {
         closeMenu();
         setIsSearchOpen(false);
@@ -96,17 +92,17 @@ function Navbar() {
             <div className={cx('navbar')}>
                 <div className={cx('container-fluid')}>
                     <div className={cx('header-navbar')}>
-                        {/* LEFT */}
+                        {}
                         <div className={cx('navbar-left')}>
                             <ul className={cx('navbar-left-list')}>
-                                {/* Logo */}
+                                {}
                                 <li className={cx('navbar-left-item')}>
                                     <Link href="/" className={cx('nav__logo')}>
                                         <Image src="/img/main/logo1.png" alt="Phone Zone" width={70} height={40} />
                                     </Link>
                                 </li>
 
-                                {/* Danh mục + DropMenu */}
+                                {}
                                 <li>
                                     <button
                                         type="button"
@@ -119,10 +115,10 @@ function Navbar() {
                                         <span>Danh mục</span>
                                     </button>
 
-                                    {/* <DropMenu open={isMenuOpen} onClose={closeMenu} /> */}
+                                    {}
                                 </li>
 
-                                {/* Search + suggest */}
+                                {}
                                 <li className={cx('navbar-left-item')}>
                                     <div ref={searchWrapRef}>
                                         <form
@@ -133,8 +129,8 @@ function Navbar() {
 
                                                 setIsSearchOpen(false);
                                                 setIsFocused(false);
-                                                inputRef.current?.blur(); // ✅ quan trọng trên mobile
-                                                router.push(`/search?q=${encodeURIComponent(keyword)}`); // ✅
+                                                inputRef.current?.blur();
+                                                router.push(`/search?q=${encodeURIComponent(keyword)}`);
                                             }}
                                         >
                                             <button type="submit">
@@ -180,7 +176,7 @@ function Navbar() {
                             </ul>
                         </div>
 
-                        {/* RIGHT */}
+                        {}
                         <div className={cx('navbar-right')}>
                             <ul className={cx('nav-right-list')}>
                                 <li className={cx('nav-right-item', 'nav__style-hover')}>
@@ -224,7 +220,7 @@ function Navbar() {
                                     </Link>
                                 </li>
 
-                                {/* Đăng nhập + hover */}
+                                {}
                                 <li className={cx('nav-right-item', 'nav__login-btn')}>
                                     <i className="fa-solid fa-circle-user" />
 
@@ -236,7 +232,7 @@ function Navbar() {
                                                 <b>{displayName}</b>
                                             </span>
 
-                                            {/* Dropdown giống GearVN */}
+                                            {}
                                             <div className={cx('user-dropdown')}>
                                                 <Link href="/account">Tài khoản của tôi</Link>
                                                 <Link href="/account?tab=orders">Đơn hàng</Link>
@@ -264,7 +260,7 @@ function Navbar() {
                                 </li>
                             </ul>
                         </div>
-                        {/* END RIGHT */}
+                        {}
                     </div>
                 </div>
             </div>

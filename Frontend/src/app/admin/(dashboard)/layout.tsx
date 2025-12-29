@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<any>(null);
 
-  // NEW
+  
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <main className={styles.main}>{children}</main>
       </div>
 
-      {/* overlay mobile */}
+      {}
       {sidebarOpen && <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />}
     </div>
   );

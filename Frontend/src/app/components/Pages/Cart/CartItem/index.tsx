@@ -15,14 +15,14 @@ interface Props {
 
 export default function CartItem({ item }: Props) {
     const { updateQuantity, removeItem } = useCart();
-    console.log("item", item)
-    const img = item.image ?? ''; // null -> ""
+
+    const img = item.image ?? ''; 
     const srcImg =
         img && img.startsWith('http')
             ? img
             : img
             ? `${process.env.NEXT_PUBLIC_STATIC_BASE}/${img}`
-            : '/images/no-image.png'; // fallback
+            : '/images/no-image.png'; 
 
     return (
         <div className={cx('item')}>

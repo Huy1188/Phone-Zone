@@ -8,12 +8,12 @@ const axiosClient = axios.create({
     },
 });
 
-// Cấu hình phản hồi (Optional: giúp lấy data gọn hơn)
+
 axiosClient.interceptors.response.use(
   (response) => {
     const data = response.data;
 
-    // PATCH/DELETE đôi khi backend trả 204 hoặc body rỗng
+    
     if (data === '' || data == null) {
       return { success: true };
     }

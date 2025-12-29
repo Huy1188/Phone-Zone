@@ -12,10 +12,10 @@ const connectDB = async () => {
       database: process.env.DB_NAME,
     });
 
-    console.log("✅ Connected DB:", process.env.DB_NAME);
+    console.log("Connected DB:", process.env.DB_NAME);
     return connection;
   } catch (e) {
-    console.log("❌ DB connection failed:", e);
+    console.log("DB connection failed:", e);
     process.exit(1);
   }
 };

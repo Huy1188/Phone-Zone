@@ -4,6 +4,6 @@ export function resolveImageUrl(url?: string | null) {
   if (!url) return '/placeholder.png';
   if (url.startsWith('http')) return url;
 
-  // đảm bảo có dấu /
+  
   return `${STATIC_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
 }

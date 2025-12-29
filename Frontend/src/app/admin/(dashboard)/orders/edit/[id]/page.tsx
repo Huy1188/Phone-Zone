@@ -45,7 +45,7 @@ export default function OrderDetailPage() {
 
     useEffect(() => {
         if (id) fetchDetail();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [id]);
 
     const formatCurrency = (amount: any) => {
@@ -73,9 +73,9 @@ export default function OrderDetailPage() {
     }, [order]);
 
     const calcTotal = useMemo(() => {
-        // ưu tiên total_price từ order
+        
         if (order?.total_price != null) return Number(order.total_price);
-        // fallback: tự tính từ details
+        
         return details.reduce((sum, it) => sum + Number(it.price || 0) * Number(it.quantity || 0), 0);
     }, [details, order]);
 
@@ -85,7 +85,7 @@ export default function OrderDetailPage() {
 
             if (res?.success) {
                 alert(res?.message || 'Cập nhật trạng thái thành công!');
-                await fetchDetail(); // luôn đồng bộ lại order + details
+                await fetchDetail(); 
                 router.push('/admin/orders');
                 return;
             }
@@ -167,21 +167,21 @@ export default function OrderDetailPage() {
                         <tbody>
                             {details.length > 0 ? (
                                 details.map((item: any, idx: number) => {
-                                    // ✅ ƯU TIÊN tên thật từ Product (variant.product.name)
-                                    // fallback mới là snapshot product_name
+                                    
+                                    
                                     const name = item.variant?.product?.name || item.product_name || '---';
 
-                                    // ảnh ưu tiên variant.image, fallback product.image
+                                    
                                     const img = item.variant?.image || item.variant?.product?.image || '';
 
-                                    // phân loại ưu tiên variant_label do BE build sẵn, fallback sku
+                                    
                                     const variantLabel = item.variant_label || item.variant?.sku || '---';
 
                                     return (
                                         <tr key={idx}>
                                             <td>
                                                 {img ? (
-                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    
                                                     <img
                                                         className={styles.thumb}
                                                         src={getImageUrl(img)}
@@ -226,8 +226,8 @@ export default function OrderDetailPage() {
                                         onClick={async () => {
                                             try {
                                                 const blob: any = await downloadInvoice(Number(id));
-                                                // axiosClient interceptor của bạn đang return data,
-                                                // nhưng với responseType blob thì thường trả ra Blob luôn.
+                                                
+                                                
                                                 const fileBlob =
                                                     blob instanceof Blob
                                                         ? blob

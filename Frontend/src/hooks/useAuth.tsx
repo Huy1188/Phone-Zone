@@ -6,6 +6,7 @@ import { me, logout, type AuthUser } from "@/services/auth";
 type AuthContextValue = {
   user: AuthUser | null;
   hydrated: boolean;
+  loading: boolean
   refreshMe: () => Promise<void>;
   logoutUser: () => Promise<void>;
 };
@@ -16,14 +17,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
-  const refreshMe = async () => {
-    try {
-      const res = await me();
-      setUser(res.user ?? null);
-    } finally {
-      setHydrated(true);
-    }
-  };
+  const [loading, setLoading] = useState(true);
+
+const refreshMe = async () => {
+  setLoading(true);
+  try {
+    const res = await me();
+    setUser(res.user ?? null);
+  } finally {
+    setHydrated(true);
+    setLoading(false);
+  }
+};
 
   const logoutUser = async () => {
     await logout();
@@ -34,8 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshMe().catch(() => setHydrated(true));
   }, []);
 
+
   return (
-    <AuthContext.Provider value={{ user, hydrated, refreshMe, logoutUser }}>
+    <AuthContext.Provider value={{ user, hydrated, loading , refreshMe, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

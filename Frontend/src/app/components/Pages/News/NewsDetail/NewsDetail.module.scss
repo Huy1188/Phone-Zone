@@ -1,6 +1,6 @@
 .wrapper {
   width: 100%;
-  max-width: 1200px;     /* ✅ desktop giữ khung */
+  max-width: 1200px;     
   background-color: #fff;
   margin: 15px auto;
   border-radius: 8px;
@@ -156,12 +156,12 @@
   }
 }
 
-/* ✅ Mobile: bỏ margin lớn + thêm padding */
+
 @media (max-width: 767px) {
   .wrapper {
     margin: 0;
     border-radius: 0;
-    padding: 0 12px;     /* lề 2 bên */
+    padding: 0 12px;     
   }
 }
 

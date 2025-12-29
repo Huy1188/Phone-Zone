@@ -5,7 +5,7 @@ import { getUserById, updateUser } from '@/services/admin/userService';
 import styles from '@/app/components/Admin/Users/EditUser.module.scss';
 import Link from 'next/link';
 
-// Định nghĩa kiểu dữ liệu cho Address
+
 interface Address {
     address_id: number;
     street: string;
@@ -22,7 +22,7 @@ export default function EditUserPage() {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    // 1. State thông tin chính (User Info)
+    
     const [formData, setFormData] = useState({
         user_id: '',
         email: '',
@@ -33,10 +33,10 @@ export default function EditUserPage() {
         role_id: '2',
     });
 
-    // 2. State danh sách địa chỉ cũ (Array)
+    
     const [addressList, setAddressList] = useState<Address[]>([]);
 
-    // 3. State địa chỉ mới (nếu muốn thêm)
+    
     const [newAddress, setNewAddress] = useState({
         street: '',
         city: '',
@@ -44,7 +44,7 @@ export default function EditUserPage() {
         recipient_phone: '',
     });
 
-    // --- LOAD DỮ LIỆU ---
+    
     useEffect(() => {
         if (userId) fetchUserDetail(userId as string);
     }, [userId]);
@@ -54,7 +54,7 @@ export default function EditUserPage() {
             let res: any = await getUserById(id);
             const u = res?.data?.user;
             if (res?.success && u) {
-                // Fill thông tin user
+                
                 setFormData({
                     user_id: u.user_id,
                     email: u.email,
@@ -64,7 +64,7 @@ export default function EditUserPage() {
                     gender: u.gender ? '1' : '0',
                     role_id: String(u.role_id),
                 });
-                // Fill danh sách địa chỉ (nếu có)
+                
                 if (u.addresses && u.addresses.length > 0) {
                     setAddressList(u.addresses);
                 }
@@ -77,27 +77,27 @@ export default function EditUserPage() {
         }
     };
 
-    // --- HANDLE CHANGE ---
+    
     const handleInfoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Hàm xử lý thay đổi trong danh sách địa chỉ CŨ (Product Variant logic)
+    
     const handleAddressListChange = (index: number, field: string, value: string) => {
         let copyList = [...addressList];
-        // @ts-ignore
+        
         copyList[index][field] = value;
         setAddressList(copyList);
     };
 
-    // Hàm xử lý thay đổi địa chỉ MỚI
+    
     const handleNewAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setNewAddress((prev) => ({ ...prev, [name]: value }));
     };
 
-    // --- SUBMIT ---
+    
     const handleSubmit = async () => {
         if (!formData.first_name || !formData.last_name) {
             alert('Vui lòng nhập đủ Họ và Tên!');
@@ -106,7 +106,7 @@ export default function EditUserPage() {
 
         setIsLoading(true);
         try {
-            // ✅ Convert array -> object { [address_id]: {...} }
+            
             const addressesObj = addressList.reduce((acc: any, addr) => {
                 acc[addr.address_id] = {
                     recipient_name: addr.recipient_name,
@@ -122,17 +122,17 @@ export default function EditUserPage() {
                 last_name: formData.last_name,
                 phone: formData.phone || null,
 
-                // backend putCRUD đang update các trường này
+                
                 addresses: addressesObj,
 
-                // nếu muốn chọn default thì gửi selected_default_id (chưa có UI thì để null)
-                // selected_default_id: ...
+                
+                
 
                 new_street: newAddress.street,
                 new_city: newAddress.city,
             };
 
-            // ✅ updateUser(userId, payload)
+            
             let res: any = await updateUser(userId as string, payload);
 
             if (res?.success) {
@@ -157,7 +157,7 @@ export default function EditUserPage() {
 
             <div className={styles.card}>
                 <div className={styles.cardBody}>
-                    {/* --- PHẦN 1: THÔNG TIN CHÍNH --- */}
+                    {}
                     <h3 className={styles.sectionTitle}>
                         <i className="fas fa-user-circle"></i> Thông tin chung
                     </h3>
@@ -206,12 +206,12 @@ export default function EditUserPage() {
 
                     <div className={styles.divider}></div>
 
-                    {/* --- PHẦN 2: QUẢN LÝ ĐỊA CHỈ --- */}
+                    {}
                     <h3 className={styles.sectionTitle}>
                         <i className="fas fa-map-marker-alt"></i> Sổ địa chỉ ({addressList.length})
                     </h3>
 
-                    {/* ✅ Loop hiển thị các địa chỉ CŨ (Dùng class .addressItem) */}
+                    {}
                     {addressList.map((addr, index) => (
                         <div key={addr.address_id} className={styles.addressItem}>
                             <div className={styles.addressHeader}>
@@ -249,7 +249,7 @@ export default function EditUserPage() {
                         </div>
                     ))}
 
-                    {/* ✅ Form thêm địa chỉ MỚI (Dùng class .newAddressBox) */}
+                    {}
                     <div className={styles.newAddressBox}>
                         <div className={styles.boxTitle}>
                             <i className="fas fa-plus-circle"></i> Thêm địa chỉ mới

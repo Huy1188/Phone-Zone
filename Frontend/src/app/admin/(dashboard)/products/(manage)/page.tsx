@@ -60,7 +60,7 @@ export default function ProductManagePage() {
 
             if (res?.success) {
                 setProducts(res?.data?.products ?? []);
-                // BE trả paging ở đây
+                
                 if (res?.data?.paging) setPaging((prev) => ({ ...prev, ...res.data.paging }));
             } else {
                 alert(res?.message || 'Không thể tải danh sách sản phẩm');
@@ -75,16 +75,16 @@ export default function ProductManagePage() {
         }
     };
 
-    // load categories/brands 1 lần
+    
     useEffect(() => {
         fetchMeta();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
 
-    // fetch products mỗi khi page/limit/filter đổi
+    
     useEffect(() => {
         fetchProducts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [paging.page, paging.limit, filters.category_id, filters.brand_id]);
 
     const formatMoney = (val: any) => {
@@ -99,7 +99,7 @@ export default function ProductManagePage() {
             if (res?.success) {
                 alert(res?.message || 'Xóa thành công');
 
-                // nếu trang hiện tại xóa xong không còn item -> lùi 1 trang cho đẹp
+                
                 const willEmpty = products.length === 1 && paging.page > 1;
                 if (willEmpty) setPaging((p) => ({ ...p, page: p.page - 1 }));
                 else fetchProducts();
@@ -114,7 +114,7 @@ export default function ProductManagePage() {
 
     const handleChangeFilter = (key: 'category_id' | 'brand_id', value: string) => {
         setFilters((prev) => ({ ...prev, [key]: value }));
-        // đổi filter thì về trang 1
+        
         setPaging((prev) => ({ ...prev, page: 1 }));
     };
 
@@ -127,7 +127,7 @@ export default function ProductManagePage() {
         setPaging((prev) => ({ ...prev, page: p }));
     };
 
-    // render list số trang gọn: 1 ... 4 5 6 ... last
+    
     const renderPageNumbers = () => {
         const total = paging.totalPages;
         const current = paging.page;
@@ -166,7 +166,7 @@ export default function ProductManagePage() {
                     </div>
                 </div>
 
-                {/* FILTER BAR */}
+                {}
                 <div className={styles.filterBar}>
                     <div className={styles.filterItem}>
                         <label>Danh mục</label>
@@ -219,7 +219,7 @@ export default function ProductManagePage() {
                     </button>
                 </div>
 
-                {/* TABLE */}
+                {}
                 <div className={styles.tableWrapper}>
                     <table className={styles.table}>
                         <thead>
@@ -284,7 +284,7 @@ export default function ProductManagePage() {
                         </tbody>
                     </table>
 
-                    {/* PAGINATION */}
+                    {}
                     <div className={styles.paginationBar}>
                         <div className={styles.pagingInfo}>
                             Trang <b>{paging.page}</b> / <b>{paging.totalPages}</b> — Tổng <b>{paging.totalItems}</b>{' '}

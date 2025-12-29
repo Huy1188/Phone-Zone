@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { adminLogin } from '@/services/admin/authService';
 import Link from 'next/link';
-// Import file SCSS vừa tạo
+
 import styles from './AdminLogin.module.scss';
 
 const AdminLoginForm = () => {
@@ -20,7 +20,7 @@ const AdminLoginForm = () => {
         setLoading(true);
 
         try {
-            // Gọi API
+            
             let res: any = await adminLogin(email, password);
 
            if (res?.success) router.push("/admin");
@@ -50,7 +50,7 @@ else setError(res.message || "Đăng nhập thất bại");
                         <div className={styles.inputWrapper}>
                             <i className="fas fa-envelope"></i>
                             <input
-                                type="text" // Type text cũng được nhưng email tốt hơn
+                                type="text" 
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="email@admin.com"

@@ -8,11 +8,13 @@ import { NewsItem } from "@/types/news";
 const cx = classNames.bind(styles);
 
 export default function NewsCard({ item }: { item: NewsItem }) {
+  const staticBase = process.env.NEXT_PUBLIC_STATIC_BASE || "";
+  const img = `${staticBase}${item.thumbnail}`
   return (
     <article className={cx("card")}>
       <Link href={`/news/${item.slug}`} className={cx("thumb")}>
-        {/* nếu bạn đang dùng next/image thì thay bằng <Image /> */}
-        <img src={item.thumbnail} alt={item.title} />
+        {}
+        <img src={img} alt={item.title} />
       </Link>
 
       <div className={cx("body")}>

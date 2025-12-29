@@ -12,7 +12,7 @@ export default function OrdersPage() {
     const [page, setPage] = useState(1);
     const limit = 10;
 
-    // Nếu backend có trả paging.totalPages thì dùng, còn không thì dùng “hasNext” theo length
+    
     const [totalPages, setTotalPages] = useState<number | null>(null);
 
     const fetchOrders = async (p = 1) => {
@@ -26,7 +26,7 @@ export default function OrdersPage() {
 
                 setOrders(Array.isArray(items) ? items : []);
 
-                // backend bạn có trả paging không? (trong code adminController Product có paging)
+                
                 const tp = data?.paging?.totalPages;
                 setTotalPages(typeof tp === 'number' ? tp : null);
             } else {
@@ -42,13 +42,13 @@ export default function OrdersPage() {
 
     useEffect(() => {
         fetchOrders(page);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [page]);
 
     const canPrev = page > 1;
     const canNext = useMemo(() => {
         if (totalPages !== null) return page < totalPages;
-        // fallback nếu backend không có totalPages: nếu danh sách = limit => đoán còn trang tiếp
+        
         return orders.length === limit;
     }, [orders.length, page, totalPages]);
 

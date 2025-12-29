@@ -1,4 +1,4 @@
-// src/app/components/Common/Section/index.tsx
+
 'use client';
 
 import { Children, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
@@ -23,7 +23,7 @@ interface SectionProps {
     onTabChange: (key: string) => void;
     viewAllHref?: string;
 
-    /** bật carousel 5 card, bước 1 card */
+    
     scrollable?: boolean;
     itemsPerView?: number;
 
@@ -50,10 +50,10 @@ function Section({
     const totalItems = itemsArray.length;
     const cloneCount = Math.min(itemsPerView, totalItems || 0);
 
-    // index "thô" trong extended list (items + clones)
+    
     const [index, setIndex] = useState(0);
 
-    // đổi tab => quay về đầu
+    
     useEffect(() => {
         setIndex(0);
         if (!scrollable) return;
@@ -63,14 +63,14 @@ function Section({
         }
     }, [activeKey, totalItems, scrollable]);
 
-    // dựng extended list: [real..., clone(0..cloneCount-1)]
+    
     const extendedItems = useMemo(() => {
         if (!scrollable || totalItems === 0) return itemsArray;
         const clones = itemsArray.slice(0, cloneCount);
         return [...itemsArray, ...clones];
     }, [itemsArray, totalItems, cloneCount, scrollable]);
 
-    // đo width 1 card sau khi render
+    
     useEffect(() => {
         if (!scrollable) return;
         const container = sliderRef.current;
@@ -99,9 +99,9 @@ function Section({
         setIndex(newIndex);
         scrollToIndex(newIndex, 'smooth');
 
-        // nếu đã trượt vào vùng clone (>= totalItems) -> reset lại index thực sự = 0
+        
         if (newIndex === totalItems) {
-            // chờ animation smooth (~300ms) rồi teleport về 0 không animation
+            
             setTimeout(() => {
                 setIndex(0);
                 scrollToIndex(0, 'auto');
@@ -112,15 +112,15 @@ function Section({
     const handlePrev = () => {
         if (!scrollable || totalItems === 0) return;
 
-        // nếu đang ở đầu -> nhảy tạm sang vùng clone cuối rồi kéo ngược về cuối thật
+        
         if (index === 0) {
             const lastRealIndex = totalItems - 1;
-            const tempIndex = totalItems; // vùng clone đầu tiên
+            const tempIndex = totalItems; 
 
             setIndex(tempIndex);
-            scrollToIndex(tempIndex, 'auto'); // nhảy ngay (không animation)
+            scrollToIndex(tempIndex, 'auto'); 
 
-            // sau 1 tick, kéo ngược về lastRealIndex có animation → nhìn như đi sang trái
+            
             requestAnimationFrame(() => {
                 setIndex(lastRealIndex);
                 scrollToIndex(lastRealIndex, 'smooth');
@@ -133,7 +133,7 @@ function Section({
         scrollToIndex(newIndex, 'smooth');
     };
 
-    // === AUTO SLIDE ===
+    
     useEffect(() => {
     if (!scrollable || totalItems <= 1) return;
 
@@ -141,10 +141,10 @@ function Section({
         setIndex((prev) => {
             const newIndex = prev + 1;
 
-            // trượt sang phải 1 card
+            
             scrollToIndex(newIndex, 'smooth');
 
-            // nếu đã vào vùng clone -> reset về 0 sau khi animation xong
+            
             if (newIndex === totalItems) {
                 setTimeout(() => {
                     setIndex(0);
@@ -162,7 +162,7 @@ function Section({
     return (
         <div id={id} className={cx('wrapper')}>
             <section className={cx('layout')}>
-                {/* HEADER */}
+                {}
                 <div className={cx('header')}>
                     <div className={cx('item')}>
                         <h2 className={cx('title')}>{title}</h2>
@@ -198,7 +198,7 @@ function Section({
                     </div>
                 </div>
 
-                {/* CONTENT */}
+                {}
                 <div className={cx('content')}>
                     {scrollable ? (
                         <div className={cx('sliderWrapper')}>

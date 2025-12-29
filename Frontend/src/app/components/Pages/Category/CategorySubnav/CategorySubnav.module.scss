@@ -44,7 +44,7 @@
   color: #444;
 }
 
-/* trạng thái active giống CPS: nút nổi lên, đỏ */
+
 .item.active {
   background-color: #ffe6ea;
   border-color: #e30019;
@@ -60,7 +60,7 @@
   }
 }
 
-/* responsive nhỏ lại trên mobile */
+
 @media (max-width: 1024px) {
   .inner {
     overflow-x: auto;

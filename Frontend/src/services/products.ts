@@ -1,4 +1,4 @@
-  // src/services/products.ts
+  
   import { api } from "@/lib/api";
   import { mapBackendProductToProduct } from "@/lib/adapters/product";
   import type { ProductsResponse, ProductResponse } from "@/types/api";
@@ -12,18 +12,18 @@
     q?: string;
     category_slug?: string;
 
-    // multi: brand_slug=apple&brand_slug=samsung
+    
     brand_slug?: string | string[];
 
-    // price
-    price_range?: string | string[]; // duoi-15 | 15-20 | tren-20
+    
+    price_range?: string | string[]; 
     price_min?: number;
     price_max?: number;
 
-    // JSON string: { [title]: string[] }
+    
     specs?: string;
 
-    // include facets for filters UI
+    
     facets?: 0 | 1;
   };
 

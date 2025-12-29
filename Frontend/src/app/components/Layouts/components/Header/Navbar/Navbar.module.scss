@@ -11,7 +11,7 @@
     background: #e30019;
 }
 
-/* header nav */
+
 .header-navbar {
     display: flex;
     justify-content: space-between;
@@ -62,14 +62,14 @@
     cursor: pointer;
 }
 
-/* Danh mục dropdown */
+
 .dropMenu-btn {
     position: relative;
     height: 100%;
     align-items: center;
 }
 
-/* search box */
+
 .nav-search-box {
     display: flex;
     background-color: var(--white-color);
@@ -123,7 +123,7 @@
     box-sizing: border-box;
 }
 
-/* navbar right */
+
 .navbar-right {
     display: flex;
     justify-content: space-around;
@@ -166,7 +166,7 @@
     opacity: 0.7;
 }
 
-/* login btn */
+
 .nav__login-btn {
     background-color: #be1529;
     border: none;
@@ -174,7 +174,7 @@
     border-radius: 5px;
 }
 
-/* login hover */
+
 .nav-login-suggest {
     width: 320px;
     background-color: var(--white-color);
@@ -311,7 +311,7 @@
 }
 
 
-/* Lớp phủ tối nền (giống CellphoneS) */
+
 .nav-overlay {
     position: fixed;
     top: 0;
@@ -336,14 +336,14 @@
     margin: 0 auto;
     display: flex;
     align-items: flex-start;
-    // z-index: 1000;
+    
 }
 
-/* Sidebar popup */
+
 .nav-panel__sidebar {
-    background: transparent; /* để sidebar tự có nền trắng */
+    background: transparent; 
     border-radius: 0;
-    box-shadow: none; /* shadow đã để ở .section1 rồi */
+    box-shadow: none; 
     overflow: visible;
     width: 183px;
     height: 100%;
@@ -378,7 +378,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    margin: 0;                /* ✅ bỏ max-width center desktop */
+    margin: 0;                
     max-width: none;    
   }
 
@@ -428,7 +428,7 @@
 }
 
 
-/* simple fadeIn keyframes (nếu chưa có trong global) */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -440,7 +440,7 @@
     }
 }
 
-/* =============== Responsive (GearVN-style) =============== */
+
 @media (max-width: 1024px) {
     .header-navbar {
         width: 100%;
@@ -457,15 +457,15 @@
         flex: 0 0 auto;
     }
 
-    /* Search should be fluid instead of fixed 400px */
+    
     .nav-search-box {
-        flex: 1 1 auto; /* ✅ GIÃN HẾT PHẦN TRỐNG */
-        min-width: 0; /* ✅ để được co khi thiếu chỗ */
-        width: auto; /* ✅ bỏ clamp */
-        margin: 0 10px; /* khoảng cách 2 bên cho đẹp */
+        flex: 1 1 auto; 
+        min-width: 0; 
+        width: auto; 
+        margin: 0 10px; 
     }
 
-    /* Reduce noise on smaller screens */
+    
     .nav-right-item__link {
         display: none;
     }
@@ -477,7 +477,7 @@
 }
 
 @media (max-width: 767px) {
-    /* Hide “information” items like hotline/showroom/order lookup on mobile (bottom nav handles primary actions) */
+    
     .nav-right-list > li:nth-child(1),
     .nav-right-list > li:nth-child(2),
     .nav-right-list > li:nth-child(3) {

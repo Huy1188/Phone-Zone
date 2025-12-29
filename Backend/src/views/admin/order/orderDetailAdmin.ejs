@@ -7,34 +7,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* 1. Reset & Layout */
+        
         body { margin: 0; font-family: "Source Sans Pro", sans-serif; background-color: #f4f6f9; }
         .wrapper { display: flex; width: 100%; min-height: 100vh; }
         .main-column {
-        flex: 1; /* Chiếm hết phần còn lại */
+        flex: 1; 
         display: flex;
-        flex-direction: column; /* Xếp dọc: Header trên, Content dưới */
+        flex-direction: column; 
         overflow-x: hidden;
         }
         .content-container { flex: 1; padding: 30px; overflow-y: auto; }
 
-        /* 2. Card Box */
+        
         .card-box {
             background: white;
             padding: 30px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.05);
-            border-top: 3px solid #17a2b8; /* Màu xanh đặc trưng trang chi tiết */
+            border-top: 3px solid #17a2b8; 
         }
 
-        /* 3. Header */
+        
         .page-header {
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;
         }
         h2 { margin: 0; color: #333; font-size: 24px; }
         
-        /* 4. Grid thông tin (Chia 2 cột) */
+        
         .info-grid { display: flex; gap: 20px; margin-bottom: 30px; }
         .info-col { flex: 1; background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #e9ecef; }
         
@@ -45,13 +45,13 @@
         .info-row { margin-bottom: 10px; font-size: 15px; display: flex; }
         .info-row b { min-width: 120px; color: #444; }
 
-        /* 5. Bảng sản phẩm */
+        
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
         th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
         th { background-color: #343a40; color: white; }
         tr:nth-child(even) { background-color: #f2f2f2; }
         
-        /* 6. Thanh tác vụ phía dưới */
+        
         .action-bar {
             background: #e9ecef; padding: 20px; border-radius: 5px;
             display: flex; justify-content: space-between; align-items: center;
@@ -60,7 +60,7 @@
         .form-update { display: flex; align-items: center; gap: 10px; }
         select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; height: 38px; min-width: 150px;}
         
-        /* Buttons */
+        
         .btn-update { 
             background: #28a745; color: white; border: none; padding: 0 20px; 
             border-radius: 4px; cursor: pointer; font-weight: bold; height: 38px; 

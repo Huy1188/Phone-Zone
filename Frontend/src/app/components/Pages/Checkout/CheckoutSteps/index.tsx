@@ -30,9 +30,9 @@ export default function CheckoutSteps({ currentStep }: { currentStep: number }) 
 
                 const Icon = s.icon;
 
-                // màu theo trạng thái
-                const bg = isDone ? '#16a34a' : isActive ? '#E30019' : '#e5e7eb'; // green / red / gray
-                const fg = isUpcoming ? '#6b7280' : '#ffffff'; // upcoming thì nét xám
+                
+                const bg = isDone ? '#16a34a' : isActive ? '#E30019' : '#e5e7eb'; 
+                const fg = isUpcoming ? '#6b7280' : '#ffffff'; 
 
                 return (
                     <div key={s.id} className={cx('step')}>
@@ -41,9 +41,7 @@ export default function CheckoutSteps({ currentStep }: { currentStep: number }) 
                                 <Icon size={30} bg={bg} fg={fg} />
                                 <div className={cx('text')}>
                                     <div className={cx('label', { done: isDone, active: isActive })}>{s.label}</div>
-                                    {/* <div className={cx('hint')}>
-                                        {isDone ? 'Đã xong' : isActive ? 'Đang thực hiện' : 'Sắp tới'}
-                                    </div> */}
+                                    {}
                                 </div>
                             </div>
 

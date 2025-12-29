@@ -1,4 +1,4 @@
-// src/app/components/pages/Category/CategoryHero/index.tsx
+
 import classNames from "classnames/bind";
 import styles from "./CategoryHero.module.scss";
 import Link from 'next/link';

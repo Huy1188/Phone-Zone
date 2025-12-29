@@ -26,18 +26,18 @@ export default function Gallery({ images, extraThumbs = [] }: Props) {
 
   return (
     <div className={cx("gallery-wrapper")}>
-      {/* Ảnh lớn */}
+      {}
       <div className={cx("main-image")}>
         <img src={activeImg} alt="product" />
       </div>
 
-      {/* Thumbnails */}
+      {}
       <ul className={cx("thumbnails")}>
         {thumbs.map((url) => (
           <li
             key={url}
             className={cx({ active: url === activeImg })}
-            onClick={() => setActiveImg(url)} // ✅ chỉ đổi ảnh
+            onClick={() => setActiveImg(url)} 
           >
             <img src={url} alt="thumb" />
           </li>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getDashboardStats } from '@/services/admin/systemService';
 import { DashboardStats } from '@/types/dashboard';
 import Link from 'next/link';
+import RevenueStats from './RevenueStats';
 // Import file SCSS
 import styles from './Dashboard.module.scss';
 
@@ -48,7 +49,6 @@ const DashboardMain = () => {
             <h1 className={styles.pageTitle}>Tổng quan hệ thống</h1>
 
             <div className={styles.statsGrid}>
-                {/* 🔥 3. Truyền thêm prop link="/admin/..." tương ứng */}
                 <StatCard
                     title="Khách hàng"
                     count={stats.userCount}
@@ -82,7 +82,9 @@ const DashboardMain = () => {
                 />
             </div>
 
-            <div className={styles.chartSection}>(Khu vực biểu đồ doanh thu sẽ nằm ở đây)</div>
+            <div className={styles.chartSection}>
+                <RevenueStats />
+            </div>
         </div>
     );
 };

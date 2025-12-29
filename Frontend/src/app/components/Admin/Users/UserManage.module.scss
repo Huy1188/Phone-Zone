@@ -1,6 +1,6 @@
 .container {
     padding: 20px;
-    background-color: #f4f6f9; // Màu nền xám nhạt bao quanh
+    background-color: #f4f6f9; 
     min-height: 100%;
 }
 
@@ -9,11 +9,11 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    border-top: 3px solid #28a745; // Viền xanh lá giống mẫu
+    border-top: 3px solid #28a745; 
 
     .cardHeader {
         display: flex;
-        justify-content: space-between; // Đẩy tiêu đề sang trái, nút sang phải
+        justify-content: space-between; 
         align-items: center;
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
@@ -81,20 +81,20 @@
         background-color: #f2f2f2;
     }
 
-    // Cột Email màu xanh
+    
     .emailWrapper {
         display: flex;
         align-items: center;
-        gap: 8px; // Khoảng cách giữa icon và chữ
-        color: #007bff; // Màu xanh
+        gap: 8px; 
+        color: #007bff; 
         font-weight: bold;
 
         i {
             color: #6c757d;
-        } // Màu icon xám
+        } 
     }
 
-    // Badge Default Address
+    
     .badgeDefault {
         background: #28a745;
         color: white;
@@ -110,7 +110,7 @@
         color: #555;
     }
 
-    // Buttons
+    
     .actions {
         display: flex;
         justify-content: center;

@@ -168,17 +168,17 @@
   }
 }
 
-/* ====== Base: cải thiện nhẹ để mobile dễ co ====== */
+
 .container {
-  align-items: start; /* tránh stretch cao lố */
+  align-items: start; 
 }
 
 .card {
-  overflow: hidden; /* tránh text/row tràn border radius */
+  overflow: hidden; 
 }
 
 .value {
-  word-break: break-word; /* email dài không tràn */
+  word-break: break-word; 
 }
 
 .input {
@@ -194,7 +194,7 @@
 }
 
 
-/* ====== <= 1023px: chuyển 1 cột + menu ngang ====== */
+
 @media (max-width: 1023px) {
   .wrap {
     padding: 10px 0;
@@ -222,7 +222,7 @@
     font-size: 38px;
   }
 
-  /* Tabs ngang */
+  
   .menu {
     display: flex;
     flex-direction: row;
@@ -238,7 +238,7 @@
       display: none;
     }
 
-    scroll-snap-type: x mandatory; /* kéo tab “dính” */
+    scroll-snap-type: x mandatory; 
   }
 
   .item {
@@ -258,7 +258,7 @@
     background: #fff1f1;
   }
 
-  /* logout ẩn ở sidebar mobile */
+  
   .logout {
     display: none;
   }
@@ -267,14 +267,14 @@
     padding: 12px;
   }
 
-  /* Row info: tăng khoảng trống label/value */
+  
   .row {
     grid-template-columns: 140px 1fr;
     gap: 10px;
   }
 }
 
-/* ====== <= 480px: tối ưu thật sự cho điện thoại ====== */
+
 @media (max-width: 480px) {
   .container {
     padding: 0 8px;
@@ -308,7 +308,7 @@
     font-size: 12px;
   }
 
-  /* Tabs gọn hơn */
+  
   .menu {
     gap: 6px;
   }
@@ -318,7 +318,7 @@
     font-size: 13px;
   }
 
-  /* Info rows: chuyển sang dạng stack cho dễ đọc */
+  
   .row {
     grid-template-columns: 1fr;
     gap: 6px;
@@ -344,7 +344,7 @@
 }
 
 
-/* ===== Orders (GearVN-like) ===== */
+
 .ordersWrap { display: flex; flex-direction: column; gap: 12px; }
 
 .orderBox { border: 1px solid #eee; border-radius: 10px; background: #fff; overflow: hidden; }
@@ -429,7 +429,7 @@
   .btnOutline, .btnPrimary { width: 100%; text-align: center; }
 }
 
-/* ===== Modal ===== */
+
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -497,7 +497,7 @@
 }
 
 
-// address
+
 .addressWrap {
   display: flex;
   flex-direction: column;

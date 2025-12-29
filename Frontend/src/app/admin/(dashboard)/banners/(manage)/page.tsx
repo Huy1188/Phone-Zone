@@ -39,7 +39,7 @@ export default function BannerListPage() {
     };
 
     const handleToggle = async (b: any) => {
-        // backend thường yêu cầu gửi đủ field -> mình gửi title/link + is_active
+        
         const fd = new FormData();
         fd.append('title', b?.title ?? '');
         fd.append('link', b?.link ?? '');

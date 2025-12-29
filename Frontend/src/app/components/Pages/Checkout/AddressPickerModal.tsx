@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./CheckoutForm/CheckoutForm.module.scss"; // ok nếu AddressPickerModal nằm cùng folder Pages/Checkout
+import styles from "./CheckoutForm/CheckoutForm.module.scss"; 
 import { getMyAddresses, type Address } from "@/services/address";
 
 const cx = classNames.bind(styles);

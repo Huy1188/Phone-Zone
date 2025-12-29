@@ -1,7 +1,7 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
 
-// REGISTER
+
 let handleRegister = async (req, res) => {
     try {
         const { email, password, username } = req.body;
@@ -25,7 +25,7 @@ let handleRegister = async (req, res) => {
             is_active: true,
         });
 
-    // lưu session (để me dùng user_id)
+    
     req.session.user = {
       user_id: user.user_id,
       email: user.email,
@@ -74,7 +74,7 @@ const mergeSessionCartToDb = async (userId, sessionCart) => {
   }
 };
 
-// LOGIN
+
 let handleLogin = async (req, res) => {
     try {
         let { email, password } = req.body;
@@ -89,7 +89,7 @@ let handleLogin = async (req, res) => {
             return res.status(400).json({ message: 'Mật khẩu không đúng' });
         }
 
-    // giữ cart guest trước
+    
     const guestCart = req.session.cart || [];
 
     req.session.user = {
@@ -98,7 +98,7 @@ let handleLogin = async (req, res) => {
       role_id: user.role_id,
     };
 
-    // merge guest -> db
+    
     await mergeSessionCartToDb(user.user_id, guestCart);
     req.session.cart = [];
 
@@ -109,14 +109,14 @@ let handleLogin = async (req, res) => {
   }
 };
 
-// LOGOUT
+
 let handleLogout = (req, res) => {
     req.session.destroy(() => {
         return res.json({ success: true });
     });
 };
 
-// GET ME: lấy full user từ DB
+
 let getMe = async (req, res) => {
   try {
     const sess = req.session?.user;

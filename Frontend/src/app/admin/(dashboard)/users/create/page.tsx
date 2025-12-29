@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createNewUser } from '@/services/admin/userService';
-import styles from '@/app/components/Admin/Users/CreateUser.module.scss'; // Nhớ sửa đường dẫn này nếu file scss nằm chỗ khác
+import styles from '@/app/components/Admin/Users/CreateUser.module.scss'; 
 import Link from 'next/link';
 
 export default function CreateUserPage() {
@@ -15,8 +15,8 @@ export default function CreateUserPage() {
         first_name: '',
         last_name: '',
         phone: '',
-        gender: '1', // Mặc định chọn Nam cho đỡ bị null
-        role_id: '2', // Mặc định User
+        gender: '1', 
+        role_id: '2', 
     });
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -25,7 +25,7 @@ export default function CreateUserPage() {
     };
 
     const handleSubmit = async () => {
-        // Validate cơ bản
+        
         if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
             alert('Vui lòng điền đầy đủ các trường có dấu (*)!');
             return;
@@ -33,7 +33,7 @@ export default function CreateUserPage() {
 
         setIsLoading(true);
         try {
-            // Chuẩn bị dữ liệu gửi đi
+            
             const payload = {
                 email: formData.email,
                 password: formData.password,
@@ -41,7 +41,7 @@ export default function CreateUserPage() {
                 last_name: formData.last_name,
                 phone: formData.phone || null,
                 role_id: Number(formData.role_id),
-                // Chuyển đổi giới tính sang boolean
+                
                 gender: formData.gender === '1',
             };
 
@@ -75,7 +75,7 @@ export default function CreateUserPage() {
 
             <div className={styles.card}>
                 <div className={styles.cardBody}>
-                    {/* PHẦN 1: THÔNG TIN TÀI KHOẢN */}
+                    {}
                     <h3 className={styles.sectionTitle}>
                         <i className="fas fa-shield-alt"></i> Thông tin tài khoản
                     </h3>
@@ -126,7 +126,7 @@ export default function CreateUserPage() {
 
                     <div className={styles.divider}></div>
 
-                    {/* PHẦN 2: THÔNG TIN CÁ NHÂN */}
+                    {}
                     <h3 className={styles.sectionTitle}>
                         <i className="fas fa-id-card"></i> Thông tin cá nhân
                     </h3>

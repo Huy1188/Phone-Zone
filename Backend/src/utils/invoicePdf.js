@@ -8,27 +8,27 @@ function formatMoney(n) {
 export function generateInvoicePdf(res, payload) {
     const { order, user, details } = payload;
 
-    // headers để browser hiểu đây là file PDF tải về
+    
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="invoice-order-${order.order_id}.pdf"`);
 
     const doc = new PDFDocument({ size: 'A4', margin: 40 });
     doc.pipe(res);
 
-    // ===== HEADER =====
+    
     doc.fontSize(18).text('HOA DON BAN HANG', { align: 'center' });
     doc.moveDown(0.5);
     doc.fontSize(11).text(`Ma don: #${order.order_id}`);
     doc.text(`Ngay: ${new Date(order.createdAt).toLocaleString('vi-VN')}`);
     doc.moveDown(0.5);
 
-    // ===== SHOP INFO (tuỳ bạn chỉnh) =====
+    
     doc.fontSize(12).text('Phone Zone');
     doc.fontSize(10).text(`Dia chi: ${order.shipping_address || 'N/A'}`);
     doc.text('Hotline: ...');
     doc.moveDown();
 
-    // ===== CUSTOMER =====
+    
     doc.fontSize(12).text('Thong tin khach hang', { underline: true });
     const fullName = `${user?.first_name || ''} ${user?.last_name || ''}`.trim();
     doc.fontSize(10).text(`Ten: ${fullName || 'N/A'}`);
@@ -37,14 +37,14 @@ export function generateInvoicePdf(res, payload) {
     doc.text(`Dia chi: ${order?.shipping_address || 'N/A'}`);
     doc.moveDown();
 
-    // ===== TABLE HEADER =====
+    
     doc.fontSize(12).text('Chi tiet don hang', { underline: true });
     doc.moveDown(0.5);
 
     const startX = 40;
     let y = doc.y;
 
-    // cột
+    
     const col = {
         name: startX,
         price: startX + 260,
@@ -61,14 +61,14 @@ export function generateInvoicePdf(res, payload) {
     doc.moveTo(startX, y).lineTo(555, y).stroke();
     y += 8;
 
-    // ===== TABLE ROWS =====
+    
     let computedTotal = 0;
 
     details.forEach((it) => {
         const name =
-            it?.product_name || // ✅ snapshot từ OrderDetail
-            it?.variant?.product?.name || // ✅ fallback từ quan hệ variant -> product
-            it?.variant?.sku || // fallback cuối
+            it?.product_name || 
+            it?.variant?.product?.name || 
+            it?.variant?.sku || 
             `San pham #${it.variant_id || ''}`;
 
         const variantLabelParts = [];
@@ -90,7 +90,7 @@ export function generateInvoicePdf(res, payload) {
 
         y += 18;
 
-        // nếu xuống gần cuối trang thì add page
+        
         if (y > 760) {
             doc.addPage();
             y = 40;
@@ -101,7 +101,7 @@ export function generateInvoicePdf(res, payload) {
     doc.moveTo(startX, y).lineTo(555, y).stroke();
     y += 12;
 
-    // ===== TOTALS =====
+    
     const grandTotal = order.total_money != null ? Number(order.total_money) : computedTotal;
 
     doc.fontSize(12).text(`Tong cong: ${formatMoney(grandTotal)} đ`, startX, y, {

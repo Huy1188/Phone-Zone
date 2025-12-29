@@ -1,4 +1,4 @@
-// src/services/auth.ts
+
 import { api } from "@/lib/api";
 
 export type AuthUser = {

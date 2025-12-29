@@ -1,4 +1,4 @@
-// src/app/components/pages/Category/CategorySort/index.tsx
+
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CategorySort.module.scss';

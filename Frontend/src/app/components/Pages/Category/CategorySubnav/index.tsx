@@ -10,7 +10,7 @@ export interface CategorySubnavItem {
   key: string;
   label: string;
   href: string;
-  iconClass: string; // class icon (fontawesome, remixicon, ...)
+  iconClass: string; 
 }
 
 interface CategorySubnavProps {

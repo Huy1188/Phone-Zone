@@ -42,12 +42,12 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
 
     const isSignUp = mode === 'register';
 
-    // Register state
+    
     const [regUsername, setRegUsername] = useState('');
     const [regEmail, setRegEmail] = useState('');
     const [regPassword, setRegPassword] = useState('');
 
-    // Login state
+    
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
 
@@ -67,7 +67,7 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
 
             if (!res?.success) throw new Error(res?.message || 'Đăng ký thất bại');
 
-            // đăng ký xong chuyển qua login
+            
             setMode('login');
         } catch (error: any) {
             setErr(error?.message || 'Đăng ký lỗi');
@@ -84,10 +84,10 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
             const res = await login({ email: loginEmail, password: loginPassword });
 
             if (!res?.success) throw new Error(res?.message || 'Đăng nhập thất bại');
-            await refreshAuth(); // cập nhật user
-            await refreshCart(); // ✅ cập nhật cart ngay để Navbar đổi liền
+            await refreshAuth(); 
+            await refreshCart(); 
             router.push(redirect);
-            // router.refresh();
+            
         } catch (error: any) {
             setErr(error?.message || 'Đăng nhập lỗi');
         } finally {
@@ -98,7 +98,7 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
     return (
         <main className={cx('authPage')}>
             <div className={cx('container', { rightPanelActive: isSignUp })}>
-                {/* FORM ĐĂNG KÝ */}
+                {}
                 <div className={cx('formContainer', 'signUpContainer')}>
                     <form className={cx('authForm')} onSubmit={handleRegister}>
                         <h1>TẠO TÀI KHOẢN</h1>
@@ -150,7 +150,7 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
                     </form>
                 </div>
 
-                {/* FORM ĐĂNG NHẬP */}
+                {}
                 <div className={cx('formContainer', 'signInContainer')}>
                     <form className={cx('authForm')} onSubmit={handleLogin}>
                         <h1>ĐĂNG NHẬP</h1>
@@ -197,7 +197,7 @@ export default function AuthLayout({ defaultMode = 'login' }: AuthLayoutProps) {
                     </form>
                 </div>
 
-                {/* OVERLAY SLIDE */}
+                {}
                 <div className={cx('overlayContainer')}>
                     <div className={cx('overlay')}>
                         <div className={cx('overlayPanel', 'overlayLeft')}>

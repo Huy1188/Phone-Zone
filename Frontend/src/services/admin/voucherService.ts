@@ -2,7 +2,7 @@ import axiosClient from "@/lib/axiosClient";
 
 export const getAllVouchers = () => axiosClient.get("/admin/vouchers");
 
-// export const getCreateVoucherMeta = () => axiosClient.get("/admin/vouchers/create");
+
 
 export const createVoucher = (payload: any) =>
   axiosClient.post("/admin/vouchers", payload);

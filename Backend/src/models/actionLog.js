@@ -2,11 +2,7 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ActionLog extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
       ActionLog.belongsTo(models.User, {
         foreignKey: "user_id",
@@ -32,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "ActionLog",
-      tableName: "ActionLogs", // Nên ép cứng tên bảng cho chắc chắn
+      tableName: "ActionLogs", 
 
-      // QUAN TRỌNG: Để map đúng created_at trong DB
+      
       underscored: true,
 
-      // Log chỉ cần ngày tạo, không cần ngày sửa
+      
       updatedAt: false,
       timestamps: true,
     }

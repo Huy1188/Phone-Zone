@@ -13,12 +13,12 @@ export const updateMe = async (req, res) => {
 
     const { username, first_name, last_name, phone, gender, avatar } = req.body;
 
-    // validate nhẹ
+    
     if (phone && !/^[0-9+\-\s]{8,15}$/.test(String(phone))) {
       return res.status(400).json({ success: false, message: "Số điện thoại không hợp lệ" });
     }
 
-    // gender: FE gửi "male/female" hoặc boolean → convert về boolean
+    
     let genderBool = user.gender;
     if (gender === "male") genderBool = true;
     else if (gender === "female") genderBool = false;
@@ -81,7 +81,7 @@ export const changeMyPassword = async (req, res) => {
       return res.status(400).json({ success: false, message: "Mật khẩu hiện tại không đúng" });
     }
 
-    // Không cho đặt lại trùng mật khẩu cũ
+    
     const same = bcrypt.compareSync(String(newPassword), String(user.password || ""));
     if (same) {
       return res.status(400).json({ success: false, message: "Mật khẩu mới phải khác mật khẩu hiện tại" });

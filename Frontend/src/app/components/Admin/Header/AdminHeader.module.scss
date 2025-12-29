@@ -83,7 +83,7 @@
                 color: #343a40;
             }
 
-            // Dropdown Menu
+            
             .dropdownMenu {
                 position: absolute;
                 top: 130%;
@@ -93,7 +93,7 @@
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
                 border-radius: 5px;
                 border: 1px solid #f0f0f0;
-                display: none; // Mặc định ẩn
+                display: none; 
                 z-index: 1000;
 
                 &.show {
@@ -101,7 +101,7 @@
                     animation: fadeIn 0.2s;
                 }
 
-                // Mũi tên nhọn
+                
                 &::before {
                     content: '';
                     position: absolute;

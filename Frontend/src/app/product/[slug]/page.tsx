@@ -15,20 +15,20 @@ import Link from 'next/link';
 const cx = classNames.bind(styles);
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params; // Next 15+ cần await params
+    const { slug } = await params; 
 
-    // 1) Lấy product từ API (Style A)
+    
     const product = await fetchProductBySlug(slug);
 
-    // 2) Nếu không có product -> 404
+    
     if (!product) notFound();
 
-    // 3) Lấy related từ API (tạm dùng fetchProducts rồi filter)
+    
     const related = product.brandSlug
         ? await fetchRelatedProducts({
               brandSlug: product.brandSlug,
               excludeSlug: product.slug,
-              // limit: 5,
+              
           })
         : [];
 
@@ -44,7 +44,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </div>
 
             <div className={cx('main-layout')}>
-                {/* chuyển vào client */}
+                {}
                 <ProductDetailClient product={product} />
             </div>
 

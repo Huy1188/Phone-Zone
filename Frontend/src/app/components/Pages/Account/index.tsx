@@ -247,6 +247,39 @@ export default function AccountPage() {
         setAddresses(res.addresses || []);
     };
 
+    const [pw, setPw] = useState({ oldPassword: '', newPassword: '', confirm: '' });
+    const [pwSaving, setPwSaving] = useState(false);
+    const [pwMsg, setPwMsg] = useState<string | null>(null);
+
+    const onChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setPwMsg(null);
+
+        if (!pw.oldPassword || !pw.newPassword) {
+            setPwMsg('Vui lòng nhập mật khẩu hiện tại và mật khẩu mới');
+            return;
+        }
+        if (pw.newPassword.length < 6) {
+            setPwMsg('Mật khẩu mới phải có ít nhất 6 ký tự');
+            return;
+        }
+        if (pw.newPassword !== pw.confirm) {
+            setPwMsg('Nhập lại mật khẩu mới không khớp');
+            return;
+        }
+
+        setPwSaving(true);
+        try {
+            const res = await changeMyPassword({ oldPassword: pw.oldPassword, newPassword: pw.newPassword });
+            setPwMsg(res?.message || 'Đổi mật khẩu thành công');
+            setPw({ oldPassword: '', newPassword: '', confirm: '' });
+        } catch (err: any) {
+            setPwMsg(err?.message || 'Đổi mật khẩu thất bại');
+        } finally {
+            setPwSaving(false);
+        }
+    };
+
     if (!hydrated) return null; // hoặc render loading
     if (!user) return null;
 
@@ -358,7 +391,7 @@ export default function AccountPage() {
                                     </select>
                                 </div>
 
-                                <div className={cx('row')}>
+                                {/* <div className={cx('row')}>
                                     <div className={cx('label')}>Avatar (URL)</div>
                                     <input
                                         className={cx('input')}
@@ -366,7 +399,7 @@ export default function AccountPage() {
                                         onChange={(e) => setProfile((p) => ({ ...p, avatar: e.target.value }))}
                                         placeholder="Nhập link ảnh avatar"
                                     />
-                                </div>
+                                </div> */}
 
                                 {saveMsg && <div className={cx('hint')}>{saveMsg}</div>}
 

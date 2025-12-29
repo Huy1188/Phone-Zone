@@ -1,14 +1,10 @@
-/* ===============================
-   WRAPPER
-   =============================== */
+
 
 .wrapper {
   width: 100%;
 }
 
-/* ===============================
-   BANNER IMAGE
-   =============================== */
+
 
 .banner {
   display: block;
@@ -18,9 +14,7 @@
   object-fit: cover;
 }
 
-/* ===============================
-   DESKTOP
-   =============================== */
+
 
 .desktopOnly {
   display: block;
@@ -30,9 +24,7 @@
   display: none;
 }
 
-/* ===============================
-   MOBILE SCROLL (FIX SIZE)
-   =============================== */
+
 
 @media (max-width: 767px) {
   .desktopOnly {
@@ -43,13 +35,13 @@
     display: flex;
     gap: 10px;
     overflow-x: auto;
-    padding: 0 12px 6px; /* ✅ tạo lề hai bên -> banner nhỏ hơn */
-    // scroll-snap-type: x mandatory;
-    // -webkit-overflow-scrolling: touch;
+    padding: 0 12px 6px; 
+    
+    
   }
 
   .bannerItem {
-    flex: 0 0 72%;      /* ✅ giảm width banner */
+    flex: 0 0 72%;      
     max-width: 72%;
     scroll-snap-align: start;
   }

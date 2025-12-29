@@ -15,18 +15,18 @@ body {
     padding: 0;
     margin: 0;
     padding: 0;
-    /* overflow-x: hidden; */
+    
 }
 
 .wrapper { width: 100%; min-height: 100vh; }
 
-/* app container (avoid relying on external css) */
+
 .container {
     max-width: 1220px;
     margin: 0 auto;
 }
 
-/* Leave room for the mobile bottom navigation */
+
 @media (max-width: 1023px) {
     body {
         padding-bottom: 56px;
@@ -34,9 +34,9 @@ body {
 }
 
 html {
-    /* Mac dinh font size 10px */
+    
     font-size: 62.5%;
-    /* line-height: 1.6rem; */
+    
     font-family: "Roboto", sans-serif;
     box-sizing: border-box;
     background-color: #f7f7f8;

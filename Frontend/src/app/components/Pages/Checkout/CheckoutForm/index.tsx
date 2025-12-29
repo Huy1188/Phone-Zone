@@ -30,7 +30,7 @@ export default function CheckoutForm() {
                 const a = res.address;
                 if (!a) return;
 
-                // ✅ chỉ gợi ý address mặc định (preview), không fill cứng input
+                
                 setSelectedAddress(a);
             } catch {}
         })();
@@ -39,7 +39,7 @@ export default function CheckoutForm() {
     const onSelectAddress = (a: Address) => {
         setSelectedAddress(a);
 
-        // ✅ fill vào form checkout
+        
         setShipping((prev: any) => ({
             ...prev,
             fullName: a.recipient_name || prev.fullName,
@@ -66,7 +66,7 @@ export default function CheckoutForm() {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
     const [submitting, setSubmitting] = useState(false);
 
-    // demo: phí ship cố định, sau có thể tính theo địa chỉ
+    
     const shippingFee = useMemo(() => (totalMoney > 5000000 ? 0 : 30000), [totalMoney]);
     const total = useMemo(() => totalMoney + shippingFee, [totalMoney, shippingFee]);
 
@@ -98,7 +98,7 @@ export default function CheckoutForm() {
                 throw new Error('Đặt hàng thất bại');
             }
 
-            await refresh(); // ✅ quan trọng: đồng bộ lại badge navbar
+            await refresh(); 
             router.push(`/order-success?order_id=${res.order_id}`);
         } catch (err: any) {
             alert(err?.message || 'Lỗi đặt hàng');
@@ -226,10 +226,6 @@ export default function CheckoutForm() {
             <button className={cx('submit')} type="submit" disabled={submitting || items.length === 0}>
                 {submitting ? 'Đang xử lý...' : 'Đặt hàng'}
             </button>
-
-            <p className={cx('hint')}>
-                (Demo) Tổng tiền = {total.toLocaleString('vi-VN')} đ, phí ship = {shippingFee.toLocaleString('vi-VN')} đ
-            </p>
 
             <AddressPickerModal
                 open={addrModalOpen}

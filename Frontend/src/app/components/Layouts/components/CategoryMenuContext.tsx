@@ -16,12 +16,12 @@ export function CategoryMenuProvider({ children }: { children: React.ReactNode }
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
-    // Close menu on route change (GearVN-like behavior)
+    
     useEffect(() => {
         setIsOpen(false);
     }, [pathname]);
 
-    // Close on ESC
+    
     useEffect(() => {
         if (!isOpen) return;
         const onKeyDown = (e: KeyboardEvent) => {
@@ -31,7 +31,7 @@ export function CategoryMenuProvider({ children }: { children: React.ReactNode }
         return () => window.removeEventListener('keydown', onKeyDown);
     }, [isOpen]);
 
-    // Optional: prevent background scroll when menu open
+    
     useEffect(() => {
         if (!isOpen) {
             document.body.style.overflow = '';

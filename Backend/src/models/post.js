@@ -2,11 +2,7 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
       Post.belongsTo(models.PostCategory, {
         foreignKey: "post_category_id",
@@ -33,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       slug: DataTypes.STRING,
       content: DataTypes.TEXT,
-      thumbnail: DataTypes.STRING, //ảnh đại diện bài viết
+      thumbnail: DataTypes.STRING, 
       user_id: DataTypes.INTEGER,
       post_category_id: DataTypes.INTEGER,
       product_id: DataTypes.INTEGER,

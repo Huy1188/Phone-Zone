@@ -4,23 +4,23 @@
 />
 
 <style>
-  /* 1. CẤU HÌNH CƠ BẢN */
+  
   .main-sidebar {
-    width: 250px; /* Chiều rộng mặc định */
+    width: 250px; 
     background-color: #343a40;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     color: #c2c7d0;
-    transition: all 0.3s ease; /* Hiệu ứng trượt mượt mà */
+    transition: all 0.3s ease; 
   }
 
-  /* 2. LOGO & NÚT TOGGLE */
+  
   .brand-link {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Đẩy nút toggle sang phải */
+    justify-content: space-between; 
     padding: 0 15px;
     height: 57px;
     background-color: #dc3545;
@@ -29,10 +29,10 @@
     font-weight: bold;
     font-size: 18px;
     border-bottom: 1px solid #4b545c;
-    overflow: hidden; /* Ẩn phần thừa khi thu nhỏ */
+    overflow: hidden; 
   }
 
-  /* Nút 3 gạch để bấm */
+  
   .btn-toggle-sidebar {
     background: none;
     border: none;
@@ -42,14 +42,14 @@
     outline: none;
   }
 
-  /* 3. USER PANEL */
+  
   .user-panel {
     display: flex;
     align-items: center;
     padding: 15px;
     border-bottom: 1px solid #4f5962;
     margin-bottom: 10px;
-    white-space: nowrap; /* Không xuống dòng chữ */
+    white-space: nowrap; 
     overflow: hidden;
   }
   .user-panel img {
@@ -72,7 +72,7 @@
     color: #28a745;
   }
 
-  /* 4. MENU */
+  
   .nav-sidebar {
     list-style: none;
     padding: 0 10px;
@@ -100,7 +100,7 @@
     text-decoration: none;
     border-radius: 4px;
     transition: 0.2s;
-    white-space: nowrap; /* Giữ chữ trên 1 dòng */
+    white-space: nowrap; 
     overflow: hidden;
   }
   .nav-link i {
@@ -128,31 +128,30 @@
     color: #ff4c4c;
   }
 
-  /* --- TRẠNG THÁI THU NHỎ (MINI) --- */
+  
   .main-sidebar.mini {
-    width: 70px; /* Thu nhỏ còn 70px */
+    width: 70px; 
   }
 
-  /* Ẩn chữ Logo, Tên User, Chữ Menu, Header khi thu nhỏ */
+  
   .main-sidebar.mini .brand-text,
   .main-sidebar.mini .user-info,
   .main-sidebar.mini .nav-link p,
   .main-sidebar.mini .nav-header {
-    display: none; /* Biến mất */
+    display: none; 
     opacity: 0;
   }
 
-  /* Căn giữa các Icon khi thu nhỏ */
+  
   .main-sidebar.mini .brand-link {
     justify-content: center;
     padding: 0;
   }
   .main-sidebar.mini .btn-toggle-sidebar {
     display: none;
-  } /* Ẩn nút toggle bên trong logo khi nhỏ (dùng cách khác để mở lại nếu muốn, hoặc bấm vào vùng trống) */
+  } 
 
-  /* Ở trạng thái mini, mình sẽ để nút toggle ra ngoài hoặc click vào sidebar để mở lại, 
-       nhưng để đơn giản: Ta vẫn hiện nút toggle nhưng đổi icon */
+  
   .main-sidebar.mini .brand-link {
     justify-content: center;
   }
@@ -176,9 +175,9 @@
   .main-sidebar.mini .nav-link i {
     margin: 0;
     font-size: 18px;
-  } /* Icon to hơn xíu */
+  } 
 
-  /* Hiện tooltip khi hover vào icon ở chế độ mini (Nâng cao) */
+  
   .main-sidebar.mini .nav-link:hover {
     background-color: #007bff;
   }
@@ -291,15 +290,15 @@
 <script>
   function toggleSidebar() {
     let sidebar = document.getElementById("sidebar");
-    // Thêm hoặc xóa class 'mini'
+    
     sidebar.classList.toggle("mini");
 
-    // Lưu trạng thái vào localStorage để khi F5 không bị mất
+    
     let isMini = sidebar.classList.contains("mini");
     localStorage.setItem("sidebarMini", isMini);
   }
 
-  // Khi load trang, kiểm tra xem trước đó có đang thu nhỏ không
+  
   document.addEventListener("DOMContentLoaded", function () {
     let isMini = localStorage.getItem("sidebarMini");
     if (isMini === "true") {

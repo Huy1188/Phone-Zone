@@ -41,7 +41,7 @@ export default function VoucherEditPage() {
                 return;
             }
 
-            // NOTE: input type="date" cần format YYYY-MM-DD
+            
             const toDateInput = (d: any) => {
                 if (!d) return '';
                 const dt = new Date(d);
@@ -71,7 +71,7 @@ export default function VoucherEditPage() {
 
     useEffect(() => {
         if (id) fetchDetail();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [id]);
 
     const handleSubmit = async (e: React.FormEvent) => {

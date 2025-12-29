@@ -11,8 +11,8 @@ const cx = classNames.bind(styles);
 
 interface Props {
     open: boolean;
-    keyword: string; // debounced
-    rawKeyword: string; // giá trị đang gõ
+    keyword: string; 
+    rawKeyword: string; 
     onSelect?: () => void;
 }
 
@@ -23,7 +23,7 @@ export default function SearchSuggest({ open, keyword, rawKeyword, onSelect }: P
     useEffect(() => {
         if (!open || !rawKeyword.trim()) return;
 
-        // debounce chưa xong
+        
         if (!keyword.trim()) {
             setItems([]);
             return;
@@ -74,20 +74,20 @@ export default function SearchSuggest({ open, keyword, rawKeyword, onSelect }: P
                     href={`/product/${item.slug}`}
                     className={cx('item')}
                     onClick={() => {
-                        onSelect?.(); // chỉ đóng suggest
+                        onSelect?.(); 
                     }}
                 >
-                    {/* tuỳ Product type của bạn: image / images[0] */}
+                    {}
                     <img src={item.images?.[0] || '/placeholder.png'} alt={item.name} />
                     <span>{item.name}</span>
                 </Link>
             ))}
 
             <Link
-                href={`/search?q=${encodeURIComponent(rawKeyword)}`} // ✅ phương án 1
+                href={`/search?q=${encodeURIComponent(rawKeyword)}`} 
                 className={cx('viewAll')}
                 onClick={() => {
-                    onSelect?.(); // chỉ đóng suggest
+                    onSelect?.(); 
                 }}
             >
                 Xem tất cả kết quả →

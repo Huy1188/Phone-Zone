@@ -1,4 +1,4 @@
-// src/app/components/Common/Pagination/index.tsx
+
 "use client";
 
 import classNames from "classnames/bind";

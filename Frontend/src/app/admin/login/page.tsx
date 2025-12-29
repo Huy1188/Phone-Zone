@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-// Import Component Logic
+
 import AdminLoginForm from '@/app/components/Admin/Login/AdminLoginForm';
 
 export const metadata: Metadata = {

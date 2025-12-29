@@ -20,7 +20,7 @@ function toFullUrl(path?: string | null) {
 }
 
 function resolveImages(p: BackendProduct): string[] {
-    // ✅ 1) gallery images (thumbnail first)
+    
     const gallery =
         p.images
             ?.slice()
@@ -30,11 +30,11 @@ function resolveImages(p: BackendProduct): string[] {
 
     if (gallery.length) return gallery;
 
-    // ✅ 2) fallback main image
+    
     const main = toFullUrl(p.image);
     if (main) return [main];
 
-    // ✅ 3) fallback variants
+    
     const vimgs = p.variants?.map((v) => toFullUrl(v.image)).filter(Boolean) ?? [];
 
     return vimgs;
@@ -78,7 +78,7 @@ export function mapBackendProductToProduct(p: BackendProduct): Product {
             sku: v.sku,
             color: v.color ?? null,
             ram: v.ram ?? null,
-            rom: v.rom ?? v.storage ?? null, // ✅ ưu tiên rom
+            rom: v.rom ?? v.storage ?? null, 
             stock: typeof v.stock === 'number' ? v.stock : null,
         })),
 

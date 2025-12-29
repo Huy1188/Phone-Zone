@@ -35,17 +35,17 @@ export default function SearchPage({
   const [totalPages, setTotalPages] = useState(1);
   const [sortKey, setSortKey] = useState(sort || "newest");
 
-  // sync page khi đổi url
+  
   useEffect(() => {
     setCurrentPage(page > 0 ? page : 1);
   }, [page, keyword]);
 
-  // sync sort khi đổi url
+  
   useEffect(() => {
     setSortKey(sort || "newest");
   }, [sort]);
 
-  // ✅ fetch đúng page từ DB + sort toàn DB
+  
   useEffect(() => {
     const k = keyword.trim();
     if (!k) {
@@ -63,7 +63,7 @@ export default function SearchPage({
         q: k,
         page: currentPage,
         limit: PAGE_SIZE,
-        sort: sortKey, // ✅ truyền sort lên BE
+        sort: sortKey, 
       });
 
       if (cancelled) return;
@@ -86,12 +86,12 @@ export default function SearchPage({
     return () => {
       cancelled = true;
     };
-  }, [keyword, currentPage, sortKey]); // ✅ thêm sortKey dependency
+  }, [keyword, currentPage, sortKey]); 
 
   if (!keyword.trim()) return <EmptySearch mode="no-keyword" />;
   if (!loading && results.length === 0) return <EmptySearch mode="no-result" keyword={keyword} />;
 
-  // ✅ đổi page phải giữ sort
+  
   const handlePageChange = (p: number) => {
     setCurrentPage(p);
     router.push(
@@ -99,7 +99,7 @@ export default function SearchPage({
     );
   };
 
-  // ✅ đổi sort: reset về page=1 + push URL
+  
   const handleSortChange = (nextSort: string) => {
     setSortKey(nextSort);
     setCurrentPage(1);
@@ -117,10 +117,10 @@ export default function SearchPage({
       </div>
 
       <div className={cx("content")}>
-        {/* ✅ Sortbar phải chuyển sang server-side sort */}
+        {}
         <Sortbar value={sortKey} onChange={handleSortChange} />
 
-        {/* ✅ không cần sortedResults nữa vì DB đã sort */}
+        {}
         <SearchResultList products={results} />
 
         <Pagination

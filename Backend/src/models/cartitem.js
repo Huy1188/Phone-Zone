@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "cart",
       });
 
-      // Variant model của bạn tên gì thì đổi ở đây
+      
       CartItem.belongsTo(models.ProductVariant, {
         foreignKey: "variant_id",
         as: "variant",

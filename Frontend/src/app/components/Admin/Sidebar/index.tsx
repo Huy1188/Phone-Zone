@@ -6,7 +6,7 @@ import styles from './AdminSidebar.module.scss';
 const AdminSidebar = ({ user, open, onClose }: { user: any; open?: boolean; onClose?: () => void }) => {
     const pathname = usePathname();
 
-    // Hàm helper để check active link
+    
     const isActive = (path: string) => pathname.startsWith(path);
 
     return (
@@ -16,7 +16,7 @@ const AdminSidebar = ({ user, open, onClose }: { user: any; open?: boolean; onCl
                     ✕
                 </button>
             </div>
-            {/* BRAND LOGO */}
+            {}
             <div className={styles.brandLink}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <i className={`fas fa-store ${styles.logoIcon}`}></i>
@@ -24,7 +24,7 @@ const AdminSidebar = ({ user, open, onClose }: { user: any; open?: boolean; onCl
                 </div>
             </div>
 
-            {/* USER PANEL */}
+            {}
             <div className={styles.userPanel}>
                 <img src={user?.avatar || 'https://cdn-icons-png.flaticon.com/512/2206/2206368.png'} alt="User Image" />
                 <div className={styles.info}>
@@ -32,7 +32,7 @@ const AdminSidebar = ({ user, open, onClose }: { user: any; open?: boolean; onCl
                 </div>
             </div>
 
-            {/* MENU */}
+            {}
             <ul className={styles.navSidebar}>
                 <li className={styles.navItem}>
                     <Link href="/admin" className={`${styles.navLink} ${pathname === '/admin' ? styles.active : ''}`}>

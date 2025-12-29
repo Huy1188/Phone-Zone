@@ -1,4 +1,4 @@
-/* src/app/components/Layouts/Footer/Footer.module.scss */
+
 
 .wrapper {
     margin-top: 24px;
@@ -14,7 +14,7 @@
     padding: 24px 12px 16px;
 }
 
-/* ===== DESKTOP/TABLET TOP (GRID) ===== */
+
 .desktopTop {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr)) 1.4fr;
@@ -22,7 +22,7 @@
     margin-bottom: 20px;
 }
 
-/* ===== MOBILE TOP (ACCORDION) ===== */
+
 .mobileTop {
     display: none;
     margin-bottom: 12px;
@@ -43,7 +43,7 @@
     justify-content: space-between;
 }
 
-/* Ẩn marker mặc định của summary */
+
 .accordionHeader::-webkit-details-marker {
     display: none;
 }
@@ -60,13 +60,13 @@
     content: '–';
 }
 
-/* Nội dung trong accordion */
+
 .linkList,
 .hotlineList {
     padding: 0 0 12px 0;
 }
 
-/* ===== COMMON ===== */
+
 .col,
 .colWide {
     font-size: 14px;
@@ -142,7 +142,7 @@
     text-align: center;
 }
 
-/* ===== SOCIAL ===== */
+
 .socialRow {
     padding-top: 12px;
     padding-bottom: 10px;
@@ -174,7 +174,7 @@
     text-decoration: none;
 }
 
-/* ===== BOTTOM ===== */
+
 .bottom {
     padding-top: 8px;
     margin-top: 4px;
@@ -201,7 +201,7 @@
     font-weight: 600;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 992px) {
     .desktopTop {
         grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,5 +1,5 @@
 "use strict";
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("ProductVariants", {
@@ -17,9 +17,9 @@ module.exports = {
           key: "product_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE", // Xóa SP cha thì biến thể mất luôn
+        onDelete: "CASCADE", 
       },
-      // Ví dụ: IP15PM-TI-256 (iPhone 15 PM - Titan - 256GB)
+      
       sku: {
         type: Sequelize.STRING,
         unique: true,

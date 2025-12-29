@@ -1,4 +1,4 @@
-/* Overlay phủ toàn màn hình */
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -14,7 +14,7 @@
   animation: fadeIn 160ms ease-out;
 }
 
-/* Panel Drawer */
+
 .drawer {
   width: 100%;
   max-width: 720px;
@@ -38,7 +38,7 @@
   pointer-events: auto;
 }
 
-/* Header sticky (Đóng + tiêu đề) */
+
 .header {
   position: sticky;
   top: 0;
@@ -82,7 +82,7 @@
   background: rgba(0, 0, 0, 0.06);
 }
 
-/* Body scroll */
+
 .body {
   flex: 1;
   overflow: auto;
@@ -90,11 +90,11 @@
 
   padding: 12px;
 
-  /* tránh footer đè nội dung */
+  
   padding-bottom: 96px;
 }
 
-/* Footer sticky (Xem kết quả) */
+
 .footer {
   position: sticky;
   bottom: 0;
@@ -150,7 +150,7 @@
   cursor: not-allowed;
 }
 
-/* Trạng thái đóng (animate ngược) */
+
 .overlayClosing {
   animation: fadeOut 140ms ease-in forwards;
 }
@@ -179,7 +179,7 @@
   to { transform: translateY(22px); }
 }
 
-/* Nếu bạn chỉ muốn drawer hoạt động ở mobile/tablet */
+
 @media (min-width: 992px) {
   .overlay {
     display: none;

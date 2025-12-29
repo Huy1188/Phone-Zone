@@ -5,7 +5,7 @@ import styles from "./Sortbar.module.scss";
 
 const cx = classNames.bind(styles);
 
-// UI options giữ nguyên
+
 const sortOptions = [
   { label: "Phổ biến", value: "popular", icon: "fa-regular fa-star" },
   { label: "Khuyến mãi HOT", value: "hot-discount", icon: "fa-solid fa-fire" },
@@ -15,7 +15,7 @@ const sortOptions = [
 
 export type SortValue = (typeof sortOptions)[number]["value"];
 
-// ✅ map UI sort -> BE sort
+
 export function mapUiSortToBackend(sort: SortValue): string {
   switch (sort) {
     case "price-asc":
@@ -26,13 +26,13 @@ export function mapUiSortToBackend(sort: SortValue): string {
       return "discount_desc";
     case "popular":
     default:
-      // nếu bạn muốn "Phổ biến" = newest thì để newest
-      // hoặc nếu có logic popularity thật thì đổi sau
+      
+      
       return "newest";
   }
 }
 
-// ✅ map BE sort -> UI sort (để active đúng khi load từ URL)
+
 export function mapBackendSortToUi(sort: string): SortValue {
   switch (sort) {
     case "price_asc":
@@ -51,8 +51,8 @@ export default function Sortbar({
   value,
   onChange,
 }: {
-  value: string; // sortKey đang dùng ở SearchPage (BE sort)
-  onChange: (sort: string) => void; // trả ra BE sort
+  value: string; 
+  onChange: (sort: string) => void; 
 }) {
   const activeUi = mapBackendSortToUi(value);
 

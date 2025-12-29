@@ -1,8 +1,6 @@
 import db from "../models/index";
 
-/**
- * ====== helpers (copy logic từ cartController để dùng chung) ======
- */
+
 async function buildItemFromVariant(variantId, quantity) {
   const v = await db.ProductVariant.findOne({
     where: { variant_id: variantId },
@@ -36,20 +34,17 @@ async function getOrCreateCartId(userId) {
   return cart.cart_id;
 }
 
-/**
- * ====== GET /checkout ======
- * trả cart + totalMoney + user
- */
+
 let getCheckoutPage = async (req, res) => {
   try {
     const user = req.session.user;
     let cart = [];
 
-    // guest -> session cart
+    
     if (!user) {
       cart = req.session.cart || [];
     }
-    // user -> db cart
+    
     else {
       const cartId = await getOrCreateCartId(user.user_id);
       const rows = await db.CartItem.findAll({ where: { cart_id: cartId } });
@@ -75,19 +70,17 @@ let getCheckoutPage = async (req, res) => {
   }
 };
 
-/**
- * ====== POST /orders ======
- */
+
 let handleCheckout = async (req, res) => {
   try {
     const user = req.session.user;
     let cart = [];
 
-    // guest
+    
     if (!user) {
       cart = req.session.cart || [];
     }
-    // user
+    
     else {
       const cartId = await getOrCreateCartId(user.user_id);
       const rows = await db.CartItem.findAll({ where: { cart_id: cartId } });
@@ -124,7 +117,7 @@ let handleCheckout = async (req, res) => {
       });
     }
 
-    // ===== clear cart =====
+    
     if (!user) {
       req.session.cart = [];
     } else {
@@ -142,7 +135,7 @@ let handleCheckout = async (req, res) => {
   }
 };
 
-// GET /api/orders/me
+
 export const getMyOrders = async (req, res) => {
   try {
     const user = req.session?.user;

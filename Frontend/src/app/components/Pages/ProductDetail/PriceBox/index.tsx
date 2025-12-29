@@ -16,11 +16,11 @@ interface Props {
 function normalizePromotions(promotions?: string | null): string[] {
     if (!promotions) return [];
 
-    // Hỗ trợ: xuống dòng \n, \r\n, hoặc gạch đầu dòng "- ", "• "
+    
     return promotions
-        .split(/\r?\n/) // tách theo dòng
+        .split(/\r?\n/) 
         .map((line) => line.trim())
-        .map((line) => line.replace(/^[-•*]\s+/, '')) // bỏ bullet nếu có
+        .map((line) => line.replace(/^[-•*]\s+/, '')) 
         .filter(Boolean);
 }
 

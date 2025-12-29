@@ -151,19 +151,19 @@
 
     <script>
       function selectVariant(btn, variantId, price) {
-        // 1. Cập nhật ID biến thể vào input ẩn để gửi lên server
+        
         document.getElementById("selected_variant_id").value = variantId;
 
-        // 2. Đổi màu nút active (xanh lên)
-        // Xóa class active ở tất cả các nút
+        
+        
         document
           .querySelectorAll(".variant-btn")
           .forEach((b) => b.classList.remove("active"));
-        // Thêm class active vào nút vừa bấm
+        
         btn.classList.add("active");
 
-        // 3. Cập nhật giá tiền to đùng ở trên
-        // Định dạng tiền Việt Nam
+        
+        
         let formattedPrice = new Intl.NumberFormat("vi-VN", {
           style: "currency",
           currency: "VND",

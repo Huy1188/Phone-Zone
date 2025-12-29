@@ -1,6 +1,6 @@
 import db from "../models/index";
 
-// build label biến thể giống UI hiện tại
+
 function variantLabel(v) {
   const parts = [];
   if (v.ram) parts.push(v.ram);
@@ -47,18 +47,18 @@ async function getOrCreateCartId(userId) {
   return cart.cart_id;
 }
 
-// GET /api/cart
+
 let getCart = async (req, res) => {
   try {
     const user = req.session.user;
 
-    // guest -> session
+    
     if (!user) {
       const cart = getSessionCart(req);
       return res.json({ cart, totalMoney: calcTotalMoney(cart) });
     }
 
-    // user -> db
+    
     const cartId = await getOrCreateCartId(user.user_id);
     const rows = await db.CartItem.findAll({ where: { cart_id: cartId } });
 
@@ -75,14 +75,14 @@ let getCart = async (req, res) => {
   }
 };
 
-// POST /api/cart/items { variant_id, quantity }
+
 let addItem = async (req, res) => {
   try {
     const user = req.session.user;
     const variantId = Number(req.body.variant_id);
     const qty = Math.max(1, Number(req.body.quantity || 1));
 
-    // guest -> session
+    
     if (!user) {
       const cart = getSessionCart(req);
       const ex = cart.find((x) => x.variantId === variantId);
@@ -97,7 +97,7 @@ let addItem = async (req, res) => {
       return res.json({ success: true, cart });
     }
 
-    // user -> db
+    
     const cartId = await getOrCreateCartId(user.user_id);
     const ex = await db.CartItem.findOne({ where: { cart_id: cartId, variant_id: variantId } });
 
@@ -115,7 +115,7 @@ let addItem = async (req, res) => {
   }
 };
 
-// PATCH /api/cart/items/:variantId { quantity }
+
 let updateQuantity = async (req, res) => {
   try {
     const user = req.session.user;
@@ -124,7 +124,7 @@ let updateQuantity = async (req, res) => {
 
     if (!qty || qty < 1) return res.status(400).json({ success: false, message: "quantity must be >= 1" });
 
-    // guest
+    
     if (!user) {
       const cart = getSessionCart(req);
       const ex = cart.find((x) => x.variantId === variantId);
@@ -132,7 +132,7 @@ let updateQuantity = async (req, res) => {
       return res.json({ success: true, cart });
     }
 
-    // user
+    
     const cartId = await getOrCreateCartId(user.user_id);
     const ex = await db.CartItem.findOne({ where: { cart_id: cartId, variant_id: variantId } });
     if (ex) {
@@ -147,20 +147,20 @@ let updateQuantity = async (req, res) => {
   }
 };
 
-// DELETE /api/cart/items/:variantId
+
 let deleteItem = async (req, res) => {
   try {
     const user = req.session.user;
     const variantId = Number(req.params.variantId);
 
-    // guest
+    
     if (!user) {
       const cart = getSessionCart(req);
       req.session.cart = cart.filter((x) => x.variantId !== variantId);
       return res.json({ success: true, cart: req.session.cart });
     }
 
-    // user
+    
     const cartId = await getOrCreateCartId(user.user_id);
     await db.CartItem.destroy({ where: { cart_id: cartId, variant_id: variantId } });
 

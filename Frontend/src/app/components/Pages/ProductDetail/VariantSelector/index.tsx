@@ -37,15 +37,15 @@ export default function VariantSelector({
   const rams = uniq(variants.map((v) => v.ram));
   const roms = uniq(variants.map((v) => v.rom));
 
-  // ✅ disabled nếu KHÔNG tồn tại variant phù hợp với các lựa chọn còn lại
-  // + (tuỳ bạn) chặn luôn variant hết hàng: stock === 0
+  
+  
   const hasVariant = (check: Partial<{ color: string; ram: string; rom: string }>) => {
     return variants.some((v) => {
       const okColor = !check.color || (v.color ?? "") === check.color;
       const okRam = !check.ram || (v.ram ?? "") === check.ram;
       const okRom = !check.rom || (v.rom ?? "") === check.rom;
 
-      const okStock = typeof v.stock !== "number" ? true : v.stock > 0; // ✅ nếu muốn disable hết hàng
+      const okStock = typeof v.stock !== "number" ? true : v.stock > 0; 
       return okColor && okRam && okRom && okStock;
     });
   };
@@ -73,7 +73,7 @@ export default function VariantSelector({
                 type="button"
                 className={cx("opt", { active: selColor === c })}
                 disabled={isColorDisabled(c)}
-                onClick={() => onChangeColor(selColor === c ? null : c)} // click lại để bỏ chọn
+                onClick={() => onChangeColor(selColor === c ? null : c)} 
               >
                 {c}
               </button>

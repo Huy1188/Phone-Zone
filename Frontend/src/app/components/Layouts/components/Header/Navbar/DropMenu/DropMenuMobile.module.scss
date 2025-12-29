@@ -1,4 +1,4 @@
-/* Overlay */
+
 .dropOverlay {
   position: fixed;
   inset: 0;
@@ -6,7 +6,7 @@
   z-index: 1000;
 }
 
-/* Panel base */
+
 .dropPanel {
   position: fixed;
   top: 0;
@@ -26,7 +26,7 @@
   transform: translateX(0);
 }
 
-/* Header */
+
 .dropHeader {
   height: 56px;
   padding: 0 12px;
@@ -49,20 +49,20 @@
   cursor: pointer;
 }
 
-/* Body scroll riêng */
+
 .dropBody {
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Chỉ bật off-canvas ở mobile */
+
 @media (min-width: 1024px) {
   .dropOverlay {
     display: none;
   }
   .dropPanel {
-    /* Nếu desktop bạn đang dùng dropdown absolute thì bạn có thể ẩn off-canvas */
+    
     display: none;
   }
 }

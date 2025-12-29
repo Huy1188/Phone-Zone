@@ -4,7 +4,7 @@ export type BackendVariant = {
   color?: string | null;
   ram?: string | null;
 
-  // ✅ BE dùng rom; giữ thêm storage optional để “an toàn”
+  
   rom?: string | null;
   storage?: string | null;
 
@@ -32,7 +32,7 @@ export type BackendProduct = {
 
   image: string | null;
 
-  images?: BackendProductImage[]; // ✅ THÊM
+  images?: BackendProductImage[]; 
 
   category?: {
     category_id: number;
@@ -42,7 +42,7 @@ export type BackendProduct = {
   };
 
   brand?: {
-    brand_id?: number;        // ✅ đổi id -> brand_id (optional)
+    brand_id?: number;        
     name: string;
     slug: string;
     logo_url?: string | null;
@@ -50,8 +50,8 @@ export type BackendProduct = {
   };
 
   variants?: BackendVariant[];
-  is_hot?: boolean;           // ✅ nếu BE có
-  is_active?: boolean;        // ✅ nếu BE có
+  is_hot?: boolean;           
+  is_active?: boolean;        
 };
 
 

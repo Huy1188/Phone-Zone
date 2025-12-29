@@ -1,5 +1,5 @@
 <style>
-  /* Thanh Header Admin */
+  
   .admin-header {
     background-color: #fff;
     height: 60px;
@@ -13,7 +13,7 @@
     z-index: 99;
   }
 
-  /* Bên trái */
+  
   .header-left {
     display: flex;
     align-items: center;
@@ -25,14 +25,14 @@
     font-size: 18px;
   }
 
-  /* Bên phải */
+  
   .header-right {
     display: flex;
     align-items: center;
     gap: 25px;
   }
 
-  /* Icon thông báo */
+  
   .nav-icon-btn {
     position: relative;
     color: #6c757d;
@@ -57,20 +57,20 @@
     border: 1px solid white;
   }
 
-  /* User Profile Dropdown */
+  
   .admin-profile {
     display: flex;
     align-items: center;
     cursor: pointer;
     position: relative;
-    padding: 5px; /* Tăng diện tích bấm */
+    padding: 5px; 
     border-radius: 4px;
     transition: 0.2s;
-    user-select: none; /* Không cho bôi đen text khi click nhanh */
+    user-select: none; 
   }
   .admin-profile:hover {
     background-color: #f8f9fa;
-  } /* Hiệu ứng nhẹ khi rê chuột vào */
+  } 
 
   .admin-avatar {
     width: 35px;
@@ -86,29 +86,29 @@
     color: #343a40;
   }
 
-  /* MENU THẢ XUỐNG (SỬA LẠI LOGIC) */
+  
   .profile-dropdown {
     position: absolute;
     top: 130%;
     right: 0;
     background: white;
-    width: 200px; /* Rộng hơn xíu cho đẹp */
+    width: 200px; 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
 
-    display: none; /* Mặc định ẩn */
+    display: none; 
 
     border: 1px solid #f0f0f0;
     z-index: 1000;
   }
 
-  /* Class này sẽ được JS thêm vào để hiện menu */
+  
   .profile-dropdown.show {
     display: block;
     animation: fadeIn 0.2s;
   }
 
-  /* Mũi tên nhọn chỉ lên */
+  
   .profile-dropdown::before {
     content: "";
     position: absolute;
@@ -142,7 +142,7 @@
     margin: 0;
   }
 
-  /* Animation nhẹ */
+  
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -233,16 +233,16 @@
 
 <script>
   function toggleDropdown(event) {
-    // Ngăn chặn sự kiện click lan ra ngoài (để không bị đóng ngay lập tức)
+    
     event.stopPropagation();
 
     var dropdown = document.getElementById("myDropdown");
     var arrow = document.getElementById("arrowIcon");
 
-    // Thêm hoặc xóa class 'show' để hiện/ẩn menu
+    
     dropdown.classList.toggle("show");
 
-    // Xoay mũi tên cho đẹp
+    
     if (dropdown.classList.contains("show")) {
       arrow.style.transform = "rotate(180deg)";
     } else {
@@ -250,7 +250,7 @@
     }
   }
 
-  // Sự kiện: Bấm ra ngoài thì đóng menu
+  
   window.onclick = function (event) {
     if (!event.target.closest(".admin-profile")) {
       var dropdown = document.getElementById("myDropdown");

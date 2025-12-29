@@ -16,9 +16,9 @@ export default function BrandPage() {
         try {
             const res: any = await getAllBrands();
 
-            // Vì axiosClient đã return response.data nên res chính là JSON backend trả về
+            
             if (res?.success) {
-                // Backend thường trả: ok(res, { brands }, ...)
+                
                 const list = res?.data?.brands ?? res?.data ?? [];
                 setBrands(Array.isArray(list) ? list : []);
             } else {

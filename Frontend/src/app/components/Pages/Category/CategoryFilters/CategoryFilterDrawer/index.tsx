@@ -5,28 +5,28 @@ type CategoryFilterDrawerProps = {
   open: boolean;
   title?: string;
 
-  /** Gọi khi drawer đóng hẳn (sau animation) */
+  
   onClose: () => void;
 
-  /** Nút "Xem kết quả" */
+  
   onApply: () => void;
 
-  /** Nút "Đặt lại" (optional) */
+  
   onReset?: () => void;
 
-  /** Text của nút apply, ví dụ: "Xem 120 sản phẩm" */
+  
   applyText?: string;
 
-  /** Disable nút apply */
+  
   disableApply?: boolean;
 
-  /** Nội dung filter (CategoryFilters) */
+  
   children: React.ReactNode;
 
-  /** Thời gian animation đóng (ms) — phải khớp SCSS */
+  
   closeDurationMs?: number;
 
-  /** Ẩn nút reset nếu không cần */
+  
   showReset?: boolean;
 };
 
@@ -46,7 +46,7 @@ export default function CategoryFilterDrawer({
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef<number | null>(null);
 
-  // Đóng có animation (không biến mất cái rụp)
+  
   const requestClose = () => {
     if (isClosing) return;
     setIsClosing(true);
@@ -58,14 +58,14 @@ export default function CategoryFilterDrawer({
     }, closeDurationMs);
   };
 
-  // Cleanup timer
+  
   useEffect(() => {
     return () => {
       if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     };
   }, []);
 
-  // Khóa scroll nền khi mở
+  
   useEffect(() => {
     if (!open) return;
 
@@ -77,7 +77,7 @@ export default function CategoryFilterDrawer({
     };
   }, [open]);
 
-  // ESC để đóng
+  
   useEffect(() => {
     if (!open) return;
 
@@ -87,7 +87,7 @@ export default function CategoryFilterDrawer({
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [open, isClosing]);
 
   if (!open) return null;

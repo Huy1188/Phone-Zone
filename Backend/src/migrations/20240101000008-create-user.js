@@ -1,5 +1,5 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('Users', {
@@ -36,17 +36,17 @@ module.exports = {
             avatar: {
                 type: Sequelize.STRING,
             },
-            // Khóa ngoại liên kết với bảng Roles
+            
             role_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                defaultValue: 2, // Mặc định là khách hàng
+                defaultValue: 2, 
                 references: {
-                    model: 'Roles', // Tên bảng Roles
+                    model: 'Roles', 
                     key: 'role_id',
                 },
                 onUpdate: 'CASCADE',
-                onDelete: 'NO ACTION', // Nếu xóa role, user này sẽ về default
+                onDelete: 'NO ACTION', 
             },
             is_active: {
                 type: Sequelize.BOOLEAN,

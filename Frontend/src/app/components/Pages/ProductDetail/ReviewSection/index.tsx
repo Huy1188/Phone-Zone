@@ -32,20 +32,20 @@ export default function ReviewSection({ productId }: Props) {
     const load = async () => {
         setError(null);
 
-        // 1) Can review (cho phép fail riêng)
+        
         try {
             const c = await fetchCanReview(productId);
             setCanReview(!!c.can);
             setReason(c.reason ?? null);
         } catch (e: any) {
-            // fallback: nếu 401 thì coi như chưa login
+            
             const msg = e instanceof Error ? e.message : String(e);
             if (msg.includes('401')) setReason('not_logged_in');
             else setReason(null);
             setCanReview(false);
         }
 
-        // 2) Summary
+        
         try {
             const s = await fetchReviewSummary(productId);
             setAvg(s.summary?.avg ?? 0);
@@ -55,7 +55,7 @@ export default function ReviewSection({ productId }: Props) {
             setCount(0);
         }
 
-        // 3) List
+        
         try {
             const r = await fetchReviewsPaged({ productId, page: 1, limit: 10 });
             setReviews(r.reviews ?? []);

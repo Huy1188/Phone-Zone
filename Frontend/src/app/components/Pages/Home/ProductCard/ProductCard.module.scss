@@ -1,11 +1,9 @@
-/* ===============================
-   PRODUCT CARD – DESKTOP DEFAULT
-   =============================== */
+
 
 .card {
   display: block;
   width: 100%;
-  min-height: 410px; /* giữ chiều cao desktop */
+  min-height: 410px; 
   background-color: #fff;
   border-radius: 12px;
   padding: 12px;
@@ -22,9 +20,7 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
-/* ===============================
-   THUMBNAIL
-   =============================== */
+
 
 .thumb {
   width: 100%;
@@ -46,9 +42,7 @@
   object-fit: contain;
 }
 
-/* ===============================
-   TITLE
-   =============================== */
+
 
 .title {
   font-size: 15px;
@@ -58,9 +52,7 @@
   color: #1f2937;
 }
 
-/* ===============================
-   SPECS
-   =============================== */
+
 
 .specs {
   margin: 6px 0;
@@ -80,9 +72,7 @@
   white-space: nowrap;
 }
 
-/* ===============================
-   PRICE
-   =============================== */
+
 
 .price-row {
   margin-top: 6px;
@@ -103,9 +93,7 @@
   text-decoration: line-through;
 }
 
-/* ===============================
-   BADGES
-   =============================== */
+
 
 .discount {
   position: absolute;
@@ -142,9 +130,7 @@
   font-weight: 600;
 }
 
-/* ===============================
-   RATING
-   =============================== */
+
 
 .rating {
   margin-top: 6px;
@@ -161,9 +147,7 @@
   color: #999;
 }
 
-/* ===============================
-   MOBILE OPTIMIZATION
-   =============================== */
+
 
 @media (max-width: 767px) {
   .card {
@@ -188,9 +172,9 @@
     overflow: hidden;
   }
 
-  // .specs {
-  //   display: none;
-  // }
+  
+  
+  
 
   .price-main {
     font-size: 14px;
